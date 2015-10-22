@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.1.xsd
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.1.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
+    
+    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+    	<property name="messageConverters">
+      		<list>
+    			<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"></bean>
+      		</list> 
+    	</property>    
+  	</bean>
+  	<bean id="exceptionHandler" class="com.cl.web.common.WebHandlerExceptionResolver"/>
+  	
+  	<mvc:resources mapping="/resources/**" location="/resources/" />
+  	<mvc:resources mapping="/assets/**" location="/assets/" />
+  	<mvc:resources mapping="/docs/**" location="/docs/" />
+  	  	
+  	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+	    <property name="order" value="0" />
+	    <property name="mediaTypes">
+	      	<map>
+	        	<entry key="json" value="application/json" />
+	        	<!--entry key="xml" value="application/xml" /-->
+	      	</map>
+	    </property>
+	    <property name="defaultViews">
+	      	<list>
+	      		<!--json-->
+	        	<bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" ></bean>     	
+	      	</list>
+	    </property>
+    	<property name="ignoreAcceptHeader" value="true" />
+  	</bean>
+    
+    <!-- View Resolver for JSPs -->
+  	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    	<property name="order" value="1" />
+    	<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+    	<property name="prefix" value="/WEB-INF/jsp/"/>
+    	<property name="suffix" value=".jsp"/>
+  	</bean>
+
+</beans>
