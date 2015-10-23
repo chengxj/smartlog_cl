@@ -31,9 +31,9 @@ public class Server implements Serializable, DBObject {
     private String hostname;
     @Column(name = "username")
     private String username;
-    @Column(name = "description")
-    private String password;
     @Column(name = "password")
+    private String password;
+    @Column(name = "description")
     private String description;
 
     public Long getId() {

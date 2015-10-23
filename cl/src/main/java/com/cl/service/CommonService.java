@@ -3,6 +3,7 @@ package com.cl.service;
 import com.cl.dto.SingleServerDTO;
 import com.cl.dto.SingleServerWarnDTO;
 import com.cl.entity.Server;
+import com.cl.entity.common.User;
 import com.cl.request.SingleServerComponentsRequest;
 import com.cl.request.SingleServerRequest;
 import org.slf4j.Logger;
@@ -29,11 +30,17 @@ public class CommonService {
     @Autowired
     private ServerService serverService;
 
+    @Autowired
+    private UserService userService;
+
     public SingleServerDTO validSingleServer(SingleServerRequest request) {
         SingleServerDTO dto = new SingleServerDTO();
         boolean validStatus = serverService.validSingleServer(request);
         if (validStatus) {
             Server server = request.server;
+            User currentUser = userService.getCurrentLoginUser();
+            Long team = currentUser.getTeam().getId();
+            server.setTeam(team);
             commonDao.saveDBOject(server);
             dto.server = server;
         }
