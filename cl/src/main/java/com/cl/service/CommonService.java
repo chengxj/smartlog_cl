@@ -2,6 +2,7 @@ package com.cl.service;
 
 import com.cl.dto.SingleServerDTO;
 import com.cl.dto.SingleServerWarnDTO;
+import com.cl.entity.Server;
 import com.cl.request.SingleServerComponentsRequest;
 import com.cl.request.SingleServerRequest;
 import org.slf4j.Logger;
@@ -13,29 +14,35 @@ import com.cl.dao.SearchDao;
 
 @Service
 public class CommonService {
-	
-	  protected Logger log = LoggerFactory.getLogger(this.getClass());
-	  
-	  @Autowired
-	  private SearchDao searchDao;
-	  
-	  @Autowired
-	  private CommonDao commonDao;
-	  
-	  @Autowired
-	  private DTOHelper dtoHelper;
 
-	  @Autowired
-	  private ServerService serverService;
+    protected Logger log = LoggerFactory.getLogger(this.getClass());
 
-	public SingleServerDTO validSingleServer(SingleServerRequest request) {
-		boolean validStatus = serverService.validSingleServer(request);
-		return null;
-	}
+    @Autowired
+    private SearchDao searchDao;
 
-	public SingleServerWarnDTO validSingleServerComponents(SingleServerComponentsRequest request) {
+    @Autowired
+    private CommonDao commonDao;
 
-		return null;
-	}
+    @Autowired
+    private DTOHelper dtoHelper;
+
+    @Autowired
+    private ServerService serverService;
+
+    public SingleServerDTO validSingleServer(SingleServerRequest request) {
+        SingleServerDTO dto = new SingleServerDTO();
+        boolean validStatus = serverService.validSingleServer(request);
+        if (validStatus) {
+            Server server = request.server;
+            commonDao.saveDBOject(server);
+            dto.server = server;
+        }
+        return dto;
+    }
+
+    public SingleServerWarnDTO validSingleServerComponents(SingleServerComponentsRequest request) {
+
+        return null;
+    }
 
 }

@@ -52,12 +52,6 @@ public class ApiController {
 //        commonService.deleteRegistration(request);
 //    }
 
-    @RequestMapping(value = "/api/create_file_dir", method = RequestMethod.POST)
-    @ResponseBody
-    public void createNewFile() {
-        fileService.createFileDir();
-    }
-
     @RequestMapping(value = "/api/valid_single_server", method = RequestMethod.POST)
     @ResponseBody
     public SingleServerDTO validSingleServer(@RequestBody SingleServerRequest request) {

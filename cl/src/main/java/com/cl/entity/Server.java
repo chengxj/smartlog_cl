@@ -29,6 +29,8 @@ public class Server implements Serializable, DBObject {
     private String ip;
     @Column(name = "hostname")
     private String hostname;
+    @Column(name = "username")
+    private String username;
     @Column(name = "description")
     private String password;
     @Column(name = "password")
@@ -96,6 +98,13 @@ public class Server implements Serializable, DBObject {
         this.hostname = hostname;
     }
 
+    public String getUsername() {
+        return hostname;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public String getPassword() {
         return password;

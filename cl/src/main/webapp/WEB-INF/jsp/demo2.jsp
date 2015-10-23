@@ -81,7 +81,7 @@
 
 					<!-- #section:basics/content.searchbox -->
 					<div class="nav-search" style="top:5px;">
-						<button class="btn btn-custom btn-primary" ng-click="go('/example/demo4')"> 下一步 </button>
+						<button class="btn btn-custom btn-primary" ng-click="next('/example/demo4')"> 下一步 </button>
 						<button class="btn btn-custom btn-primary" ng-click="go('/example/demo1')"> 返回 </button>&nbsp;
 					</div>
 					<!-- /section:basics/content.searchbox -->
@@ -174,14 +174,28 @@ jQuery(function($) {
 	});
 });
 		
-angular.module('app', [])
-.controller('appCtrl', ['$scope',
-	function($scope) {
+angular.module('app', ['ngResource'])
+.factory('appDAO', ['$resource', function($resource){
+	return {
+		validSingleServer:function() {
+			return $resource("/api/valid_single_server.json");
+		}
+	}
+}])
+.controller('appCtrl', ['$scope','appDAO',
+	function($scope, appDAO) {
 
 		$scope.server = {"ip":null, "hostname":null, "username":"root", "password":""};
 
 		$scope.go = function(url) {
 			document.location.href = url;
+		};
+
+		$scope.next = function(url) {
+			appDAO.validSingleServer().save({'server':$scope.server}).$promise.then(function(data){
+				if(data.server.id);
+					$scope.go(url);
+			});
 		};
 
 	}
