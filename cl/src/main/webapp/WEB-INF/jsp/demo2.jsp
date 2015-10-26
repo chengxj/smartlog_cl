@@ -174,30 +174,23 @@ jQuery(function($) {
 	});
 });
 		
-angular.module('app', ['ngResource'])
-.factory('appDAO', ['$resource', function($resource){
-	return {
-		validSingleServer:function() {
-			return $resource("/api/valid_single_server.json");
-		}
-	}
-}])
-.controller('appCtrl', ['$scope','appDAO',
-	function($scope, appDAO) {
+angular.module('app', ['common'])
+.controller('appCtrl', ['$scope','commonDao','commonUtil',
+	function($scope, commonDao, commonUtil) {
 
-		$scope.server = {"ip":"10.0.0.200", "hostname":"cxj001", "username":"root", "password":"1423","type":"single"};
-
+		$scope.server = commonUtil.createServer();
+		
 		$scope.go = function(url) {
-			document.location.href = url;
+			commonUtil.go(url);
 		};
 
 		$scope.next = function(url) {
-			appDAO.validSingleServer().save({'server':$scope.server}).$promise.then(function(data){
+			commonDao.validSingleServer().save({'server':$scope.server}).$promise.then(function(data){
 				if(data.success);
-					$scope.go(url + "/" + data.server.id);
+					commonUtil.go(url + "/" + data.server.id);
 			});
 		};
-
+		
 	}
 ]);
 </script>
