@@ -158,12 +158,12 @@ jQuery(function($) {
 	});
 });
 
-angular.module('app', [])
-.controller('appCtrl', ['$scope',
-	function($scope) {
+angular.module('app', ['common'])
+.controller('appCtrl', ['$scope', 'commonUtil',
+	function($scope, commonUtil) {
 
 		$scope.go = function(url) {
-			document.location.href = url;
+			commonUtil.go(url);
 		};
 
 	}
