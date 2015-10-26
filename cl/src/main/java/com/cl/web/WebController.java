@@ -31,6 +31,12 @@ public class WebController {
 	public String activities(Model model) {
 		return "demo1";
 	}
+	
+	@RequestMapping(value = "/example/demo4/{id}")
+	public String demo4test(Model model, @PathVariable Long id) {
+		model.addAttribute("id", id);
+		return "demo4";
+	}
 
 	@RequestMapping(value = "/example/demo{url}")
 	public String demotest(Model model, @PathVariable String url) {

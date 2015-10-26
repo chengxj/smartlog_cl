@@ -100,7 +100,7 @@
 								<div class="row">
 									<div class="col-xs-12">
 									
-										server config
+										server config{{id}}
 										
 									</div><!-- /.span -->
 
@@ -160,12 +160,14 @@ jQuery(function($) {
 	});
 });
 		
-angular.module('app', [])
-.controller('appCtrl', ['$scope',
-	function($scope) {
+angular.module('app', ['common'])
+.controller('appCtrl', ['$scope', 'commonUtil',
+	function($scope, commonUtil) {
+	
+		$scope.id = '${id}';
 
 		$scope.go = function(url) {
-			document.location.href = url;
+			commonUtil.go(url);
 		};
 
 	}
