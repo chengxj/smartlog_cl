@@ -185,7 +185,7 @@ angular.module('app', ['ngResource'])
 .controller('appCtrl', ['$scope','appDAO',
 	function($scope, appDAO) {
 
-		$scope.server = {"ip":null, "hostname":null, "username":"root", "password":"","type":"single"};
+		$scope.server = {"ip":"10.0.0.200", "hostname":"cxj001", "username":"root", "password":"1423","type":"single"};
 
 		$scope.go = function(url) {
 			document.location.href = url;
