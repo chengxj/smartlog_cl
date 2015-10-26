@@ -32,15 +32,9 @@ public class WebController {
 		return "demo1";
 	}
 
-
 	@RequestMapping(value = "/example/demo{url}")
 	public String demotest(Model model, @PathVariable String url) {
 		return "demo" + url;
-	}
-
-	@RequestMapping(value = "/example/blank")
-	public String blank(Model model) {
-		return "blank";
 	}
 
 	@RequestMapping(value = "/example/login", method = RequestMethod.GET)
@@ -75,12 +69,6 @@ public class WebController {
 	@RequestMapping(value = "/example/error")
 	public String error(Model model) {
 		return "error-404";
-	}
-
-	@RequestMapping(value = "/example/registration/{activities_id}")
-	public String registration(@PathVariable String activities_id, Model model) {
-		model.addAttribute("activities_id", activities_id);
-		return "registration";
 	}
 
 }

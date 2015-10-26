@@ -1,11 +1,11 @@
 package com.cl.dao;
 
-import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import com.cl.entity.Server;
 import com.cl.entity.common.User;
 
 @Repository
@@ -15,20 +15,37 @@ public class SearchDao {
 	@PersistenceContext(unitName = "entityManagerFactory")
 	private EntityManager entityManager;
 
-	private static int pageSize = 10;
-
-
-//	/**
-//	 *
-//	 * @param id
-//	 * @return
-//	 */
-//	public Activities getActivitiesById(long id) {
-//		 String hql = "from Activities where id = :uuid";
-//		 return entityManager.createQuery(hql, Activities.class)
-//				 .setParameter("uuid", id)
-//				 .getSingleResult();
-//	}
+//	private static int pageSize = 10;
+	
+	/**
+	 * 
+	 * @param obj
+	 * @return
+	 */
+	public Server findExistServer(Server obj) {
+		String hql = "from Server where type=:type and ip = :ip and hostname = :hostname and username = :username and password = :password";
+		try {
+//			List<Server> list = entityManager.createQuery(hql, Server.class)
+//					.setParameter("type", obj.getType())
+//					.setParameter("ip", obj.getIp())
+//					.setParameter("hostname", obj.getHostname())
+//					.setParameter("username", obj.getUsername())
+//					.setParameter("password", obj.getPassword())			 
+//					.getResultList();
+//			return list.get(0);
+			return entityManager.createQuery(hql, Server.class)
+					.setParameter("type", obj.getType())
+					.setParameter("ip", obj.getIp())
+					.setParameter("hostname", obj.getHostname())
+					.setParameter("username", obj.getUsername())
+					.setParameter("password", obj.getPassword())			 
+					.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		} catch (Exception e) {
+			return null;
+		}
+	}
 
 	/**
 	 *

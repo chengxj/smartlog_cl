@@ -193,8 +193,8 @@ angular.module('app', ['ngResource'])
 
 		$scope.next = function(url) {
 			appDAO.validSingleServer().save({'server':$scope.server}).$promise.then(function(data){
-				if(data.server.id);
-					$scope.go(url);
+				if(data.success);
+					$scope.go(url + "/" + data.server.id);
 			});
 		};
 

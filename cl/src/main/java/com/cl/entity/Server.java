@@ -14,7 +14,12 @@ import java.io.Serializable;
 @Entity
 public class Server implements Serializable, DBObject {
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	@Id
     @GeneratedValue
     private Long id;
     @Column(name = "team")
@@ -99,7 +104,7 @@ public class Server implements Serializable, DBObject {
     }
 
     public String getUsername() {
-        return hostname;
+        return username;
     }
 
     public void setUsername(String username) {

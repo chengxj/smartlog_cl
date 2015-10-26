@@ -33,16 +33,32 @@ public class CommonService {
     @Autowired
     private UserService userService;
 
+    /**
+     * 
+     * @param request
+     * @return
+     */
     public SingleServerDTO validSingleServer(SingleServerRequest request) {
         SingleServerDTO dto = new SingleServerDTO();
-        boolean validStatus = serverService.validSingleServer(request);
-        if (validStatus) {
-            Server server = request.server;
-            User currentUser = userService.getCurrentLoginUser();
-            Long team = currentUser.getTeam().getId();
-            server.setTeam(team);
-            commonDao.saveDBOject(server);
-            dto.server = server;
+        // 已存在的记录就不用验证，直接通过。
+        // 不存在的记录需要验证，通过后，保存一份。
+        Server server = searchDao.findExistServer(request.server);
+        if (server != null && server.getId() != null) {
+        	dto.success = true;
+        	dto.server = server;
+        } else {
+            boolean validStatus = serverService.validSingleServer(request);
+            if (validStatus) {
+            	dto.success = true;
+                Server newServer = request.server;
+                User currentUser = userService.getCurrentLoginUser();
+                Long team = currentUser.getTeam().getId();
+                newServer.setTeam(team);
+                commonDao.saveDBOject(newServer);
+                dto.server = newServer;                
+            } else {
+            	dto.success = false;            	
+            }
         }
         return dto;
     }
