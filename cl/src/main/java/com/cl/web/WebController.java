@@ -23,9 +23,9 @@ public class WebController {
 		return "statement";
 	}
 	
-	@RequestMapping(value = "/example/danji")
+	@RequestMapping(value = "/example/single")
 	public String danji(Model model) {
-		return "danji";
+		return "single";
 	}
 	
 	@RequestMapping(value = "/example/finish")
@@ -38,14 +38,19 @@ public class WebController {
 		return "host";
 	}
 
-	@RequestMapping(value = "/example/jiqun")
+	@RequestMapping(value = "/example/cluster")
 	public String jijun(Model model) {
-		return "jiqun";
+		return "cluster";
 	}
 	
-	@RequestMapping(value = "/example/in")
+	@RequestMapping(value = "/example/cluster_management")
+	public String clusterManagement(Model model) {
+		return "cluster_management";
+	}
+	
+	@RequestMapping(value = "/example/index")
 	public String in(Model model) {
-		return "in";
+		return "index";
 	}
 	
 	@RequestMapping(value = "/example/login", method = RequestMethod.GET)

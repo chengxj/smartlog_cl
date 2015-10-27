@@ -5,8 +5,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>首页</title>
-<link href="/resources/css/shouye.css" rel="stylesheet" type="text/css" />
-<link href="/resources/css/in.css" rel="stylesheet" type="text/css" />
+<link href="/resources/css/style.css" rel="stylesheet" type="text/css" />
+<link href="/resources/css/index.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -38,8 +38,8 @@
             </div>
         </div>
         <div class="in_next">           
-            	<div onclick="javascript:window.location.href='/example/danji'" class="finish_left"><img src="/resources/images/danji.png" width="80%" height="80%" alt=""/></div>
-                <div onclick="javascript:window.location.href='/example/jiqun'" class="finish_right"><img src="/resources/images/jiqun.png" width="80%" height="80%" alt=""/></div>
+            	<div onclick="javascript:window.location.href='/example/single'" class="finish_left"><img src="/resources/images/danji.png" width="80%" height="80%" alt=""/></div>
+                <div onclick="javascript:window.location.href='/example/cluster'" class="finish_right"><img src="/resources/images/jiqun.png" width="80%" height="80%" alt=""/></div>
         </div>
     </div>
     <div  id="footer"><div class="fanxiang">Copyright 2015-2020  神州泰岳 版权所有</div></div>

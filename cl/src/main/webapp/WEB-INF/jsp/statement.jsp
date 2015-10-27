@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>首页</title>
-<link href="/resources/css/shouye.css" rel="stylesheet" type="text/css" />
+<link href="/resources/css/style.css" rel="stylesheet" type="text/css" />
 <link href="/resources/css/statement.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -40,7 +40,7 @@
         <div class="statement_next">
             <div class="radio"><input id="z1" name="zu1" type="radio" />同意以上说明</div>
             <div class="radio"><input id="z2" name="zu1" type="radio" />不同意以上说明</div>
-            <div onclick="javascript:window.location.href='/example/in'" class="finish_1"><div class="finish_2">下一步</div></div>
+            <div onclick="javascript:window.location.href='/example/index'" class="finish_1"><div class="finish_2">下一步</div></div>
         </div>
     </div>
     <div  id="footer"><div class="fanxiang">Copyright 2015-2020  神州泰岳 版权所有</div></div>

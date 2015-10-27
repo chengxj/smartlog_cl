@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>首页</title>
-<link href="/resources/css/shouye.css" rel="stylesheet" type="text/css" />
+<link href="/resources/css/style.css" rel="stylesheet" type="text/css" />
 <link href="/resources/css/host.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
