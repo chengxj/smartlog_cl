@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.cl.auth.AuthException;
 import com.cl.dto.common.ErrorDTO;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,7 @@ public class WebHandlerExceptionResolver extends DefaultHandlerExceptionResolver
 	
 	  protected Logger log = LoggerFactory.getLogger(this.getClass());
 	  
+	  @SuppressWarnings({ "unchecked", "rawtypes" })
 	  @Override
 	  public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception e) {
 		  Map model = new HashMap();

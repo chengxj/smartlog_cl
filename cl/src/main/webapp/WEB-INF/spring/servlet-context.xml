@@ -21,8 +21,6 @@
   	<bean id="exceptionHandler" class="com.cl.web.common.WebHandlerExceptionResolver"/>
   	
   	<mvc:resources mapping="/resources/**" location="/resources/" />
-  	<mvc:resources mapping="/assets/**" location="/assets/" />
-  	<mvc:resources mapping="/docs/**" location="/docs/" />
   	  	
   	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
 	    <property name="order" value="0" />

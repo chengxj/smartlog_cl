@@ -14,7 +14,12 @@ import java.io.Serializable;
 @Entity
 public class Component implements Serializable, DBObject {
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	@Id
     @GeneratedValue
     private Long id;
     @Column(name = "server_id")

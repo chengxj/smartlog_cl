@@ -64,9 +64,9 @@
 				/example/error = anon				
 				/example/unauth = anon
 				/example/login = anon
-				/example = roles[normal]
-				/example/** = roles[normal]
-				/api/** = roles[normal]
+				/example = anon
+				/example/** = anon
+				/api/** = anon
 			</value>
 		</property>
 	</bean>
