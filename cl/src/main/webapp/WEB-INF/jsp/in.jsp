@@ -23,7 +23,7 @@
         </div>
     </div>
     <div class="main">
-        <div class="mount">单机、休群入口</div>
+        <div class="mount">单机、集群入口</div>
         <div class="schedule">
             
             
