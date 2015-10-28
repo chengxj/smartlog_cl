@@ -1,19 +1,28 @@
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %><html xmlns="http://www.w3.org/1999/xhtml">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html xmlns="http://www.w3.org/1999/xhtml"  ng-app="app">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>首页</title>
 <link href="/resources/css/style.css" rel="stylesheet" type="text/css" />
 <link href="/resources/css/statement.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/resources/js/angular.min.js"></script>
 </head>
-<body>
+<body ng-controller="controller">
     <div class="logo"><div class="logo_sub1">
 	    	<img class="logo_sub2" src="/resources/images/logo.png" />
         </div></div>
     <div class="head">
         <div class="nav">
-           
+       
+            <div class="nav1_sub1"></div>
+            <div class="nav1"></div>
+            <div class="nav1"></div>
+            <div class="nav1"></div>
+            <div class="nav_bg_line"></div>
+            <div class="nav_bg"></div>
+            
         </div>
     </div>
     <div class="main">
@@ -38,13 +47,31 @@
             </div>
         </div>
         <div class="statement_next">
-            <div class="radio"><input id="z1" name="zu1" type="radio" />同意以上说明</div>
-            <div class="radio"><input id="z2" name="zu1" type="radio" />不同意以上说明</div>
-            <div onclick="javascript:window.location.href='/example/index'" class="finish_1"><div class="finish_2">下一步</div></div>
-        </div>
+            <div class="radio"><input ng-model="checkType" type="radio" value="agree" />同意以上说明</div>
+            <div class="radio"><input ng-model="checkType" type="radio" value="disagree" />不同意以上说明</div>
+            <div class="title_box">
+                    
+                    <div class="title_buttom">
+        
+                    	<div class="buttom_type" ng-click="next()"><div class="buttom_type_text">下一步</div></div>
+                    </div>
+               		</div>
+            </div>
     </div>
     <div  id="footer"><div class="fanxiang">Copyright 2015-2020  神州泰岳 版权所有</div></div>
-   
+<script>
+angular.module('app', [])
+.controller('controller', ['$scope', 
+	function($scope) {
 
+		$scope.next = function() {
+			if ($scope.checkType == "agree") {
+				window.location.href = '/example/index';
+			};
+		};
+		
+	}
+]);
+</script>
 </body>
 </html>

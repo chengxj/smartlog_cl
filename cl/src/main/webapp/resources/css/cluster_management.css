@@ -21,7 +21,8 @@ li { list-style-type:none;}
 #content  .content_main .type_list .box_info_all .box_bg_red{float:left; background:#f36e5d;  border:1px #f36e5d solid;cursor:pointer;}
 #content  .content_main .type_list .box_info_all .box_bg_yellow{float:left; background:#f9ea99;  border:1px #f9ea99 solid;cursor:pointer;}
 #content  .content_main .type_list .box_info_all .box_bg_green{ float:left; background:#88cb5a;  border:1px #88cb5a solid;cursor:pointer;}
-#content  .content_main .type_list .box_info_all p{ padding:2% 0 3% 5%; font-size:0.7vw; line-height:1vw;}
+#content  .content_main .type_list .p_all{ width:80%; margin:15px auto; }
+#content  .content_main .type_list .box_info_all p{ font-size:0.7vw; line-height:20px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
 .next_button{ float:left; background:url(../images/next1.png) no-repeat; width:160px; height:37px; margin:3% 0 0 86%; }
 
 

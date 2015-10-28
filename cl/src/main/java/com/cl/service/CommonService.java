@@ -3,7 +3,6 @@ package com.cl.service;
 import com.cl.dto.SingleServerDTO;
 import com.cl.dto.SingleServerWarnDTO;
 import com.cl.entity.Server;
-import com.cl.entity.common.User;
 import com.cl.request.SingleServerComponentsRequest;
 import com.cl.request.SingleServerRequest;
 import org.slf4j.Logger;
@@ -50,10 +49,9 @@ public class CommonService {
             boolean validStatus = serverService.validSingleServer(request);
             if (validStatus) {
             	dto.success = true;
-                Server newServer = request.server;
-                User currentUser = userService.getCurrentLoginUser();
-                Long team = currentUser.getTeam().getId();
-                newServer.setTeam(team);
+                Server newServer = request.server; 
+                newServer.setTeam(userService.getCurrentUserTeam());
+                newServer.setHostname("test");
                 commonDao.saveDBOject(newServer);
                 dto.server = newServer;                
             } else {

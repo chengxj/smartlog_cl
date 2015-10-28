@@ -10,7 +10,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		<script type="text/javascript" src="/resources/js/angular.min.js"></script>
     	<script type="text/javascript" src="/resources/js/angular-resource.min.js"></script>
-    	<script type="text/javascript" src="/resources/js/angular-common.js"></script>
+    	<script type="text/javascript" src="/resources/js/angular-common-0.1.js"></script>
 		
 	</head>
 	<c:choose>

@@ -11,10 +11,27 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 
+	/**
+	 * 
+	 * @return
+	 */
     public User getCurrentLoginUser() {
         Session session = SecurityUtils.getSubject().getSession();
         return (User)session.getAttribute("LoginUser");
     }
-
-
+    
+    /**
+     * 
+     * @return
+     */
+    public Long getCurrentUserTeam() {
+    	return 1l;
+//        User currentUser = getCurrentLoginUser();
+//        if (currentUser!=null && currentUser.getTeam()!=null) {
+//            return currentUser.getTeam().getId();
+//        } else {
+//        	return null;
+//        }
+    }
+    
 }

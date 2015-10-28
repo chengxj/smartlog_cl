@@ -8,7 +8,6 @@
 <link href="/resources/css/style.css" rel="stylesheet" type="text/css" />
 <link href="/resources/css/index.css" rel="stylesheet" type="text/css" />
 </head>
-
 <body>
 
 	
@@ -19,7 +18,13 @@
     </div>
     <div class="head">
         <div class="nav">
-           
+       
+            <div class="nav1_sub1"><span>1 用户名</span></div>
+            <div class="nav1"><span>2 集群管理</span></div>
+            <div class="nav1"><span>3 告警内容</span></div>
+            <div class="nav2"><span>4 安装</span></div>
+            <div class="nav_bg"></div>
+            
         </div>
     </div>
     <div class="main">
@@ -34,12 +39,14 @@
         </div>
         <div class="in">
             <div class="center_1">
-            <img src="/resources/images/logo_sys.png" width="70%" height="70%" alt=""/>
+            <img src="/resources/images/logo_sys.png" width="80%" height="80%" alt=""/>
             </div>
         </div>
-        <div class="in_next">           
-            	<div onclick="javascript:window.location.href='/example/single'" class="finish_left"><img src="/resources/images/danji.png" width="80%" height="80%" alt=""/></div>
-                <div onclick="javascript:window.location.href='/example/cluster'" class="finish_right"><img src="/resources/images/jiqun.png" width="80%" height="80%" alt=""/></div>
+        <div class="in_next">
+           
+            	<div onclick="javascript:window.location.href='/example/single'" class="finish_left"><img src="/resources/images/danji.png" width="60%" height="60%" alt=""/></div>
+                <div onclick="javascript:window.location.href='/example/cluster'" class="finish_right"><img src="/resources/images/jiqun.png" width="60%" height="60%" alt=""/></div>
+           
         </div>
     </div>
     <div  id="footer"><div class="fanxiang">Copyright 2015-2020  神州泰岳 版权所有</div></div>

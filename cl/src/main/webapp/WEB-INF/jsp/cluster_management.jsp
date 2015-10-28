@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %><html xmlns="http://www.w3.org/1999/xhtml">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -9,17 +9,18 @@
 <link href="/resources/css/cluster_management.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-
-	
     <div class="logo"><div class="logo_sub1">
 	    	<img class="logo_sub2" src="/resources/images/logo.png" />
         </div></div>
     <div class="head">
         <div class="nav">
-            <div class="nav1">1 用户登录</div>
-            <div class="nav2">2 集群管理</div>
-            <div class="nav1">3 告警内容</div>
-            <div class="nav1">4 安装</div>
+       
+            <div class="nav1_sub1"><span>1 用户名</span></div>
+            <div class="nav1"><span>2 集群管理</span></div>
+            <div class="nav1"><span>3 告警内容</span></div>
+            <div class="nav2"><span>4 安装</span></div>
+            <div class="nav_bg"></div>
+            
         </div>
     </div>
     <div class="main">
@@ -47,49 +48,67 @@
                 	<div class="title">PORCESS</div>
                     <div class="box_info_all">
                         <div class="box_info box_bg_hui">
-                        	<p>IP：</p>
-                            <p>hostname:</p>
-                            <p>password:</p>
+                        	<div class="p_all">
+                                <p>IP：127.0.0.1</p>
+                                <p title="我是名字后面被隐藏了">hostname:我是名字后面被隐藏了</p>
+                                <p>password:******</p>
+                            </div>
                         </div>
                         <div class="box_info box_bg_red">
-                        	<p>IP：</p>
-                            <p>hostname:</p>
-                            <p>password:</p>
-                      </div>
+                        	<div class="p_all">
+                                <p>IP：127.0.0.1</p>
+                                <p title="我是名字后面被隐藏了">hostname:我是名字后面被隐藏了</p>
+                                <p>password:******</p>
+                            </div>
+                        </div>
                         <div class="box_info box_bg_yellow">
-                        	<p>IP：</p>
-                            <p>hostname:</p>
-                            <p>password:</p>
+                        	<div class="p_all">
+                                <p>IP：127.0.0.1</p>
+                                <p title="我是名字后面被隐藏了">hostname:我是名字后面被隐藏了</p>
+                                <p>password:******</p>
+                            </div>
                       </div>
                         <div class="box_info box_bg_green">
-                        	<p>IP：</p>
-                            <p>hostname:</p>
-                            <p>password:</p>
+                        	<div class="p_all">
+                                <p>IP：127.0.0.1</p>
+                                <p title="我是名字后面被隐藏了">hostname:我是名字后面被隐藏了</p>
+                                <p>password:******</p>
+                            </div>
                       </div>
                         <div class="box_info box_bg_green">
-                        	<p>IP：</p>
-                            <p>hostname:</p>
-                            <p>password:</p>
+                        	<div class="p_all">
+                                <p>IP：127.0.0.1</p>
+                                <p title="我是名字后面被隐藏了">hostname:我是名字后面被隐藏了</p>
+                                <p>password:******</p>
+                            </div>
                       </div>
                         <div class="box_info box_bg_green">
-                        	<p>IP：</p>
-                            <p>hostname:</p>
-                            <p>password:</p>
+                        	<div class="p_all">
+                                <p>IP：127.0.0.1</p>
+                                <p title="我是名字后面被隐藏了">hostname:我是名字后面被隐藏了</p>
+                                <p>password:******</p>
+                            </div>
                       </div>
                         <div class="box_info box_bg_green">
-                        	<p>IP：</p>
-                            <p>hostname:</p>
-                            <p>password:</p>
+                        	<div class="p_all">
+                                <p>IP：127.0.0.1</p>
+                                <p title="我是名字后面被隐藏了">hostname:我是名字后面被隐藏了</p>
+                                <p>password:******</p>
+                            </div>
                       </div>
                         <div class="box_info box_bg_green">
-                        	<p>IP：</p>
-                            <p>hostname:</p>
-                            <p>password:</p>
+                        	<div class="p_all">
+                                <p>IP：127.0.0.1</p>
+                                <p title="我是名字后面被隐藏了">hostname:我是名字后面被隐藏了</p>
+                                <p>password:******</p>
+                            </div>
                       </div>
                         <div class="box_info box_bg_green">
-                        	<p>IP：</p>
-                            <p>hostname:</p>
-                          <p>password:</p>
+                        	<div class="p_all">
+                                <p>IP：127.0.0.1</p>
+                                <p title="我是名字后面被隐藏了">hostname:我是名字后面被隐藏了</p>
+                                <p>password:******</p>
+                            </div>
                       </div>
                         <div class="box_info_add box_bg_kong">
                    	    	<div class="add_buttom"><img  src="/resources/images/add_hui.png" width="36" height="37" alt=""/> </div>
@@ -102,39 +121,53 @@
                 	<div class="title">PORCESS</div>
                     <div class="box_info_all">
                         <div class="box_info box_bg_hui">
-                        	<p>IP：</p>
-                            <p>hostname:</p>
-                            <p>password:</p>
+                        	<div class="p_all">
+                                <p>IP：127.0.0.1</p>
+                                <p title="我是名字后面被隐藏了">hostname:我是名字后面被隐藏了</p>
+                                <p>password:******</p>
+                            </div>
                         </div>
                         <div class="box_info box_bg_red">
-                        	<p>IP：</p>
-                            <p>hostname:</p>
-                            <p>password:</p>
+                        	<div class="p_all">
+                                <p>IP：127.0.0.1</p>
+                                <p title="我是名字后面被隐藏了">hostname:我是名字后面被隐藏了</p>
+                                <p>password:******</p>
+                            </div>
                         </div>
                         <div class="box_info box_bg_yellow">
-                        	<p>IP：</p>
-                            <p>hostname:</p>
-                            <p>password:</p>
+                        	<div class="p_all">
+                                <p>IP：127.0.0.1</p>
+                                <p title="我是名字后面被隐藏了">hostname:我是名字后面被隐藏了</p>
+                                <p>password:******</p>
+                            </div>
                         </div>
                         <div class="box_info box_bg_green">
-                        	<p>IP：</p>
-                            <p>hostname:</p>
-                            <p>password:</p>
+                        	<div class="p_all">
+                                <p>IP：127.0.0.1</p>
+                                <p title="我是名字后面被隐藏了">hostname:我是名字后面被隐藏了</p>
+                                <p>password:******</p>
+                            </div>
                         </div>
                         <div class="box_info box_bg_green">
-                        	<p>IP：</p>
-                            <p>hostname:</p>
-                            <p>password:</p>
+                        	<div class="p_all">
+                                <p>IP：127.0.0.1</p>
+                                <p title="我是名字后面被隐藏了">hostname:我是名字后面被隐藏了</p>
+                                <p>password:******</p>
+                            </div>
                         </div>
                         <div class="box_info box_bg_green">
-                        	<p>IP：</p>
-                            <p>hostname:</p>
-                            <p>password:</p>
+                        	<div class="p_all">
+                                <p>IP：127.0.0.1</p>
+                                <p title="我是名字后面被隐藏了">hostname:我是名字后面被隐藏了</p>
+                                <p>password:******</p>
+                            </div>
                         </div>
                         <div class="box_info box_bg_green">
-                        	<p>IP：</p>
-                            <p>hostname:</p>
-                            <p>password:</p>
+                        	<div class="p_all">
+                                <p>IP：127.0.0.1</p>
+                                <p title="我是名字后面被隐藏了">hostname:我是名字后面被隐藏了</p>
+                                <p>password:******</p>
+                            </div>
                         </div>
                         <div class="box_info_add box_bg_kong">
                    	    	<div class="add_buttom"><img  src="/resources/images/add_blue.png" width="36" height="37" alt=""/> </div>

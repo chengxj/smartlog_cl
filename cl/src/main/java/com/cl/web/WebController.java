@@ -19,12 +19,12 @@ public class WebController {
 	private AuthService authService;
 
 	@RequestMapping(value = "/example")
-	public String activities(Model model) {
+	public String statement(Model model) {
 		return "statement";
 	}
 	
 	@RequestMapping(value = "/example/single")
-	public String danji(Model model) {
+	public String single(Model model) {
 		return "single";
 	}
 	
@@ -39,7 +39,7 @@ public class WebController {
 	}
 
 	@RequestMapping(value = "/example/cluster")
-	public String jijun(Model model) {
+	public String cluster(Model model) {
 		return "cluster";
 	}
 	
@@ -49,8 +49,18 @@ public class WebController {
 	}
 	
 	@RequestMapping(value = "/example/index")
-	public String in(Model model) {
+	public String index(Model model) {
 		return "index";
+	}
+	
+	@RequestMapping(value = "/example/alarm")
+	public String alarm(Model model) {
+		return "alarm";
+	}
+	
+	@RequestMapping(value = "/example/component_selection")
+	public String componentSelection(Model model) {
+		return "component_selection";
 	}
 	
 	@RequestMapping(value = "/example/login", method = RequestMethod.GET)
