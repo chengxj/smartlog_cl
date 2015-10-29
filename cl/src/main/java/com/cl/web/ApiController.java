@@ -27,6 +27,12 @@ public class ApiController {
 	public SingleServerDTO validSingleServer(@RequestBody SingleServerRequest request) {
 		return commonService.validSingleServer(request);
 	}
+	
+	@RequestMapping(value = "/api/get_single_server", method = RequestMethod.POST)
+	@ResponseBody
+	public SingleServerDTO getSingleServer(@RequestBody SingleServerRequest request) {
+		return commonService.getSingleServer(request);
+	}
 
 	@RequestMapping(value = "/api/valid_single_server_components", method = RequestMethod.POST)
 	@ResponseBody

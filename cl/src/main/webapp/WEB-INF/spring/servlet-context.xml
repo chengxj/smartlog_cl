@@ -46,5 +46,12 @@
     	<property name="prefix" value="/WEB-INF/jsp/"/>
     	<property name="suffix" value=".jsp"/>
   	</bean>
+  	
+	<bean name="/pythonService" class="framework.support.thrift.ThriftHttpServiceExporter">
+        <property name="service">
+            <bean class="com.cl.service.python.pythonService"/>
+        </property>
+        <property name="serviceInterface" value="com.cl.service.python.pythonServiceApi$Iface"/>
+    </bean>
 
 </beans>

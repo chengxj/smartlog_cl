@@ -37,6 +37,22 @@ public class SearchDao {
 			return null;
 		}
 	}
+	
+	/**
+	 * 
+	 * @param obj
+	 * @return
+	 */
+	public Server getServer(Server obj) {
+		String hql = "from Server where id = :id";
+		try {
+			return entityManager.createQuery(hql, Server.class)
+					.setParameter("id", obj.getId())
+					.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		} 
+	}
 
 	/**
 	 *

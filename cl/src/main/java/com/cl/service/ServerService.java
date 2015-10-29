@@ -15,7 +15,7 @@ public class ServerService {
      * @return
      */
     public boolean validSingleServer(SingleServerRequest request) {
-
+    	
         return true;
     }
 

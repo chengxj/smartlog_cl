@@ -3,6 +3,9 @@ angular.module('common', ['ngResource'])
 	return {
 		validSingleServer:function() {
 			return $resource("/api/valid_single_server.json");
+		},
+		getSingleServer:function() {
+			return $resource("/api/get_single_server.json");
 		}
 	};
 }])

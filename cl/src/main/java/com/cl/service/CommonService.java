@@ -60,6 +60,18 @@ public class CommonService {
         }
         return dto;
     }
+    
+    public SingleServerDTO getSingleServer(SingleServerRequest request) {
+        SingleServerDTO dto = new SingleServerDTO();
+        Server server = searchDao.getServer(request.server);
+        if (server != null && server.getId() != null) {
+        	dto.success = true;
+        	dto.server = server;
+        } else {
+            dto.success = false;            	
+        }
+        return dto;
+    }
 
     public SingleServerWarnDTO validSingleServerComponents(SingleServerComponentsRequest request) {
     	

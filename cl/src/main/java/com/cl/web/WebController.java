@@ -1,15 +1,19 @@
 package com.cl.web;
 
 import javax.servlet.http.HttpServletRequest;
+
 import com.cl.auth.AuthException;
 import com.cl.auth.AuthService;
 import com.cl.auth.LoginVO;
+
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.cl.entity.common.User;
 
 @Controller
@@ -56,6 +60,18 @@ public class WebController {
 	@RequestMapping(value = "/example/alarm")
 	public String alarm(Model model) {
 		return "alarm";
+	}
+	
+	@RequestMapping(value = "/example/component")
+	public String component(Model model, @RequestParam Long id) {
+		model.addAttribute("id", id);
+		return "component";
+	}
+	
+	@RequestMapping(value = "/example/new_single_component")
+	public String newSingleComponent(Model model, @RequestParam Long id) {
+		model.addAttribute("id", id);
+		return "new_single_component";
 	}
 	
 	@RequestMapping(value = "/example/component_selection")
