@@ -1,0 +1,23 @@
+@charset "utf-8";
+/* CSS Document */
+.jiqun{width:80%; height:100%; margin:0 auto; }
+.jiqun .center_1{width:100%; height:50%;  float:left; margin-left:5%;margin-top:5%;word-wrap: break-word;  }
+.jiqun .center_1 p{padding:10px;}
+.jiqun .center_1 .input_yuanjiao{ border-radius:50px;  width:80%; padding:0 20px 0 20px; height:45px; border:2px solid #cfeefb;}
+.jiqun .center_1 .box-shadow-2{ -webkit-box-shadow:0 0 20px #d5f0fb; -moz-box-shadow:0 0 20px #d5f0fb; box-shadow:0 0 20px #d5f0fb;}
+.jiqun .center_1 .box-shadow-1{ -webkit-box-shadow: 5px 5px 5px #e3e3e3x;  -moz-box-shadow: 5px 5px 5px #e3e3e3x;  box-shadow: 5px 5px 5px #e3e3e3 ;}
+.jiqun .center_1 .input_font_blue{ font-size:18px; color:#3178c6; margin:0 0 0 20px; }
+.jiqun .center_1 .input_move{margin:4% 0 0 10%;}
+.input_radius{ border-radius:30px; width:688px; height:45px; border:1px solid #c4e9f9; padding:0 20px 0 20px;}
+.jiqun .center_1 .input_radius1{ border-radius:30px; border:2px solid #f2f2f2; padding:0 20px 0 20px;}
+.note{ width:40%; float:left; margin:18px 0 0 30%; color:#3378c3; font-size:12px; text-align:center;font-weight:bold;}
+.next_button{ float:right;width:100%; height:40px; margin-top:8%; }
+.next_button .finish_1{width:10%; height:40px; border-radius:10px; background:#38b7ea; margin:3% 18% 0 auto; line-height:40px; text-align:center; font-size:1em; font-weight:bold; color:#fff;transform:skew(-30deg); cursor:pointer; }
+.next_button .finish_2{transform:skew(30deg); }
+/*集群入口*/
+.jiqun_newadd{ float:left; width:18%; height:0; padding-bottom:18%; border-radius:30px;text-align:center; font-size:2vw; line-height:14vw; color:#3179c5; margin:0 0 0 10%; border:2px solid #eaeaea; cursor:pointer;}
+.jiqun .center_1 .font_note{ position:absolute; margin:16% 0 0 7%; font-size:12px; color:#327ac4; font-weight:bold; width:17%;text-align:center;}
+.jiqun .center_1 .font_note1{ position:absolute; margin:16% 0 0 30%; font-size:12px; color:#5e5e5e; font-weight:bold; width:17%;text-align:center;}
+.jiqun .center_1 .font_note2{ position:absolute; margin:16% 0 0 52%; font-size:12px; color:#5e5e5e; font-weight:bold; width:17%;text-align:center;}
+.jiqun .center_1 .font_note,.font_note1,.font_note2 p{ padding:0 0 8px 0; text-align:center; }
+
