@@ -24,10 +24,10 @@ body{font: normal 100% Helvetica, Arial,sans-serif "微软雅黑"; min-width:128
 .classify{width:65%; margin:0 auto;}
 .kind{ float:left;margin-top:15px; width:100%;}
 .type{ float:left;width:13%; height:45px; border-radius:13px; background:#C60; line-height:45px; text-align:center; font-size:1em;}
-.breed{ float:left;width:13%; height:45px; border-radius:16px; background:#f2f2f2; line-height:45px; text-align:center; font-size:1em; margin-left:3%;}
-.breed_red{ float:left;width:13%; height:45px; border-radius:16px; background:#fd6e5d; line-height:45px; text-align:center; font-size:1em; margin-left:3%;}
-.breed_yellow{ float:left;width:13%; height:45px; border-radius:16px; background:#f9ea99; line-height:45px; text-align:center; font-size:1em; margin-left:3%;}
-.breed_green{ float:left;width:13%; height:45px; border-radius:16px; background:#88cb58; line-height:45px; text-align:center; font-size:1em; margin-left:3%;}
+.breed{ float:left;width:13%; height:45px; border-radius:16px; background:#f2f2f2; line-height:45px; text-align:center; font-size:1em; margin-left:3%; margin-top:2%;}
+.breed_red{ float:left;width:13%; height:45px; border-radius:16px; background:#fd6e5d; line-height:45px; text-align:center; font-size:1em; margin-left:3%;margin-top:2%;}
+.breed_yellow{ float:left;width:13%; height:45px; border-radius:16px; background:#f9ea99; line-height:45px; text-align:center; font-size:1em; margin-left:3%;margin-top:2%;}
+.breed_green{ float:left;width:13%; height:45px; border-radius:16px; background:#88cb58; line-height:45px; text-align:center; font-size:1em; margin-left:3%;margin-top:2%;}
 .box-shadow-blue{ -webkit-box-shadow:0 0 20px #a2dcf4; -moz-box-shadow:0 0 20px #a2dcf4; box-shadow:0 0 20px #a2dcf4;}
 .box-shadow-hui:hover{-webkit-box-shadow:0 0 20px #a2dcf4; -moz-box-shadow:0 0 20px #a2dcf4; box-shadow:0 0 20px #a2dcf4; color:#5e5e5e}
 .box-shadow-hui{ -webkit-box-shadow: 5px 5px 5px #e3e3e3x;  -moz-box-shadow: 5px 5px 5px #e3e3e3x;  box-shadow: 5px 5px 5px #e3e3e3 ; color:#5e5e5e}

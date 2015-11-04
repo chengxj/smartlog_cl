@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" ng-app="app">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>首页</title>
+<link href="/resources/css/shouye.css" rel="stylesheet" type="text/css" />
+<link href="/resources/css/jiqun_management.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/resources/js/angular.min.js"></script>
+<script type="text/javascript" src="/resources/js/angular-resource.min.js"></script>
+<script type="text/javascript" src="/resources/js/angular-common-0.2.js"></script>
+</head>
+<body ng-controller="controller">
+    <div class="logo"><div class="logo_sub1">
+	    	<img class="logo_sub2" src="/resources/images/logo.png" />
+        </div></div>
+    <div class="head">
+        <div class="nav">
+            <div class="nav1_sub1"><span>1 用户名{[{cluster_name}]}</span></div>
+            <div class="nav1"><span>2 集群管理</span></div>
+            <div class="nav1"><span>3 告警内容</span></div>
+            <div class="nav2"><span>4 安装</span></div>
+            <div class="nav_bg"></div>
+        </div>
+    </div>
+    <div class="main">
+        <div class="mount">集群管理</div>
+        <div id="left">
+        	<ul class="ul_move">
+            	<li class="li_font16">ALL</li>
+                <li class="menu_sub1_blue">ZOOKEEPER</li>
+                <li class="menu_sub1">KAFKA</li>
+                <li class="line"></li>
+                <li class="menu_sub1">FLUME</li>
+                <li class="line"></li>
+                <li class="menu_sub1">STORM</li>
+                <li class="line"></li>
+                <li class="menu_sub1">ELASTICSEARCH</li>
+                <li class="menu_sub1">FRONTEND</li>
+                <li class="menu_sub1">WEB</li>
+                <li class="menu_sub1">DATABASE</li>
+            </ul>
+    	</div>
+   		<div id="content">
+        	<div class="content_main">
+            	<div class="type_list">
+                	<div class="title">PORCESS</div>
+                    <div class="box_info_all">
+                        <div class="box_info box_bg_hui" ng-repeat="item in cluster_server | filter : {role : 'PROCESS'}">
+                        	<div class="p_all" ng-click="go(item.id)">
+                                <p>IP：{[{item.ip}]}</p>
+                                <p title="{[{item.hostname}]}">hostname:{[{item.hostname}]}</p>
+                                <p>password:******</p>
+                            </div>
+                        </div>
+                        <div class="box_info_add box_bg_kong">
+                   	    	<div class="add_buttom" ng-click="new_cluster_component('PROCESS')"><img  src="/resources/images/add_hui.png" width="36" height="37" alt=""/> </div>
+                        </div>
+                    </div>
+                    <div class="right_text">PORCESS角色规则说明</div>
+                </div>
+                <div class="type_list">
+                	<div class="title">WEB</div>
+                    <div class="box_info_all">
+                        <div class="box_info box_bg_hui" ng-repeat="item in cluster_server | filter : {'role' : 'WEB'}">
+                        	<div class="p_all" ng-click="go(item.id)">
+                                <p>IP：{[{item.ip}]}</p>
+                                <p title="{[{item.hostname}]}">hostname:{[{item.hostname}]}</p>
+                                <p>password:******</p>
+                            </div>
+                        </div>
+                        <div class="box_info_add box_bg_kong">
+                   	    	<div class="add_buttom" ng-click="new_cluster_component('WEB')"><img  src="/resources/images/add_blue.png" width="36" height="37" alt=""/> </div>
+                        </div>
+
+                    </div>
+                    <div class="right_text">WEB角色规则说明</div>
+                </div>
+                <div class="type_list">
+                	<div class="title">自定义</div>
+                    <div class="box_info_all">
+                        <div class="box_info box_bg_hui" ng-repeat="item in cluster_server | filter : {role : 'OTHER'}">
+                        	<div class="p_all" ng-click="go(item.id)">
+                              <p>IP：{[{item.ip}]}</p>
+                              <p title="{[{item.hostname}]}">hostname:{[{item.hostname}]}</p>
+                              <p>password:******</p>
+                          </div>
+                        </div>
+                        <div class="box_info_add box_bg_kong">
+                   	    	<div class="add_buttom" ng-click="new_cluster_component('OTHER')"><img  src="/resources/images/add_blue.png" width="36" height="37" alt=""/> </div>
+                        </div>
+
+                    </div>
+                    <div class="right_text">自定义角色规则说明</div>
+                </div>
+                <div class="next_button" ng-click="validClusterServerComponents()"></div>
+            </div>
+   		</div>
+    </div>
+    <div id="footer"><div class="fanxiang">Copyright 2015-2020  神州泰岳 版权所有</div></div>
+<script>
+var cluster_name = '{{cluster_name}}';
+
+angular.module('app', ['common'])
+.config(function($interpolateProvider) {
+  $interpolateProvider.startSymbol('{[{');
+  $interpolateProvider.endSymbol('}]}');
+})
+.controller('controller', ['$scope', 'commonDao', 'commonUtil',
+	function($scope, commonDao, commonUtil) {
+
+    $scope.go = function(id) {
+      commonUtil.go("/edit_cluster_component?id=" + id);
+    };
+
+    $scope.getClusterServerComponents = function() {
+      commonDao.getClusterServerComponents().save({"cluster_name":cluster_name}, function(data) {
+        $scope.cluster_server = data.cluster_server;
+        console.log($scope.cluster_server)
+      });
+    };
+
+    $scope.new_cluster_component = function(type) {
+      commonUtil.go("/new_cluster_component?cluster_name=" + cluster_name + "&role=" + type);
+    };
+
+    $scope.validClusterServerComponents = function() {
+      alert("还未开发")
+      return
+      commonDao.validClusterServerComponents().save({"cluster_name":cluster_name}, function(data) {
+        if (!data.available) {
+          commonUtil.go("/cluster_alarm?id=" + data.id)
+        } else {
+          commonUtil.go("/cluster_finish?id=" + data.id)
+        }
+      });
+    };
+
+    $scope.getClusterServerComponents();
+  }
+]);
+</script>
+</body>
+</html>

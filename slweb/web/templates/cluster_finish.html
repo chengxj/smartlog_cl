@@ -1,11 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" ng-app="app">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>首页</title>
 <link href="/resources/css/shouye.css" rel="stylesheet" type="text/css" />
+<link href="/resources/css/finish.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/resources/js/angular.min.js"></script>
+<script type="text/javascript" src="/resources/js/angular-resource.min.js"></script>
+<script type="text/javascript" src="/resources/js/angular-common-0.2.js"></script>
 </head>
-<body>
+<body ng-controller="controller">
     <div class="logo"><div class="logo_sub1">
 	    	<img class="logo_sub2" src="/resources/images/logo.png" />
         </div></div>
@@ -65,7 +69,75 @@
     </div>
 
     <div  id="footer"><div class="fanxiang">Copyright 2015-2020  神州泰岳 版权所有</div></div>
+<script>
+var cluster_name = '{{cluster_name}}';
 
+angular.module('app', ['common'])
+.config(function($interpolateProvider) {
+  $interpolateProvider.startSymbol('{[{');
+  $interpolateProvider.endSymbol('}]}');
+})
+.controller('controller', ['$scope', 'commonDao', 'commonUtil', '$interval',
+    function($scope, commonDao, commonUtil, $interval) {
+
+      $scope.getStyle = function(status, current_status) {
+        var style = "breed_green";
+        if(status<0){
+          if(current_status) {
+            style = "breed box-shadow-blue";
+          } else {
+            style = "breed box-shadow-hui";
+          }
+        } else if (status>0) {
+          style = "breed_red";
+          if(current_status) {
+            style += " box-shadow-blue";
+          }
+        } else {
+          if(current_status) {
+            style += " box-shadow-blue";
+          }
+        }
+        return style;
+      };
+
+      $scope.getCurrentComponent = function(components) {
+        var currentComponent = "";
+        if(components!=null&&components.length>0) {
+          for (var i=0;i<components.length;i++) {
+            var temp = components[i];
+            if (temp.current_status==true) {
+              currentComponent = temp.name;
+              break;
+            }
+          }
+        }
+        return currentComponent;
+      };
+
+
+      $scope.process = {"width":"0%","transition":"width 1s"};
+
+      $interval(function() {
+        commonDao.getClusterServerFinish().save({'cluster_name':cluster_name}, function(data) {
+          $scope.single = data;
+          $scope.process = {"width":$scope.getProcess() + "%","transition":"width 1s"};
+        });
+      }, 3000);
+
+      $scope.getProcess = function() {
+        var process = 0;
+        if ($scope.single.components!=null&&$scope.single.components.length>0) {
+          for(var i=0;i<$scope.single.components.length;i++) {
+            if($scope.single.components[i].status>0) {
+              process += 1;
+            }
+          }
+        }
+        return (process*100/$scope.single.components.length).toFixed(2);
+      }
+}]);
+</script>
 
 </body>
 </html>

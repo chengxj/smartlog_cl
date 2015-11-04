@@ -46,11 +46,9 @@
         </div>
         <div class="statement_next">
             <div class="radio"><input ng-model="checkType" type="radio" value="agree" />同意以上说明</div>
-            <div class="radio"><input ng-model="checkType" type="radio" value="disagree" />不同意以上说明</div>
+            <div class="radio"><input ng-model="checkType" type="radio" value="disagree" />不同意以上说明&nbsp;&nbsp;<font color="red" ng-if="checkType!='agree'">同意该声明才可以进行下一步</font></div>
             <div class="title_box">
-
                     <div class="title_buttom">
-
                     	<div class="buttom_type" ng-click="next()"><div class="buttom_type_text">下一步</div></div>
                     </div>
                		</div>
@@ -61,14 +59,12 @@
 angular.module('app', [])
 .controller('controller', ['$scope',
 	function($scope) {
-
 		$scope.next = function() {
 			if ($scope.checkType == "agree") {
 				window.location.href = '/index';
-			};
+			}
 		};
-
-	}
+  }
 ]);
 </script>
 </body>

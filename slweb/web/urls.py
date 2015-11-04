@@ -17,19 +17,43 @@ from django.conf.urls import include, url,patterns
 from django.conf.urls.static import static
 import settings
 from django.contrib import admin
-from web import views
+from web.views import *
+from api.views import *
+
+from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = [
-    url(r'^$', views.statement),
-    url(r'^index/', views.index),
-    url(r'^single/', views.danji),
-    url(r'^cluster/', views.jiqun),
-    url(r'^alarm/', views.alarm),
-    url(r'^single_component/', views.component_selection),
-    url(r'^finish/', views.finish),
-    url(r'^host/', views.host),
-    url(r'^cluster_management/', views.jiqun_management),
+    url(r'^$', statement),
+    url(r'^index', index),
+    url(r'^single_component_status', single_component_status),
+    url(r'^single_component', new_single_component),
+    url(r'^single_finish', single_finish),
+    url(r'^single_alarm', single_alarm),
+    url(r'^single', single),
+    url(r'^edit_single_component', edit_single_component),
+    url(r'^edit_cluster_component', edit_cluster_component),
+    url(r'^new_cluster_component', new_cluster_component),
+    url(r'^new_cluster', new_cluster),
+    url(r'^cluster_host', cluster_host),
+    url(r'^cluster_finish', cluster_finish),
+    url(r'^cluster_alarm', cluster_alarm),
+    url(r'^cluster_management', cluster_management),
+    url(r'^cluster', cluster),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^api/valid_esingle_server_components', valid_esingle_server_components, name='valid-esingle-server-components'),
+    url(r'^api/valid_single_server_components', valid_single_server_components, name='valid-single-server-components'),
+    url(r'^api/valid_cluster_server_components', valid_cluster_server_components, name='valid_cluster_server_components'),
+    url(r'^api/valid_single_server', valid_single_server, name='valid-single-server'),
+    url(r'^api/get_cluster_server_components', get_cluster_server_components, name='get-cluster-server-components'),
+    url(r'^api/get_cluster_server_finish', get_cluster_server_finish, name='get-cluster-server-finish'),
+    url(r'^api/get_single_server_finish', get_single_server_finish, name='get-single-server-finish'),
+    url(r'^api/get_single_server_components', get_single_server_components, name='get-single-server=components'),
+    url(r'^api/get_single_server', get_single_server, name='get-single-server'),
+    url(r'^api/get_single_warn', get_single_warn, name='get-single-warn'),
+    url(r'^api/add_cluster_server_components', add_cluster_server_components, name='add-cluster-server-components'),
+    url(r'^api/edit_cluster_server_components', edit_cluster_server_components, name='edit-cluster-server-components'),
 ]
+
+urlpatterns = format_suffix_patterns(urlpatterns)
 
 urlpatterns += patterns('',) + static(settings.MEDIA_URL, document_root=settings.STATIC_DOC_ROOT)

@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" ng-app="app">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>首页</title>
+<link href="/resources/css/shouye.css" rel="stylesheet" type="text/css" />
+<link href="/resources/css/component_selection.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/resources/js/angular.min.js"></script>
+<script type="text/javascript" src="/resources/js/angular-resource.min.js"></script>
+<script type="text/javascript" src="/resources/js/angular-common-0.2.js"></script>
+</head>
+<body ng-controller="controller">
+    <div class="logo"><div class="logo_sub1">
+	    	<img class="logo_sub2" src="/resources/images/logo.png" />
+        </div></div>
+    <div class="head">
+        <div class="nav">
+            <div class="nav1_sub1"><span>1 用户名</span></div>
+            <div class="nav1"><span>2 集群管理</span></div>
+            <div class="nav1"><span>3 告警内容</span></div>
+            <div class="nav2"><span>4 安装</span></div>
+            <div class="nav_bg"></div>
+        </div>
+    </div>
+    <div class="main">
+        <div class="mount">组件选择</div>
+        <div class="schedule"> </div>
+        <div class="classify">
+
+        </div>
+        <div class="component_selection">
+            <div class="center_1">
+            		<div class="title_box">
+                    <div class="title_ip">
+                      <p>IP:<input class="input_hide" ng-model="server.ip" ng-readonly="true" /></p>
+                      <p>HOSTNAME:<input class="input_hide" ng-model="server.hostname" ng-readonly="true" /></p>
+                      <p>PASSWORD:<input class="input_hide" type="password" ng-model="server.password" ng-readonly="true" /></p>
+                    </div>
+                </div>
+                <form name="validForm">
+                    <div class="title_box" ng-repeat="row in components">
+                      <div ng-repeat="component in row" ng-class="{true: 'input_movew box-shadow-3', false: 'input_move box-shadow-1'}[component.type]">
+                          <div ng-class="{true: 'ico_jian_blue', false: 'ico_add_blue'}[component.type]" ng-click="changeType($parent.$index, $index)">{[{component.name}]}</div>
+                          <p>端口:<input ng-class="{true: 'input_hide_w', false: 'input_hide_hui'}[component.type]" class="" ng-model="component.port"/></p>
+                          <p>安装路径<input ng-class="{true: 'input_hide_w', false: 'input_hide_hui'}[component.type]" ng-model="component.install_dir" ng-required="component.type" /></p>
+                          <p>dataDir<input ng-class="{true: 'input_hide_w', false: 'input_hide_hui'}[component.type]" ng-model="component.data_dir" /></p>
+                          <p>logDir<input ng-class="{true: 'input_hide_w', false: 'input_hide_hui'}[component.type]" ng-model="component.log_dir" /></p>
+                      </div>
+                   </div>
+                </form>
+            </div>
+            <div class="note">请填写主机信息后点击下一步，如未安装将跳转到安装页，所以安装页，所以安装则自动跳转到管理员</div>
+            <div class="title_box">
+                    <div class="title_buttom">
+                    	<div class="buttom_type" ng-click="validSingleServerComponents(validForm.$invalid)"><div class="buttom_type_text">下一步</div></div>
+                    </div>
+               		</div>
+        </div>
+    </div>
+    <div  id="footer"><div class="fanxiang">Copyright 2015-2020  神州泰岳 版权所有</div></div>
+<script>
+var id = {{id}};
+
+function serverComponent(name) {
+  var obj = {"name":null, "port":null, "install_dir":null, "data_dir":null, "log_dir":null, "type":false};
+  obj.name = name;
+  return obj;
+}
+
+function serverComponents() {
+  var obj = {"id":id, "ip":null, "cluster_name":"", "hostname":null, "username":null, "password":null, "components":[]};
+  return obj;
+}
+
+angular.module('app', ['common'])
+.config(function($interpolateProvider) {
+  $interpolateProvider.startSymbol('{[{');
+  $interpolateProvider.endSymbol('}]}');
+})
+.controller('controller', ['$scope', 'commonDao', 'commonUtil',
+    function($scope, commonDao, commonUtil) {
+
+      $scope.components = [];
+      $scope.componentsName = ["ZOOKEEPER", "KAFKA", "FLUME", "STORM", "ELASTICSEARCH", "FONTWEB", "DATABASE", "WEB"];
+
+      $scope.colCount = 4;
+      $scope.initComponents = function() {
+        console.log($scope.componentsName.length)
+        // var colCount = 4;
+        var rowCount = Math.ceil(($scope.componentsName.length + $scope.colCount)/$scope.colCount) - 1;
+        console.log(rowCount)
+        for (var i=0;i<rowCount;i++) {
+          var row = [];
+          for (var j=0; j<$scope.colCount; j++) {
+            if((i*$scope.colCount + j )<$scope.componentsName.length) {
+              var name = $scope.componentsName[i*$scope.colCount + j];
+              row.push(new serverComponent(name));
+            } else {
+              break;
+            }
+          }
+          $scope.components.push(row);
+        }
+        console.log($scope.components)
+      };
+
+      $scope.changeType = function(pindex, index) {
+        var component = $scope.components[pindex][index];
+        var tempType = angular.copy(component.type);
+        component.type = !component.type;
+        var name = component.name;
+        var defaultComponent = $scope.defaultComponents[name];
+        if (tempType) {
+          component.port = null;
+          component.install_dir = null;
+          component.data_dir = null;
+          component.log_dir = null;
+        } else {
+          component.port = defaultComponent.port;
+          component.install_dir = defaultComponent.install_dir;
+          component.data_dir = defaultComponent.data_dir;
+          component.log_dir = defaultComponent.log_dir;
+        }
+      };
+
+      $scope.initComponents();
+
+      $scope.defaultComponents = {"ZOOKEEPER":{"port":"2181", "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs"},
+                            "KAFKA":{"port":"9092", "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs"},
+                            "FLUME":{"port":null, "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs"},
+                            "STORM":{"port":null, "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs"},
+                            "ELASTICSEARCH":{"port":"9300", "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs"},
+                            "FONTWEB":{"port":"8899", "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs"},
+                            "DATABASE":{"port":"3306", "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs"},
+                            "WEB":{"port":"8888", "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs"}};
+
+      $scope.validSingleServerComponents = function(valid) {
+        if(valid)
+          return
+        var obj = new serverComponents();
+        obj.ip = $scope.server.ip;
+        obj.hostname = $scope.server.hostname;
+        obj.username = $scope.server.username;
+        obj.password = $scope.server.password;
+        if ($scope.components!=null && $scope.components.length>0 ) {
+          for (var i=0;i<$scope.components.length;i++) {
+            var row = $scope.components[i];
+            if(row!=null&&row.length>0) {
+              for (var j=0;j<row.length;j++) {
+                obj.components.push(row[j]);
+              }
+            }
+          }
+        }
+        commonDao.validSingleServerComponents().save(obj, function(data) {
+          if (!data.available) {
+            commonUtil.go("/single_alarm?id=" + data.id)
+          } else {
+            commonUtil.go("/single_finish?id=" + data.id)
+          }
+        });
+      };
+
+      $scope.getSingleServer = function() {
+        commonDao.getSingleServer().save({'id':id}, function(data) {
+          $scope.server = data;
+          console.log($scope.server.ip);
+        });
+      };
+
+      $scope.getSingleServer();
+}]);
+</script>
+</body>
+</html>
