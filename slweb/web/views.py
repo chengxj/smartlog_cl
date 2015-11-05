@@ -37,7 +37,8 @@ def new_cluster(request):
     return render_to_response("new_cluster.html", {'cluster_name':cluster_name}, context_instance=RequestContext(request))
 
 def cluster_management(request):
-    return render_to_response("cluster_management.html",context_instance=RequestContext(request))
+    cluster_name =  request.GET.get('cluster_name', None)
+    return render_to_response("cluster_management.html", {'cluster_name':cluster_name}, context_instance=RequestContext(request))
 
 def index(request):
     return render_to_response("index.html",context_instance=RequestContext(request))

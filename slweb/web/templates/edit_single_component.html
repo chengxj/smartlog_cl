@@ -16,9 +16,9 @@
     <div class="head">
         <div class="nav">
             <div class="nav1_sub1"><span>1 用户名</span></div>
-            <div class="nav1"><span>2 集群管理</span></div>
+            <div class="nav2"><span>2 单机管理</span></div>
             <div class="nav1"><span>3 告警内容</span></div>
-            <div class="nav2"><span>4 安装</span></div>
+            <div class="nav1"><span>4 安装</span></div>
             <div class="nav_bg"></div>
         </div>
     </div>
@@ -31,17 +31,17 @@
         <div class="component_selection">
             <div class="center_1">
             		<div class="title_box">
-                    <div class="title_ip">
+                    <div class="title_ip" ng-cloak>
                       <p>IP:<input class="input_hide" ng-model="server.ip" ng-readonly="true" /></p>
                       <p>HOSTNAME:<input class="input_hide" ng-model="server.hostname" ng-readonly="true" /></p>
                       <p>PASSWORD:<input class="input_hide" type="password" ng-model="server.password" ng-readonly="true" /></p>
                     </div>
                 </div>
                 <form name="validForm">
-                    <div class="title_box" ng-repeat="row in components">
+                    <div class="title_box" ng-repeat="row in components" ng-cloak>
                       <div ng-repeat="component in row" ng-class="{true: 'input_movew box-shadow-3', false: 'input_move box-shadow-1'}[component.type]">
                           <div ng-class="{true: 'ico_jian_blue', false: 'ico_add_blue'}[component.type]" ng-click="changeType($parent.$index, $index)">{[{component.name}]}</div>
-                          <p>端口:<input ng-class="{true: 'input_hide_w', false: 'input_hide_hui'}[component.type]" class="" ng-model="component.port"/></p>
+                          <p>端口:<input ng-class="{true: 'input_hide_w', false: 'input_hide_hui'}[component.type]" class="" ng-model="component.port" ng-readonly="true" /></p>
                           <p>安装路径<input ng-class="{true: 'input_hide_w', false: 'input_hide_hui'}[component.type]" ng-model="component.install_dir" ng-required="component.type" /></p>
                           <p>dataDir<input ng-class="{true: 'input_hide_w', false: 'input_hide_hui'}[component.type]" ng-model="component.data_dir" /></p>
                           <p>logDir<input ng-class="{true: 'input_hide_w', false: 'input_hide_hui'}[component.type]" ng-model="component.log_dir" /></p>
@@ -110,6 +110,7 @@ angular.module('app', ['common'])
       };
 
       $scope.changeType = function(pindex, index) {
+        return
         var component = $scope.components[pindex][index];
         var tempType = angular.copy(component.type);
         component.type = !component.type;

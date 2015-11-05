@@ -16,7 +16,7 @@
     <div class="head">
         <div class="nav">
             <div class="nav1_sub1"><span>1 用户名</span></div>
-            <div class="nav1"><span>2 集群管理</span></div>
+            <div class="nav1"><span>2 单机管理</span></div>
             <div class="nav1"><span>3 告警内容</span></div>
             <div class="nav2"><span>4 安装</span></div>
             <div class="nav_bg"></div>
@@ -26,13 +26,13 @@
     <div class="main">
         <div class="mount">安装</div>
         <div class="schedule">
-            <div class="schedule_1">正在安装{[{getCurrentComponent(single.components)}]}组件，{[{single.ip}]}......</div>
-            <div class="schedule_2">
+            <div class="schedule_1" ng-cloak>正在安装{[{getCurrentComponent(single.components)}]}组件，{[{single.ip}]}......</div>
+            <div class="schedule_2" ng-cloak>
                 <div class="schedule_2_1" ng-style="process"></div>
             </div>
         </div>
         <div class="classify">
-            <div class="kind">
+            <div class="kind" ng-cloak>
                 <div ng-class="getStyle(item.status, item.current_status)" ng-repeat="item in single.components">{[{item.name}]}</div>
             </div>
         </div>
@@ -54,17 +54,6 @@
     <div  id="footer"><div class="fanxiang">Copyright 2015-2020  神州泰岳 版权所有</div></div>
 <script>
 var id = {{id}};
-
-function serverComponent(name) {
-  var obj = {"id":null, "name":null, "port":null, "install_dir":null, "data_dir":null, "log_dir":null, "type":false};
-  obj.name = name;
-  return obj;
-}
-
-function serverComponents() {
-  var obj = {"id":id, "ip":null, "hostname":null, "username":null, "password":null, "components":[]};
-  return obj;
-}
 
 angular.module('app', ['common'])
 .config(function($interpolateProvider) {

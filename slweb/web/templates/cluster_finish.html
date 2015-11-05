@@ -15,39 +15,27 @@
         </div></div>
     <div class="head">
         <div class="nav">
-
             <div class="nav1_sub1"><span>1 用户名</span></div>
             <div class="nav1"><span>2 集群管理</span></div>
             <div class="nav1"><span>3 告警内容</span></div>
             <div class="nav2"><span>4 安装</span></div>
             <div class="nav_bg"></div>
-
         </div>
     </div>
     <div class="main">
         <div class="mount">安装</div>
         <div class="schedule">
-            <div class="schedule_1">正在安装zookeeper集群，192.168.99.200......</div>
+            <div class="schedule_1">正在安装{[{getCurrentComponent(cluster.components)}]}集群，{[{getCurrentIp(cluster.components)}]}......</div>
             <div class="schedule_2">
-                <div class="schedule_2_1"></div>
+                <div class="schedule_2_1" ng-style="process"></div>
             </div>
         </div>
         <div class="classify">
             <div class="kind">
-                <div class="breed_red">ZOOKEEPER</div>
-                <div class="breed_yellow">KAFKA</div>
-                <div class="breed_green">KAFKA</div>
-                <div class="breed box-shadow-blue">KAFKA</div>
-                <div class="breed box-shadow-hui">KAFKA</div>
-                <div class="breed box-shadow-hui">KAFKA</div>
+              <div ng-class="getStyle(item.status, item.current_status)" ng-repeat="item in cluster.components">{[{item.name}]}</div>
             </div>
-            <div class="kind">
-                <div class="breed box-shadow-hui">ZOOKEEPER</div>
-                <div class="breed box-shadow-hui">KAFKA</div>
-                <div class="breed box-shadow-hui">KAFKA</div>
-                <div class="breed box-shadow-hui">KAFKA</div>
-                <div class="breed box-shadow-hui">KAFKA</div>
-                <div class="breed box-shadow-hui">KAFKA</div>
+            <div class="kind" ng-repeat="item in cluster.components | filter : {current_status : true}">
+              <div ng-class="getStyle(component.status, component.current_status)" ng-repeat="component in item.components" title="{[{component.ip}]}">{[{item.name}]}</div>
             </div>
         </div>
         <div class="center">
@@ -115,26 +103,47 @@ angular.module('app', ['common'])
         return currentComponent;
       };
 
+      $scope.getCurrentIp = function(components) {
+        var currentIp = "";
+        if(components!=null&&components.length>0) {
+          for (var i=0;i<components.length;i++) {
+            var temp = components[i];
+            if (temp.current_status==true) {
+              if(temp.components!=null && temp.components.length>0) {
+                for (var j=0;j<temp.components.length;j++) {
+                  var tempObj = temp.components[j];
+                  if(tempObj.current_status==true) {
+                    currentIp = tempObj.ip;
+                    break;
+                  }
+                }
+              }
+              break;
+            }
+          }
+        }
+        return currentIp;
+      };
 
-      $scope.process = {"width":"0%","transition":"width 1s"};
+      $scope.process = {"width":"0%","transition":"width 2s"};
 
       $interval(function() {
         commonDao.getClusterServerFinish().save({'cluster_name':cluster_name}, function(data) {
-          $scope.single = data;
-          $scope.process = {"width":$scope.getProcess() + "%","transition":"width 1s"};
+          $scope.cluster = data;
+          $scope.process = {"width":$scope.getProcess() + "%","transition":"width 2s"};
         });
       }, 3000);
 
       $scope.getProcess = function() {
         var process = 0;
-        if ($scope.single.components!=null&&$scope.single.components.length>0) {
-          for(var i=0;i<$scope.single.components.length;i++) {
-            if($scope.single.components[i].status>0) {
+        if ($scope.cluster.components!=null&&$scope.cluster.components.length>0) {
+          for(var i=0;i<$scope.cluster.components.length;i++) {
+            if($scope.cluster.components[i].status>0) {
               process += 1;
             }
           }
         }
-        return (process*100/$scope.single.components.length).toFixed(2);
+        return (process*100/$scope.cluster.components.length).toFixed(2);
       }
 }]);
 </script>

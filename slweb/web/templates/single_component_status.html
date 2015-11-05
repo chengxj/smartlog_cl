@@ -16,14 +16,14 @@
     <div class="head">
         <div class="nav">
             <div class="nav1_sub1"><span>1 用户名</span></div>
-            <div class="nav1"><span>2 集群管理</span></div>
+            <div class="nav2"><span>2 单机管理</span></div>
             <div class="nav1"><span>3 告警内容</span></div>
-            <div class="nav2"><span>4 安装</span></div>
+            <div class="nav1"><span>4 安装</span></div>
             <div class="nav_bg"></div>
         </div>
     </div>
     <div class="main">
-        <div class="mount">组件选择</div>
+        <div class="mount">单机组件状态管理</div>
         <div class="schedule"> </div>
         <div class="classify">
 
@@ -31,13 +31,13 @@
         <div class="component_selection">
             <div class="center_1">
             		<div class="title_box">
-                    <div class="title_ip">
+                    <div class="title_ip" ng-cloak>
                       <p>IP:<input class="input_hide" ng-model="server.ip" ng-readonly="true" /></p>
                       <p>HOSTNAME:<input class="input_hide" ng-model="server.hostname" ng-readonly="true" /></p>
                       <p>PASSWORD:<input class="input_hide" type="password" ng-model="server.password" ng-readonly="true" /></p>
                     </div>
                 </div>
-                <form name="validForm">
+                <form name="validForm" ng-cloak>
                     <div class="title_box" ng-repeat="row in components">
                       <div ng-repeat="component in row" ng-class="{true: 'input_movew box-shadow-3', false: 'input_move box-shadow-1'}[component.type]">
                           <div ng-class="{true: 'ico_jian_blue', false: 'ico_add_blue'}[component.type]" ng-click="changeType($parent.$index, $index)">{[{component.name}]}</div>
@@ -52,7 +52,7 @@
             <div class="note">请填写主机信息后点击下一步，如未安装将跳转到安装页，所以安装页，所以安装则自动跳转到管理员</div>
             <div class="title_box">
                     <div class="title_buttom">
-                    	<div class="buttom_type" ng-click="validSingleServerComponents(validForm.$invalid)"><div class="buttom_type_text">下一步</div></div>
+                    	<div class="buttom_type" ng-click="validSingleServerComponents(validForm.$invalid)"><div class="buttom_type_text">提交</div></div>
                     </div>
                		</div>
         </div>
@@ -99,6 +99,7 @@ angular.module('app', ['common'])
               obj.install_dir= item['install_dir']
               obj.log_dir= item['log_dir']
               obj.server_id = item['server_id']
+              obj.port = item['port']
               row.push(obj);
             } else {
               break;
@@ -109,6 +110,7 @@ angular.module('app', ['common'])
       };
 
       $scope.changeType = function(pindex, index) {
+        return
         var component = $scope.components[pindex][index];
         var tempType = angular.copy(component.type);
         component.type = !component.type;

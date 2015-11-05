@@ -23,9 +23,9 @@ input.ng-invalid {
         <div class="nav">
 
             <div class="nav1_sub1"><span>1 用户名</span></div>
-            <div class="nav1"><span>2 集群管理</span></div>
+            <div class="nav2"><span>2 单机管理</span></div>
             <div class="nav1"><span>3 告警内容</span></div>
-            <div class="nav2"><span>4 安装</span></div>
+            <div class="nav1"><span>4 安装</span></div>
             <div class="nav_bg"></div>
 
         </div>
@@ -38,7 +38,7 @@ input.ng-invalid {
         </div>
         <div class="login">
             <div class="center_1">
-							<form name="serverForm">
+							<form name="serverForm" ng-cloak>
 							<div class="input_move">
 									<div class="input_font_blue">IP</div>
 									<input class="input_yuanjiao box-shadow-2" type="text" ng-model="server.ip" ng-pattern="ipv4" required/>
@@ -55,7 +55,7 @@ input.ng-invalid {
             </div>
         </div>
         <div class="note">请填写主机信息后点击下一步，如未安装将跳转到安装页，所以安装页，所以安装则自动跳转到管理员</div>
-        <div class="next_button">
+        <div class="next_button" ng-cloak>
             <div class="finish_1" ng-click="next(serverForm.$invalid)"><div class="finish_2">下一步</div></div>
         </div>
     </div>

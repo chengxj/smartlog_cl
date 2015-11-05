@@ -15,15 +15,15 @@
         </div></div>
     <div class="head">
         <div class="nav">
-            <div class="nav1_sub1"><span>1 用户名{[{cluster_name}]}</span></div>
-            <div class="nav1"><span>2 集群管理</span></div>
+            <div class="nav1_sub1"><span>1 用户名</span></div>
+            <div class="nav2"><span>2 集群管理</span></div>
             <div class="nav1"><span>3 告警内容</span></div>
-            <div class="nav2"><span>4 安装</span></div>
+            <div class="nav1"><span>4 安装</span></div>
             <div class="nav_bg"></div>
         </div>
     </div>
     <div class="main">
-        <div class="mount">集群管理</div>
+        <div class="mount">集群配置</div>
         <div id="left">
         	<ul class="ul_move">
             	<li class="li_font16">ALL</li>
@@ -60,7 +60,7 @@
                 </div>
                 <div class="type_list">
                 	<div class="title">WEB</div>
-                    <div class="box_info_all">
+                    <div class="box_info_all" ng-cloak>
                         <div class="box_info box_bg_hui" ng-repeat="item in cluster_server | filter : {'role' : 'WEB'}">
                         	<div class="p_all" ng-click="go(item.id)">
                                 <p>IP：{[{item.ip}]}</p>
@@ -69,7 +69,7 @@
                             </div>
                         </div>
                         <div class="box_info_add box_bg_kong">
-                   	    	<div class="add_buttom" ng-click="new_cluster_component('WEB')"><img  src="/resources/images/add_blue.png" width="36" height="37" alt=""/> </div>
+                   	    	<div class="add_buttom" ng-click="new_cluster_component('WEB')"><img  src="/resources/images/add_hui.png" width="36" height="37" alt=""/> </div>
                         </div>
 
                     </div>
@@ -86,7 +86,7 @@
                           </div>
                         </div>
                         <div class="box_info_add box_bg_kong">
-                   	    	<div class="add_buttom" ng-click="new_cluster_component('OTHER')"><img  src="/resources/images/add_blue.png" width="36" height="37" alt=""/> </div>
+                   	    	<div class="add_buttom" ng-click="new_cluster_component('OTHER')"><img  src="/resources/images/add_hui.png" width="36" height="37" alt=""/> </div>
                         </div>
 
                     </div>

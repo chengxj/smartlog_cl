@@ -46,6 +46,7 @@ urlpatterns = [
     url(r'^api/valid_single_server', valid_single_server, name='valid-single-server'),
     url(r'^api/get_cluster_server_components', get_cluster_server_components, name='get-cluster-server-components'),
     url(r'^api/get_cluster_server_finish', get_cluster_server_finish, name='get-cluster-server-finish'),
+    url(r'^api/get_cluster_name', get_cluster_name, name='get-cluster-name'),
     url(r'^api/get_single_server_finish', get_single_server_finish, name='get-single-server-finish'),
     url(r'^api/get_single_server_components', get_single_server_components, name='get-single-server=components'),
     url(r'^api/get_single_server', get_single_server, name='get-single-server'),

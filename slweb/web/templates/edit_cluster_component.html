@@ -38,16 +38,17 @@
                     <div class="title_buttom">
                     	<div ng-class="{true:'buttom_type', false:'buttom_type_hui'}[server.role=='WEB']" ng-click="server.role='WEB'"><div class="buttom_type_text">WEB</div></div>
                     	<div ng-class="{true:'buttom_type', false:'buttom_type_hui'}[server.role=='PROCESS']" ng-click="server.role='PROCESS'"><div class="buttom_type_text">PROCESS</div></div>
+                      <div ng-class="{true:'buttom_type', false:'buttom_type_hui'}[server.role=='OTHER']" ng-click="server.role='PROCESS'"><div class="buttom_type_text">自定义</div></div>
                     </div>
                 </div>
                 <form name="validForm">
                     <div class="title_box" ng-repeat="row in components">
                       <div ng-repeat="component in row" ng-class="{true: 'input_movew box-shadow-3', false: 'input_move box-shadow-1'}[component.type]">
                           <div ng-class="{true: 'ico_jian_blue', false: 'ico_add_blue'}[component.type]" ng-click="changeType($parent.$index, $index)">{[{component.name}]}</div>
-                          <p>端口:<input ng-class="{true: 'input_hide_w', false: 'input_hide_hui'}[component.type]" class="" ng-model="component.port"/></p>
+                          <p>端口:<input ng-class="{true: 'input_hide_w', false: 'input_hide_hui'}[component.type]" class="" ng-model="component.port" /></p>
                           <p>安装路径<input ng-class="{true: 'input_hide_w', false: 'input_hide_hui'}[component.type]" ng-model="component.install_dir" ng-required="component.type" /></p>
-                          <p>dataDir<input ng-class="{true: 'input_hide_w', false: 'input_hide_hui'}[component.type]" ng-model="component.data_dir" /></p>
-                          <p>logDir<input ng-class="{true: 'input_hide_w', false: 'input_hide_hui'}[component.type]" ng-model="component.log_dir" /></p>
+                          <p>dataDir<input ng-class="{true: 'input_hide_w', false: 'input_hide_hui'}[component.type]" ng-model="component.data_dir" ng-required="component.type" /></p>
+                          <p>logDir<input ng-class="{true: 'input_hide_w', false: 'input_hide_hui'}[component.type]" ng-model="component.log_dir" ng-required="component.type" /></p>
                       </div>
                    </div>
                 </form>

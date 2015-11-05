@@ -19,10 +19,10 @@ from base import common
 
 @api_view(['post'])
 def valid_single_server(request):
+    # 输入参数 ip username password
     ip = request.data['ip']
     username = request.data['username']
     password = request.data['password']
-    print ip, username, password
     serverDTO = {"available":False, "id":None, "message":None, "db_bs":False}
     exist_server = server.objects.filter(type='single', ip=ip, username=username, password=password)
     if exist_server!=[] and len(exist_server)>0:
@@ -77,28 +77,6 @@ def get_cluster_server_components(request):
 def get_single_server_components(request):
     id = request.data['id']
     serverDTO = getServerComponents(id)
-    # serverDTO = {"id":id, "hostname":None, "ip":None, "username":None, "password":None, "components":[]}
-    # exist_server = server.objects.filter(pk=id)
-    # if exist_server!=[] and len(exist_server)>0:
-    #     json_data = json.loads(serializers.serialize("json", exist_server))[0]
-    #     serverDTO['hostname'] = json_data['fields']['hostname']
-    #     serverDTO['ip'] = json_data['fields']['ip']
-    #     serverDTO['username'] = json_data['fields']['username']
-    #     serverDTO['password'] = json_data['fields']['password']
-    #     exist_components = component.objects.filter(server_id=id)
-    #     if exist_components!=[] and len(exist_components)>0:
-    #         json_components = json.loads(serializers.serialize("json", exist_components))
-    #         for item in json_components:
-    #             item_id = item['pk']
-    #             server_id = id
-    #             type = item['fields']['type']
-    #             install_dir = item['fields']['install_dir']
-    #             data_dir = item['fields']['data_dir']
-    #             log_dir = item['fields']['log_dir']
-    #             install_bs = item['fields']['install_bs']
-    #             port = item['fields']['port']
-    #             component_obj = {"id":item_id, "server_id":server_id, "port":port, "type":type, "install_dir":install_dir, "data_dir":data_dir, "log_dir":log_dir, "install_bs":install_bs, "description":None}
-    #             serverDTO['components'].append(component_obj)
     return Response(serverDTO)
 
 @api_view(['post'])
@@ -211,6 +189,16 @@ def edit_cluster_server_components(request):
         component.objects.filter(id=item['id']).update(server_id=int(id), type=item['name'], port=item['port'], install_dir=item['install_dir'], data_dir=item['data_dir'], log_dir=item['log_dir'], install_bs=item['type'])
     cluster_dto = {"available":True, "cluster_name":cluster_name, "id":id}
     return Response(cluster_dto)
+
+@api_view(['post'])
+def get_cluster_name(request):
+    ip = request.data['ip']
+    returnData = {"available":False,"cluster_name":None};
+    exist_server = server.objects.filter(type='cluster', ip=ip)
+    if exist_server!=[] and len(exist_server)>0:
+        returnData['available'] = True
+        returnData['cluster_name'] = json.loads(serializers.serialize("json", exist_server))[0]['fields']['cluster_name']
+    return Response(returnData)
 
 def getServerComponents(id):
     serverDTO = {"id":id, "hostname":None, "cluster_name":None, "role":None, "ip":None, "username":None, "password":None, "components":[]}

@@ -39,6 +39,9 @@ angular.module('common', ['ngResource'])
 		},
 		getClusterServerFinish:function() {
 			return $resource("/api/get_cluster_server_finish.json");
+		},
+		getClusterName:function() {
+			return $resource("/api/get_cluster_name.json");
 		}
 	};
 }])

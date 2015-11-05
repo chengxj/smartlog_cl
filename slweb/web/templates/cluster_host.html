@@ -1,24 +1,31 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" ng-app="app">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>首页</title>
 <link href="/resources/css/shouye.css" rel="stylesheet" type="text/css" />
 <link href="/resources/css/host.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/resources/js/angular.min.js"></script>
+<script type="text/javascript" src="/resources/js/angular-resource.min.js"></script>
+<script type="text/javascript" src="/resources/js/angular-common-0.2.js"></script>
+<style>
+input.ng-invalid {
+	border:1px solid red !important;
+	box-shadow: rgb(255, 0, 0) 0px 0px 20px 0px !important;
+}
+</style>
 </head>
-<body>
+<body ng-controller="controller">
     <div class="logo"><div class="logo_sub1">
 	    	<img class="logo_sub2" src="/resources/images/logo.png" />
         </div></div>
     <div class="head">
         <div class="nav">
-
             <div class="nav1_sub1"><span>1 用户名</span></div>
-            <div class="nav1"><span>2 集群管理</span></div>
+            <div class="nav2"><span>2 集群管理</span></div>
             <div class="nav1"><span>3 告警内容</span></div>
-            <div class="nav2"><span>4 安装</span></div>
+            <div class="nav1"><span>4 安装</span></div>
             <div class="nav_bg"></div>
-
         </div>
     </div>
     <div class="main">
@@ -31,19 +38,37 @@
             <div class="center_1">
             	<div class="input_move">
                 	<div class="input_font_blue">IP</div>
-                	<input  type="text" class="input_yuanjiao box-shadow-2" value="例如:127.0.0.1" onfocus="b.blur()" />
+                	<input type="text" class="input_yuanjiao box-shadow-2" placeholder="例如:127.0.0.1" ng-model="ip" ng-pattern="ipv4" required />
                 </div>
-
-
             </div>
         </div>
         <div class="note">请填写一台安装了zookeeper 的主机IP地址</div>
         <div class="next_button">
-            <div class="finish_1"><div class="finish_2">下一步</div></div>
+            <div class="finish_1" ng-click="getClusterName()"><div class="finish_2">下一步</div></div>
         </div>
     </div>
     <div  id="footer"><div class="fanxiang">Copyright 2015-2020  神州泰岳 版权所有</div></div>
+<script>
+angular.module('app', ['common'])
+.controller('controller', ['$scope', 'commonDao', 'commonUtil',
+	function($scope, commonDao, commonUtil) {
 
+    $scope.getClusterName = function() {
+      commonDao.getClusterName().save({"ip":$scope.ip}, function(data){
+        if(data.available) {
+          commonUtil.go("/cluster_management?cluster_name=" + data.cluster_name)
+        }
+      });
+    };
 
+    $scope.ipv4 = commonUtil.ipv4();
+
+		$scope.next = function(url) {
+      commonUtil.go(url);
+		};
+
+  }
+]);
+</script>
 </body>
 </html>
