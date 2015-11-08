@@ -63,6 +63,7 @@ def new_single_component(request):
     id =  request.GET.get('id', None)
     print id
     return render_to_response("new_single_component.html",{'id':id}, context_instance=RequestContext(request))
+    # return render_to_response("component_selection.html",{'id':id}, context_instance=RequestContext(request))
 
 def edit_single_component(request):
     # print server id

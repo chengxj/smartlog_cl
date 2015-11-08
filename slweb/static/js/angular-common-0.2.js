@@ -1,17 +1,14 @@
 angular.module('common', ['ngResource'])
 .factory('commonDao', ['$resource', '$http', function($resource, $http){
 	return {
-		validSingleServer:function() {
-			return $resource("/api/valid_single_server.json");
+		addSingleServer:function() {
+			return $resource("/api/add_single_server.json");
 		},
-		validSingleServerComponents:function() {
-			return $resource("/api/valid_single_server_components.json");
+		addSingleServerComponents:function() {
+			return $resource("/api/add_single_server_components.json");
 		},
-		validESingleServerComponents:function() {
-			return $resource("/api/valid_esingle_server_components.json");
-		},
-		validClusterServerComponents:function() {
-			return $resource("/api/valid_cluster_server_components.json");
+		editSingleServerComponents:function() {
+			return $resource("/api/edit_single_server_components.json");
 		},
 		getSingleServer:function() {
 			return $resource("/api/get_single_server.json");

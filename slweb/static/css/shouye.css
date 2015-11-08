@@ -63,3 +63,4 @@ body{font: normal 100% Helvetica, Arial,sans-serif "微软雅黑"; min-width:128
    padding-bottom: 60px; /*重要！给footer预留的空间*/
 }
 .gd_line{ overflow-y: scroll; overflow-x:hidden}
+input{outline:none}

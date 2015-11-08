@@ -73,7 +73,7 @@ angular.module('app', ['common'])
 		$scope.next = function(invalid) {
 			if (invalid)
 				return;
-			commonDao.validSingleServer().save($scope.server).$promise.then(function(data) {
+			commonDao.addSingleServer().save($scope.server).$promise.then(function(data) {
 				if (data.available) {
 					if(data.db_bs) {
 						commonUtil.go('/single_component_status' + '?id=' + data.id);

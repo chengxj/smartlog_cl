@@ -160,7 +160,7 @@ angular.module('app', ['common'])
             }
           }
         }
-        commonDao.validSingleServerComponents().save(obj, function(data) {
+        commonDao.addSingleServerComponents().save(obj, function(data) {
           if (!data.available) {
             commonUtil.go("/single_alarm?id=" + data.id)
           } else {

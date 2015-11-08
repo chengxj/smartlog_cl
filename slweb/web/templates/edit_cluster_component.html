@@ -8,6 +8,23 @@
 <script type="text/javascript" src="/resources/js/angular.min.js"></script>
 <script type="text/javascript" src="/resources/js/angular-resource.min.js"></script>
 <script type="text/javascript" src="/resources/js/angular-common-0.2.js"></script>
+<style>
+input.ng-invalid {
+	border:1px solid red !important;
+	box-shadow: rgb(255, 0, 0) 0px 0px 20px 0px !important;
+}
+
+.input_hide_hui_eject_sl {
+    border: 0px #efeeed solid;
+    padding: 0 5px 0 5px;
+    background: #f4f4f3;
+    height: 15px;
+    vertical-align: middle;
+    margin: 0 0 0 5px;
+    width: 30%;
+    color: #2FABDD;
+}
+</style>
 </head>
 <body ng-controller="controller">
     <div class="logo"><div class="logo_sub1">
@@ -45,6 +62,8 @@
                     <div class="title_box" ng-repeat="row in components">
                       <div ng-repeat="component in row" ng-class="{true: 'input_movew box-shadow-3', false: 'input_move box-shadow-1'}[component.type]">
                           <div ng-class="{true: 'ico_jian_blue', false: 'ico_add_blue'}[component.type]" ng-click="changeType($parent.$index, $index)">{[{component.name}]}</div>
+                          <div ng-show="component.type" ng-click="editComponent(component, $parent.$index, $index)" class="more_blue"></div>
+                          <div id="fade" class="black_overlay"></div>
                           <p>端口:<input ng-class="{true: 'input_hide_w', false: 'input_hide_hui'}[component.type]" class="" ng-model="component.port" /></p>
                           <p>安装路径<input ng-class="{true: 'input_hide_w', false: 'input_hide_hui'}[component.type]" ng-model="component.install_dir" ng-required="component.type" /></p>
                           <p>dataDir<input ng-class="{true: 'input_hide_w', false: 'input_hide_hui'}[component.type]" ng-model="component.data_dir" ng-required="component.type" /></p>
@@ -62,11 +81,53 @@
         </div>
     </div>
     <div  id="footer"><div class="fanxiang">Copyright 2015-2020  神州泰岳 版权所有</div></div>
+    <!--弹也层-->
+    <div id="light" class="white_content ">
+    	<div class="box_eject_border_bottom">
+    		<span>{[{tempComponent.name}]}</span>
+    		<a href = "javascript:void(0)" class="box_close" onclick = "document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'"></a>
+      </div>
+    	<div id="scroll-1">
+    		<p>端口:<input class="input_hide_hui_eject" ng-model="tempComponent.port" /></p>
+    		<p>安装路径:<input class="input_hide_hui_eject" ng-model="tempComponent.install_dir" /></p>
+    		<p>dataDir:<input class="input_hide_hui_eject" ng-model="tempComponent.data_dir" /></p>
+    		<p>logDir:<input class="input_hide_hui_eject" ng-model="tempComponent.log_dir" /></p>
+    		<p ng-if="tempComponent.name=='DATABASE'">用户名:<input class="input_hide_hui_eject" ng-model="tempComponent.db_username" /></p>
+    		<p ng-if="tempComponent.name=='DATABASE'">密码:<input class="input_hide_hui_eject" ng-model="tempComponent.db_password" /></p>
+    		<p ng-if="tempComponent.name=='WEB'">service_name:<input class="input_hide_hui_eject" ng-model="tempComponent.web_service_name" /></p>
+    		<p ng-if="tempComponent.name=='ELASTICSEARCH'">memory_limit:<input class="input_hide_hui_eject" ng-model="tempComponent.es_memory_limit" /></p>
+    		<p ng-if="tempComponent.name=='ELASTICSEARCH'">index_number_of_shards:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.es_index_number_of_shards" /></p>
+    		<p ng-if="tempComponent.name=='ELASTICSEARCH'">index_refresh_interval:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.es_index_refresh_interval" /></p>
+    		<p ng-if="tempComponent.name=='STORM'">storm_works_num_per_host:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_works_num_per_host" /></p>
+    		<p ng-if="tempComponent.name=='STORM'">storm_dataProcess_works_num:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_dataProcess_works_num" /></p>
+    		<p ng-if="tempComponent.name=='STORM'">storm_dataIndex_works_num:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_dataIndex_works_num" /></p>
+    		<p ng-if="tempComponent.name=='STORM'">storm_spout_config_num:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_spout_config_num" /></p>
+    		<p ng-if="tempComponent.name=='STORM'">storm_spout_dataprocess_num:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_spout_dataprocess_num" /></p>
+    		<p ng-if="tempComponent.name=='STORM'">storm_spout_dataindex_num:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_spout_dataindex_num" /></p>
+    		<p ng-if="tempComponent.name=='STORM'">storm_bolt_default_num:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_bolt_default_num" /></p>
+    		<p ng-if="tempComponent.name=='STORM'">storm_bolt_rule_num:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_bolt_rule_num" /></p>
+    		<p ng-if="tempComponent.name=='STORM'">storm_bolt_advanced_num:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_bolt_advanced_num" /></p>
+    		<p ng-if="tempComponent.name=='STORM'">storm_bolt_kafka_num:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_bolt_kafka_num" /></p>
+    		<p ng-if="tempComponent.name=='STORM'">storm_bolt_es_num:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_bolt_es_num" /></p>
+    		<p ng-if="tempComponent.name!='DATABASE'&&tempComponent.name!='WEB'&&tempComponent.name!='ELASTICSEARCH'&&tempComponent.name!='STORM'"><input class="input_hide_hui_eject" /></p>
+    		<p ng-if="tempComponent.name!='DATABASE'&&tempComponent.name!='WEB'&&tempComponent.name!='ELASTICSEARCH'&&tempComponent.name!='STORM'"><input class="input_hide_hui_eject" /></p>
+    		<p ng-if="tempComponent.name!='DATABASE'&&tempComponent.name!='WEB'&&tempComponent.name!='ELASTICSEARCH'&&tempComponent.name!='STORM'"><input class="input_hide_hui_eject" /></p>
+    		<p ng-if="tempComponent.name!='DATABASE'&&tempComponent.name!='WEB'&&tempComponent.name!='ELASTICSEARCH'&&tempComponent.name!='STORM'"><input class="input_hide_hui_eject" /></p>
+      	<div class="submit_div">
+    			<div class="submit_font" ng-click="completeEdit()">提交</div>
+    		</div>
+    </div>
+    </div>
 <script>
 var id = '{{id}}';
 
 function serverComponent(name) {
-  var obj = {"name":null, "port":null, "cluster_name":"", "role":"", "install_dir":null, "data_dir":null, "log_dir":null, "type":false};
+  var obj = {"name":null, "port":null, "cluster_name":"", "role":"", "install_dir":null, "data_dir":null, "log_dir":null, "type":false,
+						 "db_username":"", "db_password":"", "web_service_name":"", "es_memory_limit":"", "es_index_number_of_shards":"",
+						 "es_index_refresh_interval":"", "storm_works_num_per_host":"", "storm_dataProcess_works_num":"",
+	           "storm_dataIndex_works_num":"","storm_spout_config_num":"",	"storm_spout_dataprocess_num":"",
+						 "storm_spout_dataindex_num":"", "storm_bolt_default_num":"","storm_bolt_rule_num":"",
+						 "storm_bolt_advanced_num":"","storm_bolt_kafka_num":"","storm_bolt_es_num":""};
   obj.name = name;
   return obj;
 }
@@ -84,6 +145,24 @@ angular.module('app', ['common'])
 .controller('controller', ['$scope', 'commonDao', 'commonUtil',
     function($scope, commonDao, commonUtil) {
 
+      $scope.pindex = 0;
+      $scope.index = 0;
+      $scope.editComponent = function(component, pindex ,index) {
+        document.getElementById('light').style.display = 'block';
+        document.getElementById('fade').style.display = 'block';
+        $scope.pindex = pindex;
+        $scope.index = index;
+        $scope.tempComponent = angular.copy(component);
+      }
+
+      $scope.completeEdit = function() {
+        $scope.components[$scope.pindex][$scope.index] = angular.copy($scope.tempComponent);
+        document.getElementById('light').style.display='none';
+        document.getElementById('fade').style.display='none'
+      };
+
+      $scope.tempComponent = new serverComponent("ZOOKEEPER");
+
       $scope.components = [];
       $scope.componentsName = ["ZOOKEEPER", "KAFKA", "FLUME", "STORM", "ELASTICSEARCH", "FONTWEB", "DATABASE", "WEB"];
 
@@ -96,14 +175,38 @@ angular.module('app', ['common'])
           for (var j=0; j<$scope.colCount; j++) {
             if((i*$scope.colCount + j )<componentsLength) {
               var item = angular.copy($scope.server.components[i*$scope.colCount + j]);
-              var obj = new serverComponent(item['type'])
+              var obj = new serverComponent(item['type']);
               obj.id = item['id'];
-              obj.type = item['install_bs']
-              obj.data_dir= item['data_dir']
-              obj.install_dir= item['install_dir']
-              obj.log_dir= item['log_dir']
-              obj.server_id = item['server_id']
-              obj.port = item['port']
+              obj.type = item['install_bs'];
+              obj.data_dir= item['data_dir'];
+              obj.install_dir= item['install_dir'];
+              obj.log_dir= item['log_dir'];
+              obj.server_id = item['server_id'];
+              obj.port = item['port'];
+              var name = item['type'];
+              if (name == "DATABASE") {
+                obj.db_username = item['db_username'];
+                obj.db_password = item['db_password'];
+              } else if(name == "WEB") {
+                obj.web_service_name = item['web_service_name'];
+              } else if(name == "ELASTICSEARCH") {
+                obj.es_memory_limit = item['es_memory_limit'];
+                obj.es_index_number_of_shards = item['es_index_number_of_shards'];
+                obj.es_index_refresh_interval = item['es_index_refresh_interval'];
+              } else if(name == "STORM") {
+                obj.storm_works_num_per_host = item['storm_works_num_per_host'];
+                obj.storm_dataProcess_works_num = item['storm_dataProcess_works_num'];
+                obj.storm_dataIndex_works_num = item['storm_dataIndex_works_num'];
+                obj.storm_spout_config_num = item['storm_spout_config_num'];
+                obj.storm_spout_dataprocess_num = item['storm_spout_dataprocess_num'];
+                obj.storm_spout_dataindex_num = item['storm_spout_dataindex_num'];
+                obj.storm_bolt_default_num = item['storm_bolt_default_num'];
+                obj.storm_bolt_rule_num = item['storm_bolt_rule_num'];
+                obj.storm_bolt_default_num = item['storm_bolt_default_num'];
+                obj.storm_bolt_advanced_num = item['storm_bolt_advanced_num'];
+                obj.storm_bolt_kafka_num = item['storm_bolt_kafka_num'];
+                obj.storm_bolt_es_num = item['storm_bolt_es_num'];
+              }
               row.push(obj);
             } else {
               break;
@@ -124,22 +227,70 @@ angular.module('app', ['common'])
           component.install_dir = null;
           component.data_dir = null;
           component.log_dir = null;
+          component.db_username = null;
+					component.db_password = null;
+					component.web_service_name = null;
+					component.es_memory_limit = null;
+					component.es_index_number_of_shards = null;
+					component.es_index_refresh_interval = null;
+					component.storm_works_num_per_host = null;
+					component.storm_dataProcess_works_num = null;
+					component.storm_dataIndex_works_num = null;
+					component.storm_spout_config_num = null;
+					component.storm_spout_dataprocess_num = null;
+					component.storm_spout_dataindex_num = null;
+					component.storm_bolt_default_num = null;
+					component.storm_bolt_rule_num = null;
+					component.storm_bolt_default_num = null;
+					component.storm_bolt_advanced_num = null;
+					component.storm_bolt_kafka_num = null;
+					component.storm_bolt_es_num = null;
         } else {
           component.port = defaultComponent.port;
           component.install_dir = defaultComponent.install_dir;
           component.data_dir = defaultComponent.data_dir;
           component.log_dir = defaultComponent.log_dir;
+          if (name == "DATABASE") {
+						component.db_username = defaultComponent.db_username;
+						component.db_password = defaultComponent.db_password;
+					} else if(name == "WEB") {
+						component.web_service_name = defaultComponent.web_service_name;
+					} else if(name == "ELASTICSEARCH") {
+						component.es_memory_limit = defaultComponent.es_memory_limit;
+						component.es_index_number_of_shards = defaultComponent.es_index_number_of_shards;
+						component.es_index_refresh_interval = defaultComponent.es_index_refresh_interval;
+					} else if(name == "STORM") {
+						component.storm_works_num_per_host = defaultComponent.storm_works_num_per_host;
+						component.storm_dataProcess_works_num = defaultComponent.storm_dataProcess_works_num;
+						component.storm_dataIndex_works_num = defaultComponent.storm_dataIndex_works_num;
+						component.storm_spout_config_num = defaultComponent.storm_spout_config_num;
+						component.storm_spout_dataprocess_num = defaultComponent.storm_spout_dataprocess_num;
+						component.storm_spout_dataindex_num = defaultComponent.storm_spout_dataindex_num;
+						component.storm_bolt_default_num = defaultComponent.storm_bolt_default_num;
+						component.storm_bolt_rule_num = defaultComponent.storm_bolt_rule_num;
+						component.storm_bolt_default_num = defaultComponent.storm_bolt_default_num;
+						component.storm_bolt_advanced_num = defaultComponent.storm_bolt_advanced_num;
+						component.storm_bolt_kafka_num = defaultComponent.storm_bolt_kafka_num;
+						component.storm_bolt_es_num = defaultComponent.storm_bolt_es_num;
+					}
         }
       };
 
       $scope.defaultComponents = {"ZOOKEEPER":{"port":"2181", "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs"},
                             "KAFKA":{"port":"9092", "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs"},
                             "FLUME":{"port":null, "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs"},
-                            "STORM":{"port":null, "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs"},
-                            "ELASTICSEARCH":{"port":"9300", "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs"},
+                            "STORM":{"port":null, "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs",
+                            "storm_works_num_per_host":"5","storm_dataProcess_works_num":"6","storm_dataIndex_works_num":"6",
+                            "storm_spout_config_num":"1","storm_spout_dataprocess_num":"10","storm_spout_dataindex_num":"10",
+                            "storm_bolt_default_num":"10","storm_bolt_rule_num":"10","storm_bolt_advanced_num":"10",
+                            "storm_bolt_kafka_num":"10","storm_bolt_es_num":"20"},
+                            "ELASTICSEARCH":{"port":"9300", "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs",
+                            "es_memory_limit":"2g","es_index_number_of_shards":"3","es_index_refresh_interval":"3s"},
                             "FONTWEB":{"port":"8899", "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs"},
-                            "DATABASE":{"port":"3306", "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs"},
-                            "WEB":{"port":"8888", "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs"}};
+                            "DATABASE":{"port":"3306", "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs",
+                            "db_username":"smartlog", "db_password":"smartlog"},
+                            "WEB":{"port":"8888", "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs",
+                            "web_service_name":"web"}};
 
       $scope.editClusterServerComponents = function(valid) {
         if(valid)
