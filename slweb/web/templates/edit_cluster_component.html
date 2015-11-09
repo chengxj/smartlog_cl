@@ -47,19 +47,19 @@ input.ng-invalid {
         <div class="component_selection">
             <div class="center_1">
             		<div class="title_box">
-                    <div class="title_ip">
+                    <div class="title_ip" ng-cloak>
                       <p>IP:<input class="input_hide" ng-model="server.ip" /></p>
                       <p>USERNAME:<input class="input_hide" ng-model="server.username" /></p>
                       <p>PASSWORD:<input class="input_hide" type="password" ng-model="server.password" /></p>
                     </div>
-                    <div class="title_buttom">
+                    <div class="title_buttom" ng-cloak>
                     	<div ng-class="{true:'buttom_type', false:'buttom_type_hui'}[server.role=='WEB']" ng-click="server.role='WEB'"><div class="buttom_type_text">WEB</div></div>
                     	<div ng-class="{true:'buttom_type', false:'buttom_type_hui'}[server.role=='PROCESS']" ng-click="server.role='PROCESS'"><div class="buttom_type_text">PROCESS</div></div>
-                      <div ng-class="{true:'buttom_type', false:'buttom_type_hui'}[server.role=='OTHER']" ng-click="server.role='PROCESS'"><div class="buttom_type_text">自定义</div></div>
+                      <div ng-class="{true:'buttom_type', false:'buttom_type_hui'}[server.role=='OTHER']" ng-click="server.role='OTHER'"><div class="buttom_type_text">自定义</div></div>
                     </div>
                 </div>
                 <form name="validForm">
-                    <div class="title_box" ng-repeat="row in components">
+                    <div class="title_box" ng-repeat="row in components" ng-cloak>
                       <div ng-repeat="component in row" ng-class="{true: 'input_movew box-shadow-3', false: 'input_move box-shadow-1'}[component.type]">
                           <div ng-class="{true: 'ico_jian_blue', false: 'ico_add_blue'}[component.type]" ng-click="changeType($parent.$index, $index)">{[{component.name}]}</div>
                           <div ng-show="component.type" ng-click="editComponent(component, $parent.$index, $index)" class="more_blue"></div>
@@ -164,7 +164,7 @@ angular.module('app', ['common'])
       $scope.tempComponent = new serverComponent("ZOOKEEPER");
 
       $scope.components = [];
-      $scope.componentsName = ["ZOOKEEPER", "KAFKA", "FLUME", "STORM", "ELASTICSEARCH", "FONTWEB", "DATABASE", "WEB"];
+      $scope.componentsName = ["ZOOKEEPER", "KAFKA", "FLUME", "STORM", "ELASTICSEARCH", "FRONTEND", "DATABASE", "WEB"];
 
       $scope.colCount = 4;
       $scope.initComponents = function() {
@@ -286,7 +286,7 @@ angular.module('app', ['common'])
                             "storm_bolt_kafka_num":"10","storm_bolt_es_num":"20"},
                             "ELASTICSEARCH":{"port":"9300", "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs",
                             "es_memory_limit":"2g","es_index_number_of_shards":"3","es_index_refresh_interval":"3s"},
-                            "FONTWEB":{"port":"8899", "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs"},
+                            "FRONTEND":{"port":"8899", "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs"},
                             "DATABASE":{"port":"3306", "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs",
                             "db_username":"smartlog", "db_password":"smartlog"},
                             "WEB":{"port":"8888", "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs",

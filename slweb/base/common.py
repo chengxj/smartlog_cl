@@ -23,7 +23,7 @@ def test_get_single_server_finish(serverComponents):
     {"name":"FLUME","status":-1,"current_status":False,"log":""},
     {"name":"STORM","status":1,"current_status":True,"log":""},
     {"name":"ELASTICSEARCH","status":1,"current_status":False,"log":""},
-    {"name":"FONTWEB","status":1,"current_status":False,"log":""},
+    {"name":"FRONTEND","status":1,"current_status":False,"log":""},
     {"name":"DATABASE","status":-1,"current_status":False,"log":""},
     {"name":"WEB","status":1,"current_status":False,"log":""}
     ]}
@@ -63,7 +63,7 @@ def test_get_cluster_server_finish(serverComponents):
     {"ip":"10.0.0.201","status":1,"current_status":False,"log":""},
     {"ip":"10.0.0.202","status":1,"current_status":False,"log":""}
     ]},
-    {"name":"FONTWEB","status":1,"current_status":False,
+    {"name":"FRONTEND","status":1,"current_status":False,
     "components":[
     {"ip":"10.0.0.200","status":1,"current_status":False,"log":""},
     {"ip":"10.0.0.201","status":1,"current_status":False,"log":""},

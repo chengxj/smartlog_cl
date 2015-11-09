@@ -81,7 +81,7 @@ angular.module('app', ['common'])
     function($scope, commonDao, commonUtil) {
 
       $scope.components = [];
-      $scope.componentsName = ["ZOOKEEPER", "KAFKA", "FLUME", "STORM", "ELASTICSEARCH", "FONTWEB", "DATABASE", "WEB"];
+      $scope.componentsName = ["ZOOKEEPER", "KAFKA", "FLUME", "STORM", "ELASTICSEARCH", "FRONTEND", "DATABASE", "WEB"];
 
       $scope.colCount = 4;
       $scope.initComponents = function() {
@@ -136,7 +136,7 @@ angular.module('app', ['common'])
                             "FLUME":{"port":null, "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs"},
                             "STORM":{"port":null, "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs"},
                             "ELASTICSEARCH":{"port":"9300", "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs"},
-                            "FONTWEB":{"port":"8899", "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs"},
+                            "FRONTEND":{"port":"8899", "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs"},
                             "DATABASE":{"port":"3306", "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs"},
                             "WEB":{"port":"8888", "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs"}};
 

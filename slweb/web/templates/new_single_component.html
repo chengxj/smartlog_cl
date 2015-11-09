@@ -84,7 +84,7 @@ input.ng-invalid {
 		<a href = "javascript:void(0)" class="box_close" onclick = "document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'"></a>
   </div>
 	<div id="scroll-1">
-		<p>端口:<input class="input_hide_hui_eject" ng-model="tempComponent.port" /></p>
+		<p>端口:<input class="input_hide_hui_eject" ng-model="tempComponent.port" ng-readonly="true" /></p>
 		<p>安装路径:<input class="input_hide_hui_eject" ng-model="tempComponent.install_dir" /></p>
 		<p>dataDir:<input class="input_hide_hui_eject" ng-model="tempComponent.data_dir" /></p>
 		<p>logDir:<input class="input_hide_hui_eject" ng-model="tempComponent.log_dir" /></p>
@@ -160,7 +160,7 @@ angular.module('app', ['common'])
 			$scope.tempComponent = new serverComponent("ZOOKEEPER");
 
       $scope.components = [];
-      $scope.componentsName = ["ZOOKEEPER", "KAFKA", "FLUME", "STORM", "ELASTICSEARCH", "FONTWEB", "DATABASE", "WEB"];
+      $scope.componentsName = ["ZOOKEEPER", "KAFKA", "FLUME", "STORM", "ELASTICSEARCH", "FRONTEND", "DATABASE", "WEB"];
       $scope.defaultComponents = {"ZOOKEEPER":{"port":"2181", "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs"},
                             "KAFKA":{"port":"9092", "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs"},
                             "FLUME":{"port":null, "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs"},
@@ -171,7 +171,7 @@ angular.module('app', ['common'])
 														"storm_bolt_kafka_num":"10","storm_bolt_es_num":"20"},
                             "ELASTICSEARCH":{"port":"9300", "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs",
 													  "es_memory_limit":"2g","es_index_number_of_shards":"3","es_index_refresh_interval":"3s"},
-                            "FONTWEB":{"port":"8899", "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs"},
+                            "FRONTEND":{"port":"8899", "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs"},
                             "DATABASE":{"port":"3306", "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs",
 														"db_username":"smartlog", "db_password":"smartlog"},
                             "WEB":{"port":"8888", "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs",

@@ -69,6 +69,48 @@ def get_cluster_server_components(request):
             obj['hostname'] = item['fields']['hostname']
             obj['role'] = item['fields']['role']
             obj['id'] = item['pk']
+            cluster_components = component.objects.filter(server_id=obj['id'])
+            components = []
+            if cluster_components!=[] and len(cluster_components)>0:
+                components_json = json.loads(serializers.serialize("json", cluster_components))
+                for component_json in components_json:
+                    item_id = component_json['pk']
+                    server_id = component_json['fields']['server_id']
+                    type = component_json['fields']['type']
+                    install_dir = component_json['fields']['install_dir']
+                    data_dir = component_json['fields']['data_dir']
+                    log_dir = component_json['fields']['log_dir']
+                    install_bs = component_json['fields']['install_bs']
+                    port = component_json['fields']['port']
+                    db_username = component_json['fields']['db_username']
+                    db_password = component_json['fields']['db_password']
+                    web_service_name = component_json['fields']['web_service_name']
+                    es_memory_limit = component_json['fields']['es_memory_limit']
+                    es_index_number_of_shards = component_json['fields']['es_index_number_of_shards']
+                    es_index_refresh_interval = component_json['fields']['es_index_refresh_interval']
+                    storm_works_num_per_host = component_json['fields']['storm_works_num_per_host']
+                    storm_dataProcess_works_num = component_json['fields']['storm_dataProcess_works_num']
+                    storm_dataIndex_works_num = component_json['fields']['storm_dataIndex_works_num']
+                    storm_spout_config_num = component_json['fields']['storm_spout_config_num']
+                    storm_spout_dataprocess_num = component_json['fields']['storm_spout_dataprocess_num']
+                    storm_spout_dataindex_num = component_json['fields']['storm_spout_dataindex_num']
+                    storm_bolt_default_num = component_json['fields']['storm_bolt_default_num']
+                    storm_bolt_rule_num = component_json['fields']['storm_bolt_rule_num']
+                    storm_bolt_default_num = component_json['fields']['storm_bolt_default_num']
+                    storm_bolt_advanced_num = component_json['fields']['storm_bolt_advanced_num']
+                    storm_bolt_kafka_num = component_json['fields']['storm_bolt_kafka_num']
+                    storm_bolt_es_num = component_json['fields']['storm_bolt_es_num']
+                    component_obj = {"id":item_id, "server_id":server_id, "port":port, "type":type, "install_dir":install_dir, "data_dir":data_dir, "log_dir":log_dir, "install_bs":install_bs, "description":None,
+                        "db_username":db_username, "db_password":db_password, "web_service_name":web_service_name,
+                        "es_memory_limit":es_memory_limit, "es_index_number_of_shards":es_index_number_of_shards,
+                        "es_index_refresh_interval":es_index_refresh_interval, "storm_works_num_per_host":storm_works_num_per_host,
+                        "storm_dataProcess_works_num":storm_dataProcess_works_num, "storm_dataIndex_works_num":storm_dataIndex_works_num,
+                        "storm_spout_config_num":storm_spout_config_num, "storm_spout_dataprocess_num":storm_spout_dataprocess_num,
+                        "storm_spout_dataindex_num":storm_spout_dataindex_num, "storm_bolt_default_num":storm_bolt_default_num,
+                        "storm_bolt_rule_num":storm_bolt_rule_num, "storm_bolt_advanced_num":storm_bolt_advanced_num,
+                        "storm_bolt_kafka_num":storm_bolt_kafka_num, "storm_bolt_es_num":storm_bolt_es_num}
+                    components.append(component_obj)
+                obj['components'] = components
             cluster_server.append(obj)
         cluster_server_dto['cluster_server'] = cluster_server
     return Response(cluster_server_dto)

@@ -10,9 +10,9 @@ class serverSerializer(serializers.Serializer):
     cluster_name = serializers.CharField(required=False, max_length=128)
     role = serializers.CharField(required=False, max_length=40)
     ip = serializers.CharField(required=True, max_length=128)
-    hostname = serializers.CharField(required=True, max_length=128)
-    username = serializers.CharField(required=True, max_length=128)
-    password = serializers.CharField(required=True, max_length=128)
+    hostname = serializers.CharField(required=False, max_length=128)
+    username = serializers.CharField(required=False, max_length=128)
+    password = serializers.CharField(required=False, max_length=128)
     description = serializers.CharField(required=False, max_length=128)
 
     def create(self, validated_data):

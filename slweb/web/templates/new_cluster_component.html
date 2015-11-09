@@ -55,7 +55,7 @@ input.ng-invalid {
                     <div class="title_buttom" ng-cloak>
                     	<div ng-class="{true:'buttom_type', false:'buttom_type_hui'}[server.role=='WEB']" ng-click="server.role='WEB'"><div class="buttom_type_text">WEB</div></div>
                     	<div ng-class="{true:'buttom_type', false:'buttom_type_hui'}[server.role=='PROCESS']" ng-click="server.role='PROCESS'"><div class="buttom_type_text">PROCESS</div></div>
-                      <div ng-class="{true:'buttom_type', false:'buttom_type_hui'}[server.role=='OTHER']" ng-click="server.role='PROCESS'"><div class="buttom_type_text">自定义</div></div>
+                      <div ng-class="{true:'buttom_type', false:'buttom_type_hui'}[server.role=='OTHER']" ng-click="server.role='OTHER'"><div class="buttom_type_text">自定义</div></div>
                     </div>
                 </div>
                 <form name="validForm">
@@ -166,7 +166,7 @@ angular.module('app', ['common'])
 
       $scope.server = {"id":null, "ip":"10.0.0.200", "cluster_name":cluster_name, "role":role, "hostname":"cxjtest", "username":"root", "password":null};
       $scope.components = [];
-      $scope.componentsName = ["ZOOKEEPER", "KAFKA", "FLUME", "STORM", "ELASTICSEARCH", "FONTWEB", "DATABASE", "WEB"];
+      $scope.componentsName = ["ZOOKEEPER", "KAFKA", "FLUME", "STORM", "ELASTICSEARCH", "FRONTEND", "DATABASE", "WEB"];
 
       $scope.colCount = 4;
       $scope.initComponents = function() {
@@ -261,7 +261,7 @@ angular.module('app', ['common'])
                             "storm_bolt_kafka_num":"10","storm_bolt_es_num":"20"},
                             "ELASTICSEARCH":{"port":"9300", "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs",
                             "es_memory_limit":"2g","es_index_number_of_shards":"3","es_index_refresh_interval":"3s"},
-                            "FONTWEB":{"port":"8899", "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs"},
+                            "FRONTEND":{"port":"8899", "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs"},
                             "DATABASE":{"port":"3306", "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs",
                             "db_username":"smartlog", "db_password":"smartlog"},
                             "WEB":{"port":"8888", "install_dir":"/home/ultrapower", "data_dir":"/home/ultrapower/data", "log_dir":"/home/ultrapower/logs",

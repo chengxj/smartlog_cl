@@ -25,27 +25,27 @@
     <div class="main">
         <div class="mount">集群管理</div>
         <div id="left">
-        	<ul class="ul_move">
-            	<li class="li_font16">ALL</li>
-                <li class="menu_sub1_blue">ZOOKEEPER</li>
-                <li class="menu_sub1">KAFKA</li>
-                <li class="line"></li>
-                <li class="menu_sub1">FLUME</li>
-                <li class="line"></li>
-                <li class="menu_sub1">STORM</li>
-                <li class="line"></li>
-                <li class="menu_sub1">ELASTICSEARCH</li>
-                <li class="menu_sub1">FRONTEND</li>
-                <li class="menu_sub1">WEB</li>
-                <li class="menu_sub1">DATABASE</li>
-            </ul>
+        	<ul class="ul_move" ng-cloak>
+            <li class="li_font16" ng-style="getStyle('ALL')" ng-click="changeType('ALL')" >ALL</li>
+            <li class="menu_sub1" ng-style="getStyle('ZOOKEEPER')" ng-click="changeType('ZOOKEEPER')" >ZOOKEEPER</li>
+            <li class="menu_sub1" ng-style="getStyle('KAFKA')" ng-click="changeType('KAFKA')" >KAFKA</li>
+            <li class="line"></li>
+            <li class="menu_sub1" ng-style="getStyle('FLUME')" ng-click="changeType('FLUME')" >FLUME</li>
+            <li class="line"></li>
+            <li class="menu_sub1" ng-style="getStyle('STORM')" ng-click="changeType('STORM')" >STORM</li>
+            <li class="line"></li>
+            <li class="menu_sub1" ng-style="getStyle('ELASTICSEARCH')" ng-click="changeType('ELASTICSEARCH')" >ELASTICSEARCH</li>
+            <li class="menu_sub1" ng-style="getStyle('FRONTEND')" ng-click="changeType('FRONTEND')" >FRONTEND</li>
+            <li class="menu_sub1" ng-style="getStyle('WEB')" ng-click="changeType('WEB')" >WEB</li>
+            <li class="menu_sub1" ng-style="getStyle('DATABASE')" ng-click="changeType('DATABASE')" >DATABASE</li>
+          </ul>
     	</div>
    		<div id="content">
         	<div class="content_main">
-            	<div class="type_list">
+            	<div class="type_list" ng-cloak>
                 	<div class="title">PORCESS</div>
                     <div class="box_info_all">
-                        <div class="box_info box_bg_hui" ng-repeat="item in cluster_server | filter : {role : 'PROCESS'}">
+                        <div class="box_info box_bg_hui" ng-repeat="item in cluster_server | filter : getFilterJson('PROCESS')">
                         	<div class="p_all" ng-click="go(item.id)">
                                 <p>IP：{[{item.ip}]}</p>
                                 <p title="{[{item.hostname}]}">hostname:{[{item.hostname}]}</p>
@@ -53,15 +53,15 @@
                             </div>
                         </div>
                         <div class="box_info_add box_bg_kong">
-                   	    	<div class="add_buttom" ng-click="new_cluster_component('PROCESS')"><img  src="/resources/images/add_hui.png" width="36" height="37" alt=""/> </div>
+                   	    	<div class="add_buttom" ng-click="new_cluster_component('PROCESS')"><img  src="/resources/images/add_blue.png" width="36" height="37" alt=""/> </div>
                         </div>
                     </div>
                     <div class="right_text">PORCESS角色规则说明</div>
                 </div>
-                <div class="type_list">
+                <div class="type_list" ng-cloak>
                 	<div class="title">WEB</div>
                     <div class="box_info_all">
-                        <div class="box_info box_bg_hui" ng-repeat="item in cluster_server | filter : {'role' : 'WEB'}">
+                        <div class="box_info box_bg_hui" ng-repeat="item in cluster_server | filter : getFilterJson('WEB')">
                         	<div class="p_all" ng-click="go(item.id)">
                                 <p>IP：{[{item.ip}]}</p>
                                 <p title="{[{item.hostname}]}">hostname:{[{item.hostname}]}</p>
@@ -75,10 +75,10 @@
                     </div>
                     <div class="right_text">WEB角色规则说明</div>
                 </div>
-                <div class="type_list">
+                <div class="type_list" ng-cloak>
                 	<div class="title">自定义</div>
                     <div class="box_info_all">
-                        <div class="box_info box_bg_hui" ng-repeat="item in cluster_server | filter : {role : 'OTHER'}">
+                        <div class="box_info box_bg_hui" ng-repeat="item in cluster_server | filter : getFilterJson('OTHER')">
                         	<div class="p_all" ng-click="go(item.id)">
                               <p>IP：{[{item.ip}]}</p>
                               <p title="{[{item.hostname}]}">hostname:{[{item.hostname}]}</p>
@@ -107,6 +107,27 @@ angular.module('app', ['common'])
 })
 .controller('controller', ['$scope', 'commonDao', 'commonUtil',
 	function($scope, commonDao, commonUtil) {
+
+    $scope.selectType = "ALL";
+
+    $scope.changeType = function(type) {
+      $scope.selectType = type;
+    };
+
+    $scope.getFilterJson = function(type) {
+      if( $scope.selectType=="ALL") {
+        return {role:type};
+      } else {
+        return {role:type, components:{type:$scope.selectType, install_bs:true}}
+      }
+    };
+
+    $scope.getStyle = function(name) {
+      if ($scope.selectType == name)
+        return {"color":"#38b7ea"};
+      else
+        return null;
+    };
 
     $scope.go = function(id) {
       commonUtil.go("/edit_cluster_component?id=" + id);
