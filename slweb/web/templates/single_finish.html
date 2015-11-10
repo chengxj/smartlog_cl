@@ -7,7 +7,7 @@
 <link href="/resources/css/finish.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="/resources/js/angular.min.js"></script>
 <script type="text/javascript" src="/resources/js/angular-resource.min.js"></script>
-<script type="text/javascript" src="/resources/js/angular-common-0.2.js"></script>
+<script type="text/javascript" src="/resources/js/angular-common-0.4.min.js"></script>
 </head>
 <body ng-controller="controller">
     <div class="logo"><div class="logo_sub1">
@@ -62,11 +62,6 @@ angular.module('app', ['common'])
 })
 .controller('controller', ['$scope', 'commonDao', 'commonUtil', '$interval',
     function($scope, commonDao, commonUtil, $interval) {
-      // $scope.getSingleServerFinish = function() {
-      //   commonDao.getSingleServerFinish().save({'id':id}, function(data) {
-      //     $scope.single = data;
-      //   });
-      // };
 
       $scope.getStyle = function(status, current_status) {
         var style = "breed_green";

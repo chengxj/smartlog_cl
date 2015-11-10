@@ -7,7 +7,7 @@
 <link href="/resources/css/jiqun_management.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="/resources/js/angular.min.js"></script>
 <script type="text/javascript" src="/resources/js/angular-resource.min.js"></script>
-<script type="text/javascript" src="/resources/js/angular-common-0.2.js"></script>
+<script type="text/javascript" src="/resources/js/angular-common-0.4.min.js"></script>
 </head>
 <body ng-controller="controller">
     <div class="logo"><div class="logo_sub1">
@@ -45,7 +45,7 @@
             	<div class="type_list" ng-cloak>
                 	<div class="title">PORCESS</div>
                     <div class="box_info_all">
-                        <div class="box_info box_bg_hui" ng-repeat="item in cluster_server | filter : getFilterJson('PROCESS')">
+                        <div class="box_info box_bg_hui" ng-repeat="item in cluster_server | filter : getFilterJson('PROCESS') | orderBy:'ip':false">
                         	<div class="p_all" ng-click="go(item.id)">
                                 <p>IP：{[{item.ip}]}</p>
                                 <p title="{[{item.hostname}]}">hostname:{[{item.hostname}]}</p>
@@ -61,7 +61,7 @@
                 <div class="type_list" ng-cloak>
                 	<div class="title">WEB</div>
                     <div class="box_info_all">
-                        <div class="box_info box_bg_hui" ng-repeat="item in cluster_server | filter : getFilterJson('WEB')">
+                        <div class="box_info box_bg_hui" ng-repeat="item in cluster_server | filter : getFilterJson('WEB') | orderBy:'ip':false">
                         	<div class="p_all" ng-click="go(item.id)">
                                 <p>IP：{[{item.ip}]}</p>
                                 <p title="{[{item.hostname}]}">hostname:{[{item.hostname}]}</p>
@@ -78,7 +78,7 @@
                 <div class="type_list" ng-cloak>
                 	<div class="title">自定义</div>
                     <div class="box_info_all">
-                        <div class="box_info box_bg_hui" ng-repeat="item in cluster_server | filter : getFilterJson('OTHER')">
+                        <div class="box_info box_bg_hui" ng-repeat="item in cluster_server | filter : getFilterJson('OTHER') | orderBy:'ip':false">
                         	<div class="p_all" ng-click="go(item.id)">
                               <p>IP：{[{item.ip}]}</p>
                               <p title="{[{item.hostname}]}">hostname:{[{item.hostname}]}</p>

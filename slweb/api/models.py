@@ -23,6 +23,7 @@ class component(models.Model):
     db_username = models.CharField(max_length=128, null=True)
     db_password = models.CharField(max_length=128, null=True)
     web_service_name = models.CharField(max_length=128, null=True)
+    frontend_service_name = models.CharField(max_length=128, null=True)
     es_memory_limit = models.CharField(max_length=128, null=True)
     es_index_number_of_shards = models.CharField(max_length=128, null=True)
     es_index_refresh_interval = models.CharField(max_length=128, null=True)

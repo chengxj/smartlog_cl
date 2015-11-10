@@ -7,13 +7,7 @@
 <link href="/resources/css/login.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="/resources/js/angular.min.js"></script>
 <script type="text/javascript" src="/resources/js/angular-resource.min.js"></script>
-<script type="text/javascript" src="/resources/js/angular-common-0.2.js"></script>
-<style>
-input.ng-invalid {
-	border:1px solid red !important;
-	box-shadow: rgb(255, 0, 0) 0px 0px 20px 0px !important;
-}
-</style>
+<script type="text/javascript" src="/resources/js/angular-common-0.4.min.js"></script>
 </head>
 <body ng-controller="controller">
     <div class="logo"><div class="logo_sub1">
@@ -41,11 +35,11 @@ input.ng-invalid {
 							<form name="serverForm" ng-cloak>
 							<div class="input_move">
 									<div class="input_font_blue">IP</div>
-									<input class="input_yuanjiao box-shadow-2" type="text" ng-model="server.ip" ng-pattern="ipv4" required/>
+									<input class="input_yuanjiao box-shadow-2" type="text" placeholder="例如:127.0.0.1" ng-model="server.ip" ng-pattern="ipv4" required/>
 								</div>
 								<div class="input_move">
 									<div class="input_font_blue">用户名</div>
-									<input class="input_yuanjiao input_radius1" type="text" ng-model="server.username" required/>
+									<input class="input_yuanjiao input_radius1" type="text" placeholder="例如:root" ng-model="server.username" required/>
 								</div>
 								<div class="input_move">
 									<div class="input_font_blue">密码</div>
@@ -56,7 +50,7 @@ input.ng-invalid {
         </div>
         <div class="note">请填写主机信息后点击下一步，如未安装将跳转到安装页，所以安装页，所以安装则自动跳转到管理员</div>
         <div class="next_button" ng-cloak>
-            <div class="finish_1" ng-click="next(serverForm.$invalid)"><div class="finish_2">下一步</div></div>
+            <div class="finish_1" ng-if="serverForm.$valid" ng-click="next(serverForm.$invalid)"><div class="finish_2">下一步</div></div>
         </div>
     </div>
 		{{test}}
@@ -68,11 +62,15 @@ angular.module('app', ['common'])
 
 		$scope.ipv4 = commonUtil.ipv4();
 
-		$scope.server = commonUtil.createServer();
+		$scope.server = commonUtil.defaultSingleServer();
 
+		$scope.disabled = false;
 		$scope.next = function(invalid) {
 			if (invalid)
 				return;
+			if ($scope.disabled)
+        return
+      $scope.disabled = true;
 			commonDao.addSingleServer().save($scope.server).$promise.then(function(data) {
 				if (data.available) {
 					if(data.db_bs) {
@@ -80,6 +78,9 @@ angular.module('app', ['common'])
 					} else {
 						commonUtil.go('/single_component' + '?id=' + data.id);
 					}
+				} else {
+					alert(data.message);
+					$scope.disabled = false;
 				}
 			});
 		};
