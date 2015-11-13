@@ -19,3 +19,6 @@ def valid_port(port):
             return False
     except BaseException , e :
         return False
+
+def _encode(string):
+    return string.encode('utf-8')

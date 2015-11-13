@@ -3,14 +3,7 @@
 import os
 import sys
 import time
-import traceback
-
-try:
-    from fabric.api import *
-except BaseException, e:
-    from fabric_pre_install import install
-    install.pre_install()
-    from fabric.api import *
+from fabric.api import *
 
 # env.hosts = ['root@10.0.0.104:22']
 # env.password = '      '
@@ -24,7 +17,14 @@ def set_hosts(host,password):
 
 
 def re_exec_password(cmd):
+    # print cmd
     # set_hosts(remote_host,password)
+    # if isinstance(cmd, list):
+    #     for item in cmd:
+    #         print item
+    #         run(item)
+    # else:
+    #     run(item)
     run(cmd)
 
 def re_exec_key(key,cmd):
@@ -44,6 +44,14 @@ def re_upload_password(local_path,remote_path):
         run(remote_dir_cmd)
 
     put(local_path,remote_path)
+
+def re_download_password(remote_path,local_path):
+    get(remote_path,local_path)
+
+def re_download_key(remote_path,local_path):
+    env.key_filename = key
+    env.use_ssh_config = False
+    get(remote_path,local_path)
 
 def re_upload_key(key,local_path,remote_path):
     env.key_filename = key

@@ -39,6 +39,12 @@ function($resource) {
         },
         getClusterName: function() {
             return $resource("/api/get_cluster_name.json");
+        },
+        installSingleServer: function() {
+            return $resource("/api/install_single_server.json");
+        },
+        installClusterServer: function() {
+            return $resource("/api/install_cluster_server.json");
         }
     };
 }]).factory('commonUtil', [function() {
@@ -78,6 +84,8 @@ function($resource) {
                 "es_memory_limit": "",
                 "es_index_number_of_shards": "",
                 "es_index_refresh_interval": "",
+                "es_path_data": "",
+                "es_path_logs": "",
                 "storm_works_num_per_host": "",
                 "storm_dataProcess_works_num": "",
                 "storm_dataIndex_works_num": "",
@@ -120,6 +128,8 @@ function($resource) {
                     "web_service_name": "",
                     "es_memory_limit": "",
                     "es_index_number_of_shards": "",
+                    "es_path_data": "",
+                    "es_path_logs": "",
                     "es_index_refresh_interval": "",
                     "storm_works_num_per_host": "",
                     "storm_dataProcess_works_num": "",
@@ -147,6 +157,8 @@ function($resource) {
                     "es_memory_limit": "",
                     "es_index_number_of_shards": "",
                     "es_index_refresh_interval": "",
+                    "es_path_data": "",
+                    "es_path_logs": "",
                     "storm_works_num_per_host": "",
                     "storm_dataProcess_works_num": "",
                     "storm_dataIndex_works_num": "",
@@ -173,6 +185,8 @@ function($resource) {
                     "es_memory_limit": "",
                     "es_index_number_of_shards": "",
                     "es_index_refresh_interval": "",
+                    "es_path_data": "",
+                    "es_path_logs": "",
                     "storm_works_num_per_host": "",
                     "storm_dataProcess_works_num": "",
                     "storm_dataIndex_works_num": "",
@@ -199,6 +213,8 @@ function($resource) {
                     "es_memory_limit": "",
                     "es_index_number_of_shards": "",
                     "es_index_refresh_interval": "",
+                    "es_path_data": "",
+                    "es_path_logs": "",
                     "storm_works_num_per_host": "5",
                     "storm_dataProcess_works_num": "6",
                     "storm_dataIndex_works_num": "6",
@@ -225,6 +241,8 @@ function($resource) {
                     "es_memory_limit": "2g",
                     "es_index_number_of_shards": "3",
                     "es_index_refresh_interval": "3s",
+                    "es_path_data": "/home/ultrapower/data/elasticsearch",
+                    "es_path_logs": "/home/ultrapower/logs/elasticsearch",
                     "storm_works_num_per_host": "",
                     "storm_dataProcess_works_num": "",
                     "storm_dataIndex_works_num": "",
@@ -251,6 +269,8 @@ function($resource) {
                     "es_memory_limit": "",
                     "es_index_number_of_shards": "",
                     "es_index_refresh_interval": "",
+                    "es_path_data": "",
+                    "es_path_logs": "",
                     "storm_works_num_per_host": "",
                     "storm_dataProcess_works_num": "",
                     "storm_dataIndex_works_num": "",
@@ -277,6 +297,8 @@ function($resource) {
                     "es_memory_limit": "",
                     "es_index_number_of_shards": "",
                     "es_index_refresh_interval": "",
+                    "es_path_data": "",
+                    "es_path_logs": "",
                     "storm_works_num_per_host": "",
                     "storm_dataProcess_works_num": "",
                     "storm_dataIndex_works_num": "",
@@ -303,6 +325,8 @@ function($resource) {
                     "es_memory_limit": "",
                     "es_index_number_of_shards": "",
                     "es_index_refresh_interval": "",
+                    "es_path_data": "",
+                    "es_path_logs": "",
                     "storm_works_num_per_host": "",
                     "storm_dataProcess_works_num": "",
                     "storm_dataIndex_works_num": "",

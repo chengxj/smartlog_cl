@@ -14,7 +14,7 @@ class server(models.Model):
     description = models.CharField(max_length=128, null=True)
 
 class component(models.Model):
-    server_id = models.IntegerField()
+    server_id = models.ForeignKey(server,null=False)
     type = models.CharField(max_length=40)
     install_dir = models.CharField(max_length=128, null=True)
     data_dir = models.CharField(max_length=128, null=True)
@@ -27,6 +27,8 @@ class component(models.Model):
     es_memory_limit = models.CharField(max_length=128, null=True)
     es_index_number_of_shards = models.CharField(max_length=128, null=True)
     es_index_refresh_interval = models.CharField(max_length=128, null=True)
+    es_path_data = models.CharField(max_length=128, null=True)
+    es_path_logs = models.CharField(max_length=128, null=True)
     storm_works_num_per_host = models.CharField(max_length=128, null=True)
     storm_dataProcess_works_num = models.CharField(max_length=128, null=True)
     storm_dataIndex_works_num = models.CharField(max_length=128, null=True)

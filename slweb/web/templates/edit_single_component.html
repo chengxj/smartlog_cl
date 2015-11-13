@@ -78,7 +78,9 @@
 				<p ng-if="tempComponent.type=='ELASTICSEARCH'">memory_limit:<input class="input_hide_hui_eject" ng-model="tempComponent.es_memory_limit" /></p>
     		<p ng-if="tempComponent.type=='ELASTICSEARCH'">index_number_of_shards:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.es_index_number_of_shards" /></p>
     		<p ng-if="tempComponent.type=='ELASTICSEARCH'">index_refresh_interval:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.es_index_refresh_interval" /></p>
-    		<p ng-if="tempComponent.type=='STORM'">storm_works_num_per_host:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_works_num_per_host" /></p>
+        <p ng-if="tempComponent.type=='ELASTICSEARCH'">path_data:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.es_path_data" /></p>
+    		<p ng-if="tempComponent.type=='ELASTICSEARCH'">path_logs:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.es_path_logs" /></p>
+        <p ng-if="tempComponent.type=='STORM'">storm_works_num_per_host:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_works_num_per_host" /></p>
     		<p ng-if="tempComponent.type=='STORM'">storm_dataProcess_works_num:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_dataProcess_works_num" /></p>
     		<p ng-if="tempComponent.type=='STORM'">storm_dataIndex_works_num:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_dataIndex_works_num" /></p>
     		<p ng-if="tempComponent.type=='STORM'">storm_spout_config_num:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_spout_config_num" /></p>
@@ -187,6 +189,7 @@ angular.module('app', ['common'])
           if (!data.available) {
             commonUtil.go("/single_alarm?id=" + data.id)
           } else {
+            commonDao.installSingleServer().save({'id':id});
             commonUtil.go("/single_finish?id=" + data.id)
           }
         });

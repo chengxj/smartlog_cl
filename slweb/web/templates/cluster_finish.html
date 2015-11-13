@@ -32,10 +32,10 @@
         </div>
         <div class="classify">
             <div class="kind">
-              <div ng-class="getStyle(item.status, item.current_status)" ng-repeat="item in cluster.components">{[{item.name}]}</div>
+              <div ng-class="getStyle(item.status, item.current_status)" ng-repeat="item in cluster.components">{[{item.showname}]}</div>
             </div>
             <div class="kind" ng-repeat="item in cluster.components | filter : {current_status : true}">
-              <div ng-class="getStyle(component.status, component.current_status)" ng-repeat="component in item.components" title="{[{component.ip}]}">{[{item.name}]}</div>
+              <div ng-class="getStyle(component.status, component.current_status)" ng-repeat="component in item.components" title="{[{component.ip}]}">{[{item.showname}]}</div>
             </div>
         </div>
         <div class="center">
@@ -95,7 +95,7 @@ angular.module('app', ['common'])
           for (var i=0;i<components.length;i++) {
             var temp = components[i];
             if (temp.current_status==true) {
-              currentComponent = temp.name;
+              currentComponent = temp.showname;
               break;
             }
           }
@@ -132,19 +132,24 @@ angular.module('app', ['common'])
           $scope.cluster = data;
           $scope.process = {"width":$scope.getProcess() + "%","transition":"width 2s"};
         });
-      }, 3000);
+      }, 15000);
 
       $scope.getProcess = function() {
         var process = 0;
         if ($scope.cluster.components!=null&&$scope.cluster.components.length>0) {
           for(var i=0;i<$scope.cluster.components.length;i++) {
-            if($scope.cluster.components[i].status>0) {
+            if($scope.cluster.components[i].status>=0) {
               process += 1;
             }
           }
         }
         return (process*100/$scope.cluster.components.length).toFixed(2);
-      }
+      };
+
+      commonDao.getClusterServerFinish().save({'cluster_name':cluster_name}, function(data) {
+        $scope.cluster = data;
+        $scope.process = {"width":$scope.getProcess() + "%","transition":"width 2s"};
+      });
 }]);
 </script>
 

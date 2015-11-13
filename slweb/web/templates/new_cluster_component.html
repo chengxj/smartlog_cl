@@ -71,7 +71,7 @@
     		<a href = "javascript:void(0)" class="box_close" onclick = "document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'"></a>
       </div>
     	<div id="scroll-1">
-    		<p>端口:<input class="input_hide_hui_eject" ng-model="tempComponent.port" /></p>
+    		<p>端口:<input class="input_hide_hui_eject" ng-model="tempComponent.port" ng-readonly="true" /></p>
     		<p>安装路径:<input class="input_hide_hui_eject" ng-model="tempComponent.install_dir" /></p>
     		<p>dataDir:<input class="input_hide_hui_eject" ng-model="tempComponent.data_dir" /></p>
     		<p>logDir:<input class="input_hide_hui_eject" ng-model="tempComponent.log_dir" /></p>
@@ -82,7 +82,9 @@
 				<p ng-if="tempComponent.type=='ELASTICSEARCH'">memory_limit:<input class="input_hide_hui_eject" ng-model="tempComponent.es_memory_limit" /></p>
     		<p ng-if="tempComponent.type=='ELASTICSEARCH'">index_number_of_shards:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.es_index_number_of_shards" /></p>
     		<p ng-if="tempComponent.type=='ELASTICSEARCH'">index_refresh_interval:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.es_index_refresh_interval" /></p>
-    		<p ng-if="tempComponent.type=='STORM'">storm_works_num_per_host:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_works_num_per_host" /></p>
+        <p ng-if="tempComponent.type=='ELASTICSEARCH'">path_data:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.es_path_data" /></p>
+    		<p ng-if="tempComponent.type=='ELASTICSEARCH'">path_logs:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.es_path_logs" /></p>
+        <p ng-if="tempComponent.type=='STORM'">storm_works_num_per_host:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_works_num_per_host" /></p>
     		<p ng-if="tempComponent.type=='STORM'">storm_dataProcess_works_num:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_dataProcess_works_num" /></p>
     		<p ng-if="tempComponent.type=='STORM'">storm_dataIndex_works_num:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_dataIndex_works_num" /></p>
     		<p ng-if="tempComponent.type=='STORM'">storm_spout_config_num:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_spout_config_num" /></p>

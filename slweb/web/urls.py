@@ -53,6 +53,8 @@ urlpatterns = [
     url(r'^api/get_single_warn', get_single_warn, name='get-single-warn'),
     url(r'^api/add_cluster_server_components', add_cluster_server_components, name='add-cluster-server-components'),
     url(r'^api/edit_cluster_server_components', edit_cluster_server_components, name='edit-cluster-server-components'),
+    url(r'^api/install_single_server', install_single_server, name='install-single-server'),
+    url(r'^api/install_cluster_server', install_cluster_server, name='install-cluster-server'),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

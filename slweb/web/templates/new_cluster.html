@@ -149,9 +149,10 @@ angular.module('app', ['common'])
     $scope.validClusterServerComponents = function() {
       commonDao.validClusterServerComponents().save({"cluster_name":cluster_name}, function(data) {
         if (!data.available) {
+          commonDao.installClusterServer().save({'cluster_name':cluster_name});
           commonUtil.go("/cluster_alarm?id=" + data.id)
         } else {
-          commonUtil.go("/cluster_finish?id=" + data.id)
+          commonUtil.go("/cluster_finish?cluster_name=" + data.id)
         }
       });
     };

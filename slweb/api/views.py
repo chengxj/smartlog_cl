@@ -60,6 +60,7 @@ def get_cluster_server_components(request):
     cluster_server_dto = {"cluster_server":None}
     if exist_server!=[] and len(exist_server)>0:
         json_data = json.loads(serializers.serialize("json", exist_server))
+        print json_data
         cluster_server = []
         for item in json_data:
             obj = {"id":None, "ip":"","username":"","password":"","hostname":"","role":"","components":None}
@@ -89,6 +90,8 @@ def get_cluster_server_components(request):
                     es_memory_limit = component_json['fields']['es_memory_limit']
                     es_index_number_of_shards = component_json['fields']['es_index_number_of_shards']
                     es_index_refresh_interval = component_json['fields']['es_index_refresh_interval']
+                    es_path_data = component_json['fields']['es_path_data']
+                    es_path_logs = component_json['fields']['es_path_logs']
                     storm_works_num_per_host = component_json['fields']['storm_works_num_per_host']
                     storm_dataProcess_works_num = component_json['fields']['storm_dataProcess_works_num']
                     storm_dataIndex_works_num = component_json['fields']['storm_dataIndex_works_num']
@@ -109,7 +112,8 @@ def get_cluster_server_components(request):
                         "storm_spout_config_num":storm_spout_config_num, "storm_spout_dataprocess_num":storm_spout_dataprocess_num,
                         "storm_spout_dataindex_num":storm_spout_dataindex_num, "storm_bolt_default_num":storm_bolt_default_num,
                         "storm_bolt_rule_num":storm_bolt_rule_num, "storm_bolt_advanced_num":storm_bolt_advanced_num,
-                        "storm_bolt_kafka_num":storm_bolt_kafka_num, "storm_bolt_es_num":storm_bolt_es_num,"frontend_service_name":frontend_service_name}
+                        "storm_bolt_kafka_num":storm_bolt_kafka_num, "storm_bolt_es_num":storm_bolt_es_num,"frontend_service_name":frontend_service_name,
+                        "es_path_data":es_path_data, "es_path_logs":es_path_logs}
                     components.append(component_obj)
                 obj['components'] = components
             cluster_server.append(obj)
@@ -119,16 +123,17 @@ def get_cluster_server_components(request):
 @api_view(['post'])
 def get_single_server_components(request):
     id = request.data['id']
-    serverDTO = getServerComponents(id)
+    serverDTO = common.getServerComponents(id)
     return Response(serverDTO)
 
 @api_view(['post'])
 def add_single_server_components(request):
     # save components config
     id = request.data['id']
+    single_server = server.objects.get(id=id)
     items = request.data['components']
     for item in items:
-        component_obj = component(server_id=int(id), type=item['type'], port=item['port'], install_dir=item['install_dir'], data_dir=item['data_dir'], log_dir=item['log_dir'], install_bs=item['install_bs'],
+        component_obj = component(server_id=single_server, type=item['type'], port=item['port'], install_dir=item['install_dir'], data_dir=item['data_dir'], log_dir=item['log_dir'], install_bs=item['install_bs'],
             db_username=item['db_username'], db_password=item['db_password'], web_service_name=item['web_service_name'],
             es_memory_limit=item['es_memory_limit'], es_index_number_of_shards=item['es_index_number_of_shards'],
             es_index_refresh_interval=item['es_index_refresh_interval'], storm_works_num_per_host=item['storm_works_num_per_host'],
@@ -136,7 +141,8 @@ def add_single_server_components(request):
             storm_spout_config_num =item['storm_spout_config_num'], storm_spout_dataprocess_num=item['storm_spout_dataprocess_num'],
             storm_spout_dataindex_num=item['storm_spout_dataindex_num'], storm_bolt_default_num=item['storm_bolt_default_num'],
             storm_bolt_rule_num=item['storm_bolt_rule_num'], storm_bolt_advanced_num=item['storm_bolt_advanced_num'],
-            storm_bolt_kafka_num=item['storm_bolt_kafka_num'], storm_bolt_es_num=item['storm_bolt_es_num'],frontend_service_name=item['frontend_service_name'])
+            storm_bolt_kafka_num=item['storm_bolt_kafka_num'], storm_bolt_es_num=item['storm_bolt_es_num'],frontend_service_name=item['frontend_service_name'],
+            es_path_data=item['es_path_data'], es_path_logs=item['es_path_logs'])
         component_obj.save()
     json_data = common.valid_single_server_components(request.data)
     return_data = {'available':True,"id":None}
@@ -163,11 +169,10 @@ def get_single_warn(request):
 
 @api_view(['post'])
 def edit_single_server_components(request):
-    # save components config
     id = request.data['id']
     items = request.data['components']
     for item in items:
-        component.objects.filter(id=item['id']).update(server_id=int(id), type=item['type'], port=item['port'], install_dir=item['install_dir'], data_dir=item['data_dir'], log_dir=item['log_dir'], install_bs=item['install_bs'],
+        component.objects.filter(id=item['id']).update(type=item['type'], port=item['port'], install_dir=item['install_dir'], data_dir=item['data_dir'], log_dir=item['log_dir'], install_bs=item['install_bs'],
             db_username=item['db_username'], db_password=item['db_password'], web_service_name=item['web_service_name'],
             es_memory_limit=item['es_memory_limit'], es_index_number_of_shards=item['es_index_number_of_shards'],
             es_index_refresh_interval=item['es_index_refresh_interval'], storm_works_num_per_host=item['storm_works_num_per_host'],
@@ -175,8 +180,9 @@ def edit_single_server_components(request):
             storm_spout_config_num =item['storm_spout_config_num'], storm_spout_dataprocess_num=item['storm_spout_dataprocess_num'],
             storm_spout_dataindex_num=item['storm_spout_dataindex_num'], storm_bolt_default_num=item['storm_bolt_default_num'],
             storm_bolt_rule_num=item['storm_bolt_rule_num'], storm_bolt_advanced_num=item['storm_bolt_advanced_num'],
-            storm_bolt_kafka_num=item['storm_bolt_kafka_num'], storm_bolt_es_num=item['storm_bolt_es_num'],frontend_service_name=item['frontend_service_name'])
-    json_data = common.test_valid_single_server_components(request.data)
+            storm_bolt_kafka_num=item['storm_bolt_kafka_num'], storm_bolt_es_num=item['storm_bolt_es_num'],frontend_service_name=item['frontend_service_name'],
+            es_path_data=item['es_path_data'], es_path_logs=item['es_path_logs'])
+    json_data = common.valid_single_server_components(request.data)
     returnData = {'available':True,"id":None}
     # returnData = {'available':False, 'message':[{"msg":"ZOOKPEER测试消息1"},{"msg":"KAFKA测试消息2"}]}
     if (json_data['available']==False):
@@ -193,7 +199,7 @@ def valid_cluster_server_components(request):
     # save components config
     cluster_name = request.data['cluster_name']
     returnData = {'available':True,"id":None}
-    json_data = common.test_valid_cluster_server_components(cluster_name)
+    json_data = common.valid_cluster_server_components(cluster_name)
     if (json_data['available']==False):
         returnData['available'] = False
         warn_obj = warn(server_id=cluster_name, type="cluster", msg=json_data['message'])
@@ -206,14 +212,14 @@ def valid_cluster_server_components(request):
 @api_view(['post'])
 def get_single_server_finish(request):
     id = request.data['id']
-    serverComponents = getServerComponents(id)
-    returnData = common.test_get_single_server_finish(serverComponents)
+    serverComponents = common.getServerComponents(id)
+    returnData = common.get_single_server_finish(serverComponents)
     return Response(returnData)
 
 @api_view(['post'])
 def get_cluster_server_finish(request):
     cluster_name = request.data['cluster_name']
-    returnData = common.test_get_cluster_server_finish(cluster_name)
+    returnData = common.get_cluster_server_finish(cluster_name)
     return Response(returnData)
 
 @api_view(['post'])
@@ -231,7 +237,7 @@ def add_cluster_server_components(request):
         server_obj.save()
         items = request.data['components']
         for item in items:
-            component_obj = component(server_id=server_obj.id, type=item['type'], port=item['port'], install_dir=item['install_dir'], data_dir=item['data_dir'], log_dir=item['log_dir'], install_bs=item['install_bs'],
+            component_obj = component(server_id=server_obj, type=item['type'], port=item['port'], install_dir=item['install_dir'], data_dir=item['data_dir'], log_dir=item['log_dir'], install_bs=item['install_bs'],
                 db_username=item['db_username'], db_password=item['db_password'], web_service_name=item['web_service_name'],
                 es_memory_limit=item['es_memory_limit'], es_index_number_of_shards=item['es_index_number_of_shards'],
                 es_index_refresh_interval=item['es_index_refresh_interval'], storm_works_num_per_host=item['storm_works_num_per_host'],
@@ -239,7 +245,8 @@ def add_cluster_server_components(request):
                 storm_spout_config_num =item['storm_spout_config_num'], storm_spout_dataprocess_num=item['storm_spout_dataprocess_num'],
                 storm_spout_dataindex_num=item['storm_spout_dataindex_num'], storm_bolt_default_num=item['storm_bolt_default_num'],
                 storm_bolt_rule_num=item['storm_bolt_rule_num'], storm_bolt_advanced_num=item['storm_bolt_advanced_num'],
-                storm_bolt_kafka_num=item['storm_bolt_kafka_num'], storm_bolt_es_num=item['storm_bolt_es_num'],frontend_service_name=item['frontend_service_name'])
+                storm_bolt_kafka_num=item['storm_bolt_kafka_num'], storm_bolt_es_num=item['storm_bolt_es_num'],frontend_service_name=item['frontend_service_name'],
+                es_path_data=item['es_path_data'], es_path_logs=item['es_path_logs'])
             component_obj.save()
         cluster_dto['available'] = True
         cluster_dto['id'] = server_obj.id
@@ -262,7 +269,7 @@ def edit_cluster_server_components(request):
         server.objects.filter(id=id).update(type='cluster', cluster_name=cluster_name, role=role, ip=ip, hostname=hostname, username=username, password=password)
         items = request.data['components']
         for item in items:
-            component.objects.filter(id=item['id']).update(server_id=int(id), type=item['type'], port=item['port'], install_dir=item['install_dir'], data_dir=item['data_dir'], log_dir=item['log_dir'], install_bs=item['install_bs'],
+            component.objects.filter(id=item['id']).update(type=item['type'], port=item['port'], install_dir=item['install_dir'], data_dir=item['data_dir'], log_dir=item['log_dir'], install_bs=item['install_bs'],
                 db_username=item['db_username'], db_password=item['db_password'], web_service_name=item['web_service_name'],
                 es_memory_limit=item['es_memory_limit'], es_index_number_of_shards=item['es_index_number_of_shards'],
                 es_index_refresh_interval=item['es_index_refresh_interval'], storm_works_num_per_host=item['storm_works_num_per_host'],
@@ -270,7 +277,8 @@ def edit_cluster_server_components(request):
                 storm_spout_config_num =item['storm_spout_config_num'], storm_spout_dataprocess_num=item['storm_spout_dataprocess_num'],
                 storm_spout_dataindex_num=item['storm_spout_dataindex_num'], storm_bolt_default_num=item['storm_bolt_default_num'],
                 storm_bolt_rule_num=item['storm_bolt_rule_num'], storm_bolt_advanced_num=item['storm_bolt_advanced_num'],
-                storm_bolt_kafka_num=item['storm_bolt_kafka_num'], storm_bolt_es_num=item['storm_bolt_es_num'],frontend_service_name=item['frontend_service_name'])
+                storm_bolt_kafka_num=item['storm_bolt_kafka_num'], storm_bolt_es_num=item['storm_bolt_es_num'],frontend_service_name=item['frontend_service_name'],
+                es_path_data=item['es_path_data'], es_path_logs=item['es_path_logs'])
         cluster_dto['available'] = True
         cluster_dto['id'] = id
     else:
@@ -293,56 +301,25 @@ def get_single_status(request):
     returnData = {"available":False,"cluster_name":None};
     return Response(returnData)
 
-def getServerComponents(id):
-    serverDTO = {"id":id, "hostname":None, "cluster_name":None, "role":None, "ip":None, "username":None, "password":None, "components":[]}
-    exist_server = server.objects.filter(pk=id)
-    if exist_server!=[] and len(exist_server)>0:
-        json_data = json.loads(serializers.serialize("json", exist_server))[0]
-        serverDTO['hostname'] = json_data['fields']['hostname']
-        serverDTO['ip'] = json_data['fields']['ip']
-        serverDTO['username'] = json_data['fields']['username']
-        serverDTO['password'] = json_data['fields']['password']
-        serverDTO['cluster_name'] = json_data['fields']['cluster_name']
-        serverDTO['role'] = json_data['fields']['role']
-        exist_components = component.objects.filter(server_id=id)
-        if exist_components!=[] and len(exist_components)>0:
-            json_components = json.loads(serializers.serialize("json", exist_components))
-            for item in json_components:
-                item_id = item['pk']
-                server_id = id
-                type = item['fields']['type']
-                install_dir = item['fields']['install_dir']
-                data_dir = item['fields']['data_dir']
-                log_dir = item['fields']['log_dir']
-                install_bs = item['fields']['install_bs']
-                port = item['fields']['port']
-                db_username = item['fields']['db_username']
-                db_password = item['fields']['db_password']
-                web_service_name = item['fields']['web_service_name']
-                frontend_service_name = item['fields']['frontend_service_name']
-                es_memory_limit = item['fields']['es_memory_limit']
-                es_index_number_of_shards = item['fields']['es_index_number_of_shards']
-                es_index_refresh_interval = item['fields']['es_index_refresh_interval']
-                storm_works_num_per_host = item['fields']['storm_works_num_per_host']
-                storm_dataProcess_works_num = item['fields']['storm_dataProcess_works_num']
-                storm_dataIndex_works_num = item['fields']['storm_dataIndex_works_num']
-                storm_spout_config_num = item['fields']['storm_spout_config_num']
-                storm_spout_dataprocess_num = item['fields']['storm_spout_dataprocess_num']
-                storm_spout_dataindex_num = item['fields']['storm_spout_dataindex_num']
-                storm_bolt_default_num = item['fields']['storm_bolt_default_num']
-                storm_bolt_rule_num = item['fields']['storm_bolt_rule_num']
-                storm_bolt_default_num = item['fields']['storm_bolt_default_num']
-                storm_bolt_advanced_num = item['fields']['storm_bolt_advanced_num']
-                storm_bolt_kafka_num = item['fields']['storm_bolt_kafka_num']
-                storm_bolt_es_num = item['fields']['storm_bolt_es_num']
-                component_obj = {"id":item_id, "server_id":server_id, "port":port, "type":type, "install_dir":install_dir, "data_dir":data_dir, "log_dir":log_dir, "install_bs":install_bs, "description":None,
-                    "db_username":db_username, "db_password":db_password, "web_service_name":web_service_name,
-                    "es_memory_limit":es_memory_limit, "es_index_number_of_shards":es_index_number_of_shards,
-                    "es_index_refresh_interval":es_index_refresh_interval, "storm_works_num_per_host":storm_works_num_per_host,
-                    "storm_dataProcess_works_num":storm_dataProcess_works_num, "storm_dataIndex_works_num":storm_dataIndex_works_num,
-                    "storm_spout_config_num":storm_spout_config_num, "storm_spout_dataprocess_num":storm_spout_dataprocess_num,
-                    "storm_spout_dataindex_num":storm_spout_dataindex_num, "storm_bolt_default_num":storm_bolt_default_num,
-                    "storm_bolt_rule_num":storm_bolt_rule_num, "storm_bolt_advanced_num":storm_bolt_advanced_num,
-                    "storm_bolt_kafka_num":storm_bolt_kafka_num, "storm_bolt_es_num":storm_bolt_es_num,"frontend_service_name":frontend_service_name}
-                serverDTO['components'].append(component_obj)
-    return serverDTO
+@api_view(['post'])
+def install_single_server(request):
+    print 'begin install single server'
+    id = request.data['id']
+    serverComponents = common.getServerComponents(id)
+    conf = []
+    single_conf = common.generate_conf(serverComponents)
+    conf.append(single_conf)
+    common.install_components(conf)
+
+@api_view(['post'])
+def install_cluster_server(request):
+    print 'begin install cluster server'
+    cluster_name = request.data['cluster_name']
+    conf = []
+    cluster_server = server.objects.filter(cluster_name=cluster_name)
+    if cluster_server!=[] and len(cluster_server)>0:
+        for item in cluster_server:
+            serverComponents = common.getServerComponents(item.id)
+            single_conf = common.generate_conf(serverComponents)
+            conf.append(single_conf)
+    common.install_components(conf)

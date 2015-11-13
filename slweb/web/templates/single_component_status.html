@@ -43,7 +43,7 @@
                           <div ng-class="{true: 'ico_jian_blue', false: 'ico_add_blue'}[component.install_bs]" ng-click="changeType($parent.$index, $index)">{[{component.type}]}</div>
                           <div ng-click = "editComponent(component, $parent.$index, $index)" class="more_blue"></div>
 													<div id="fade" class="black_overlay"></div>
-                          <p>端口:<input ng-class="{true: 'input_hide_w', false: 'input_hide_hui'}[component.install_bs]" class="" ng-model="component.port"/></p>
+                          <p>端口:<input ng-class="{true: 'input_hide_w', false: 'input_hide_hui'}[component.install_bs]" class="" ng-model="component.port" ng-readonly="true"/></p>
                           <p>安装路径<input ng-class="{true: 'input_hide_w', false: 'input_hide_hui'}[component.install_bs]" ng-model="component.install_dir" required /></p>
                           <p>dataDir<input ng-class="{true: 'input_hide_w', false: 'input_hide_hui'}[component.install_bs]" ng-model="component.data_dir" /></p>
                           <p>logDir<input ng-class="{true: 'input_hide_w', false: 'input_hide_hui'}[component.install_bs]" ng-model="component.log_dir" /></p>
@@ -78,6 +78,8 @@
 		<p ng-if="tempComponent.type=='ELASTICSEARCH'">memory_limit:<input class="input_hide_hui_eject" ng-model="tempComponent.es_memory_limit" /></p>
 		<p ng-if="tempComponent.type=='ELASTICSEARCH'">index_number_of_shards:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.es_index_number_of_shards" /></p>
 		<p ng-if="tempComponent.type=='ELASTICSEARCH'">index_refresh_interval:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.es_index_refresh_interval" /></p>
+    <p ng-if="tempComponent.type=='ELASTICSEARCH'">path_data:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.es_path_data" /></p>
+		<p ng-if="tempComponent.type=='ELASTICSEARCH'">path_logs:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.es_path_logs" /></p>
 		<p ng-if="tempComponent.type=='STORM'">storm_works_num_per_host:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_works_num_per_host" /></p>
 		<p ng-if="tempComponent.type=='STORM'">storm_dataProcess_works_num:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_dataProcess_works_num" /></p>
 		<p ng-if="tempComponent.type=='STORM'">storm_dataIndex_works_num:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_dataIndex_works_num" /></p>

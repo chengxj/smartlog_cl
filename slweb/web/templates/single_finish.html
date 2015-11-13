@@ -33,7 +33,7 @@
         </div>
         <div class="classify">
             <div class="kind" ng-cloak>
-                <div ng-class="getStyle(item.status, item.current_status)" ng-repeat="item in single.components">{[{item.name}]}</div>
+                <div ng-class="getStyle(item.status, item.current_status)" ng-repeat="item in single.components">{[{item.showname}]}</div>
             </div>
         </div>
         <div class="center">
@@ -90,7 +90,7 @@ angular.module('app', ['common'])
           for (var i=0;i<components.length;i++) {
             var temp = components[i];
             if (temp.current_status==true) {
-              currentComponent = temp.name;
+              currentComponent = temp.showname;
               break;
             }
           }
@@ -106,19 +106,24 @@ angular.module('app', ['common'])
           $scope.single = data;
           $scope.process = {"width":$scope.getProcess() + "%","transition":"width 1s"};
         });
-      }, 3000);
+      }, 15000);
 
       $scope.getProcess = function() {
         var process = 0;
         if ($scope.single.components!=null&&$scope.single.components.length>0) {
           for(var i=0;i<$scope.single.components.length;i++) {
-            if($scope.single.components[i].status>0) {
+            if($scope.single.components[i].status>=0) {
               process += 1;
             }
           }
         }
         return (process*100/$scope.single.components.length).toFixed(2);
-      }
+      };
+
+      commonDao.getSingleServerFinish().save({'id':id}, function(data) {
+        $scope.single = data;
+        $scope.process = {"width":$scope.getProcess() + "%","transition":"width 1s"};
+      });
 }]);
 </script>
 </body>
