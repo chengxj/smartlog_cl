@@ -196,8 +196,12 @@ angular.module('app', ['common'])
           if (!data.available) {
             commonUtil.go("/single_alarm?id=" + data.id)
           } else {
-            commonDao.installSingleServer().save({'id':id});
-            commonUtil.go("/single_finish?id=" + data.id)
+            if(data.install_bs==false) {
+              commonDao.installSingleServer().save({'id':id});
+              commonUtil.go("/single_finish?id=" + data.id);
+            } else {
+              commonUtil.go("/single_component_status?id=" + data.id);
+            }
           }
         });
       };

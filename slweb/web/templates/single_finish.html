@@ -26,29 +26,23 @@
     <div class="main">
         <div class="mount">安装</div>
         <div class="schedule">
-            <div class="schedule_1" ng-cloak>正在安装{[{getCurrentComponent(single.components)}]}组件，{[{single.ip}]}......</div>
+            <div class="schedule_1" ng-cloak>正在安装{[{getCurrentComponent(single.components)|uppercase}]}组件，{[{single.ip}]}......</div>
             <div class="schedule_2" ng-cloak>
                 <div class="schedule_2_1" ng-style="process"></div>
             </div>
         </div>
         <div class="classify">
             <div class="kind" ng-cloak>
-                <div ng-class="getStyle(item.status, item.current_status)" ng-repeat="item in single.components">{[{item.showname}]}</div>
+                <div ng-class="getStyle(item.status, item.current_status)" ng-repeat="item in single.components| orderBy:'index':false">{[{item.showname|uppercase}]}</div>
             </div>
         </div>
         <div class="center">
             <div class="center_1 gd_line">
-                <p class="text_hui">2015-10-16 16:57:00,621 [myid:0] - INFO  [QuorumPeer[myid=0]/0:0:0:0:0:0:0:0:2181:FileTxnSnapLog@240] - Snapshotting: 0x0 to /ultrapower/data/zookeeperersion-2/snapshot.0</p>
-                <p class="text_hui">2015-10-16 16:57:01,078 [myid:0] - INFO  [/192.168.120.122:3888:QuorumCnxManager$Listener@511] - Received connection request /192.168.120.123:50481</p>
-                <p class="text_hui">2015-10-16 16:57:01,087 [myid:0] - INFO  [WorkerReceiver[myid=0]:FastLeaderElection@597] - Notification: 1 (message format version), 1 (n.leader), 0x0 (n.zxid), 0x1 (n.round), LOOKING (n.state), 1 (n.sid), 0x0 (n.peerEpoch) FOLLOWING (my state)</p>
-                <p class="text_red">2015-10-16 16:57:01,092 [myid:0] - INFO  [WorkerReceiver[myid=0]:FastLeaderElection@597] - Notification: 1 (message format version), 2 (n.leader), 0x0 (n.zxid), 0x1 (n.round), LOOKING (n.state), 1 (n.sid), 0x0 (n.peerEpoch) FOLLOWING (my state)</p>
-                <p class="text_hui">2015-10-16 16:57:00,621 [myid:0] - INFO  [QuorumPeer[myid=0]/0:0:0:0:0:0:0:0:2181:FileTxnSnapLog@240] - Snapshotting: 0x0 to /ultrapower/data/zookeeperersion-2/snapshot.0</p>
-                <p class="text_hui">2015-10-16 16:57:00,621 [myid:0] - INFO  [QuorumPeer[myid=0]/0:0:0:0:0:0:0:0:2181:FileTxnSnapLog@240] - Snapshotting: 0x0 to /ultrapower/data/zookeeperersion-2/snapshot.0</p>
-                <p class="text_hui">2015-10-16 16:57:00,621 [myid:0] - INFO  [QuorumPeer[myid=0]/0:0:0:0:0:0:0:0:2181:FileTxnSnapLog@240] - Snapshotting: 0x0 to /ultrapower/data/zookeeperersion-2/snapshot.0</p>
+                <p class="text_hui" ng-repeat="log in logs">{[{log.text}]}</p>
             </div>
         </div>
         <div class="finish">
-            <div class="finish_1"><div class="finish_2">完成</div></div>
+            <div class="finish_1"><div class="finish_2" ng-click="go('/single_component_status')">完成</div></div>
         </div>
     </div>
     <div  id="footer"><div class="fanxiang">Copyright 2015-2020  神州泰岳 版权所有</div></div>
@@ -60,8 +54,8 @@ angular.module('app', ['common'])
   $interpolateProvider.startSymbol('{[{');
   $interpolateProvider.endSymbol('}]}');
 })
-.controller('controller', ['$scope', 'commonDao', 'commonUtil', '$interval',
-    function($scope, commonDao, commonUtil, $interval) {
+.controller('controller', ['$scope', 'commonDao', 'commonUtil', '$interval', '$filter',
+    function($scope, commonDao, commonUtil, $interval, $filter) {
 
       $scope.getStyle = function(status, current_status) {
         var style = "breed_green";
@@ -98,6 +92,31 @@ angular.module('app', ['common'])
         return currentComponent;
       };
 
+      $scope.logs = null;
+
+      $scope.getCurrentLogs = function(data) {
+        components = $filter("orderBy")(data, 'index', false);
+        var currentLogs = [];
+        if(components != null && components.length>0) {
+          for (var i=0;i<components.length;i++) {
+            var temp = components[i];
+            var tempComponents = temp.components;
+            if (tempComponents!=null&&tempComponents.length>0) {
+              for (var j=0;j<tempComponents.length;j++) {
+                var tempLogs = tempComponents[j].log;
+                if (tempLogs!=null && tempLogs.length>0) {
+                  for (var m=0;m<tempLogs.length;m++) {
+                    currentLogs.push({"text":tempLogs[m]});
+                  }
+                }
+              }
+            }
+            if (temp.current_status==true)
+              break;
+          }
+        }
+        $scope.logs = currentLogs;
+      };
 
       $scope.process = {"width":"0%","transition":"width 1s"};
 
@@ -105,6 +124,7 @@ angular.module('app', ['common'])
         commonDao.getSingleServerFinish().save({'id':id}, function(data) {
           $scope.single = data;
           $scope.process = {"width":$scope.getProcess() + "%","transition":"width 1s"};
+          $scope.getCurrentLogs(data.components);
         });
       }, 15000);
 
@@ -123,7 +143,12 @@ angular.module('app', ['common'])
       commonDao.getSingleServerFinish().save({'id':id}, function(data) {
         $scope.single = data;
         $scope.process = {"width":$scope.getProcess() + "%","transition":"width 1s"};
+        $scope.getCurrentLogs(data.components);
       });
+
+      $scope.go = function(url) {
+        commonUtil.go(url + '?id=' + id);
+      };
 }]);
 </script>
 </body>

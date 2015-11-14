@@ -80,3 +80,14 @@ input.ng-invalid {
     width: 30%;
     color: #2FABDD;
 }
+
+.input_hide_hui_eject_s2 {
+    border: 0px #efeeed solid;
+    padding: 0 5px 0 5px;
+    background: #f4f4f3;
+    height: 15px;
+    vertical-align: middle;
+    margin: 0 0 0 5px;
+    width: 45%;
+    color: #2FABDD;
+}

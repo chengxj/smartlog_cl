@@ -12,6 +12,7 @@ class server(models.Model):
     username = models.CharField(max_length=128, null=True)
     password = models.CharField(max_length=128, null=True)
     description = models.CharField(max_length=128, null=True)
+    install_bs = models.BooleanField(default=False)
 
 class component(models.Model):
     server_id = models.ForeignKey(server,null=False)

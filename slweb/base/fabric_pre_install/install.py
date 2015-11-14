@@ -27,9 +27,10 @@ def get_tar_install_file_shell(filePath, serverPath):
 
 def pre_install():
     root_path = cur_file_dir()
-    os.system(get_tar_install_file_shell(root_path + "/fabric_pre_install/packages/ecdsa-fab-paramiko.tar.gz", "/usr/lib/python2.7/site-packages"))
-    os.system(get_tar_install_file_shell(root_path + "/fabric_pre_install/packages/crypto.tar.gz", "/usr/lib64/python2.7/site-packages"))
-    os.system(get_tar_install_file_shell(root_path + "/fabric_pre_install/packages/fab.tar.gz", "/usr/bin"))
+    print 'pre install path :', root_path
+    os.system(get_tar_install_file_shell(root_path + "/slweb/base/fabric_pre_install/packages/ecdsa-fab-paramiko.tar.gz", "/usr/lib/python2.7/site-packages"))
+    os.system(get_tar_install_file_shell(root_path + "/slweb/base/fabric_pre_install/packages/crypto.tar.gz", "/usr/lib64/python2.7/site-packages"))
+    os.system(get_tar_install_file_shell(root_path + "/slweb/base/fabric_pre_install/packages/fab.tar.gz", "/usr/bin"))
 
 if __name__ == '__main__':
     try:

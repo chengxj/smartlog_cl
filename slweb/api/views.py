@@ -23,12 +23,17 @@ def add_single_server(request):
     ip = request.data['ip']
     username = request.data['username']
     password = request.data['password']
-    serverDTO = {"available":False, "id":None, "message":None, "db_bs":False}
+    serverDTO = {"available":False, "id":None, "message":None, "component_bs":False, "install_bs":False}
     exist_server = server.objects.filter(type='single', ip=ip, username=username, password=password)
     if exist_server!=[] and len(exist_server)>0:
         serverDTO['available'] = True
-        serverDTO['db_bs'] = True
-        serverDTO['id'] = json.loads(serializers.serialize("json", exist_server))[0]['pk']
+        filter_server = json.loads(serializers.serialize("json", exist_server))[0]
+        serverDTO['id'] = filter_server['pk']
+        serverDTO['install_bs'] = filter_server['fields']['install_bs']
+        filter_components = component.objects.filter(server_id = filter_server['pk'])
+        serverDTO['component_bs'] = False
+        if filter_components!=[] and len(filter_components)>0:
+            serverDTO['component_bs'] = True
     else:
         existDTO = common.valid_single_server(ip, username, password)
         if(existDTO['available']==True):
@@ -70,6 +75,7 @@ def get_cluster_server_components(request):
             obj['hostname'] = item['fields']['hostname']
             obj['role'] = item['fields']['role']
             obj['id'] = item['pk']
+            obj['install_bs'] = item['fields']['install_bs']
             cluster_components = component.objects.filter(server_id=obj['id'])
             components = []
             if cluster_components!=[] and len(cluster_components)>0:
@@ -131,21 +137,27 @@ def add_single_server_components(request):
     # save components config
     id = request.data['id']
     single_server = server.objects.get(id=id)
-    items = request.data['components']
-    for item in items:
-        component_obj = component(server_id=single_server, type=item['type'], port=item['port'], install_dir=item['install_dir'], data_dir=item['data_dir'], log_dir=item['log_dir'], install_bs=item['install_bs'],
-            db_username=item['db_username'], db_password=item['db_password'], web_service_name=item['web_service_name'],
-            es_memory_limit=item['es_memory_limit'], es_index_number_of_shards=item['es_index_number_of_shards'],
-            es_index_refresh_interval=item['es_index_refresh_interval'], storm_works_num_per_host=item['storm_works_num_per_host'],
-            storm_dataProcess_works_num=item['storm_dataProcess_works_num'], storm_dataIndex_works_num=item['storm_dataIndex_works_num'],
-            storm_spout_config_num =item['storm_spout_config_num'], storm_spout_dataprocess_num=item['storm_spout_dataprocess_num'],
-            storm_spout_dataindex_num=item['storm_spout_dataindex_num'], storm_bolt_default_num=item['storm_bolt_default_num'],
-            storm_bolt_rule_num=item['storm_bolt_rule_num'], storm_bolt_advanced_num=item['storm_bolt_advanced_num'],
-            storm_bolt_kafka_num=item['storm_bolt_kafka_num'], storm_bolt_es_num=item['storm_bolt_es_num'],frontend_service_name=item['frontend_service_name'],
-            es_path_data=item['es_path_data'], es_path_logs=item['es_path_logs'])
-        component_obj.save()
+    install_bs = single_server.install_bs
+    component_bs = False
+    single_components = component.objects.filter(server_id=id)
+    if single_components!=[] and len(single_components)>0:
+        component_bs = True
+    else:
+        items = request.data['components']
+        for item in items:
+            component_obj = component(server_id=single_server, type=item['type'], port=item['port'], install_dir=item['install_dir'], data_dir=item['data_dir'], log_dir=item['log_dir'], install_bs=item['install_bs'],
+                db_username=item['db_username'], db_password=item['db_password'], web_service_name=item['web_service_name'],
+                es_memory_limit=item['es_memory_limit'], es_index_number_of_shards=item['es_index_number_of_shards'],
+                es_index_refresh_interval=item['es_index_refresh_interval'], storm_works_num_per_host=item['storm_works_num_per_host'],
+                storm_dataProcess_works_num=item['storm_dataProcess_works_num'], storm_dataIndex_works_num=item['storm_dataIndex_works_num'],
+                storm_spout_config_num =item['storm_spout_config_num'], storm_spout_dataprocess_num=item['storm_spout_dataprocess_num'],
+                storm_spout_dataindex_num=item['storm_spout_dataindex_num'], storm_bolt_default_num=item['storm_bolt_default_num'],
+                storm_bolt_rule_num=item['storm_bolt_rule_num'], storm_bolt_advanced_num=item['storm_bolt_advanced_num'],
+                storm_bolt_kafka_num=item['storm_bolt_kafka_num'], storm_bolt_es_num=item['storm_bolt_es_num'],frontend_service_name=item['frontend_service_name'],
+                es_path_data=item['es_path_data'], es_path_logs=item['es_path_logs'])
+            component_obj.save()
     json_data = common.valid_single_server_components(request.data)
-    return_data = {'available':True,"id":None}
+    return_data = {'available':True,"id":None, "component_bs":component_bs, "install_bs": install_bs}
     # returnData = {'available':False, 'message':[{"msg":"ZOOKPEER测试消息1"},{"msg":"KAFKA测试消息2"}]}
     if (json_data['available']==False):
         return_data['available'] = False
@@ -170,6 +182,8 @@ def get_single_warn(request):
 @api_view(['post'])
 def edit_single_server_components(request):
     id = request.data['id']
+    single_server = server.objects.get(id=id)
+    install_bs = single_server.install_bs
     items = request.data['components']
     for item in items:
         component.objects.filter(id=item['id']).update(type=item['type'], port=item['port'], install_dir=item['install_dir'], data_dir=item['data_dir'], log_dir=item['log_dir'], install_bs=item['install_bs'],
@@ -183,7 +197,7 @@ def edit_single_server_components(request):
             storm_bolt_kafka_num=item['storm_bolt_kafka_num'], storm_bolt_es_num=item['storm_bolt_es_num'],frontend_service_name=item['frontend_service_name'],
             es_path_data=item['es_path_data'], es_path_logs=item['es_path_logs'])
     json_data = common.valid_single_server_components(request.data)
-    returnData = {'available':True,"id":None}
+    returnData = {'available':True,"id":None,"install_bs":install_bs}
     # returnData = {'available':False, 'message':[{"msg":"ZOOKPEER测试消息1"},{"msg":"KAFKA测试消息2"}]}
     if (json_data['available']==False):
         returnData['available'] = False
@@ -233,23 +247,27 @@ def add_cluster_server_components(request):
     cluster_dto = {"available":False, "cluster_name":cluster_name, "id":None, "message": None}
     existDTO = common.valid_single_server(ip, username, password)
     if(existDTO['available']==True):
-        server_obj = server(type='cluster', cluster_name=cluster_name, role=role, ip=ip, hostname=hostname, username=username, password=password)
-        server_obj.save()
-        items = request.data['components']
-        for item in items:
-            component_obj = component(server_id=server_obj, type=item['type'], port=item['port'], install_dir=item['install_dir'], data_dir=item['data_dir'], log_dir=item['log_dir'], install_bs=item['install_bs'],
-                db_username=item['db_username'], db_password=item['db_password'], web_service_name=item['web_service_name'],
-                es_memory_limit=item['es_memory_limit'], es_index_number_of_shards=item['es_index_number_of_shards'],
-                es_index_refresh_interval=item['es_index_refresh_interval'], storm_works_num_per_host=item['storm_works_num_per_host'],
-                storm_dataProcess_works_num=item['storm_dataProcess_works_num'], storm_dataIndex_works_num=item['storm_dataIndex_works_num'],
-                storm_spout_config_num =item['storm_spout_config_num'], storm_spout_dataprocess_num=item['storm_spout_dataprocess_num'],
-                storm_spout_dataindex_num=item['storm_spout_dataindex_num'], storm_bolt_default_num=item['storm_bolt_default_num'],
-                storm_bolt_rule_num=item['storm_bolt_rule_num'], storm_bolt_advanced_num=item['storm_bolt_advanced_num'],
-                storm_bolt_kafka_num=item['storm_bolt_kafka_num'], storm_bolt_es_num=item['storm_bolt_es_num'],frontend_service_name=item['frontend_service_name'],
-                es_path_data=item['es_path_data'], es_path_logs=item['es_path_logs'])
-            component_obj.save()
-        cluster_dto['available'] = True
-        cluster_dto['id'] = server_obj.id
+        filter_server = server.objects.filter(ip=ip)
+        if filter_server!=[] and len(filter_server)>0:
+            cluster_dto['message'] = "IP已被使用!"
+        else:
+            server_obj = server(type='cluster', cluster_name=cluster_name, role=role, ip=ip, hostname=hostname, username=username, password=password)
+            server_obj.save()
+            items = request.data['components']
+            for item in items:
+                component_obj = component(server_id=server_obj, type=item['type'], port=item['port'], install_dir=item['install_dir'], data_dir=item['data_dir'], log_dir=item['log_dir'], install_bs=item['install_bs'],
+                    db_username=item['db_username'], db_password=item['db_password'], web_service_name=item['web_service_name'],
+                    es_memory_limit=item['es_memory_limit'], es_index_number_of_shards=item['es_index_number_of_shards'],
+                    es_index_refresh_interval=item['es_index_refresh_interval'], storm_works_num_per_host=item['storm_works_num_per_host'],
+                    storm_dataProcess_works_num=item['storm_dataProcess_works_num'], storm_dataIndex_works_num=item['storm_dataIndex_works_num'],
+                    storm_spout_config_num =item['storm_spout_config_num'], storm_spout_dataprocess_num=item['storm_spout_dataprocess_num'],
+                    storm_spout_dataindex_num=item['storm_spout_dataindex_num'], storm_bolt_default_num=item['storm_bolt_default_num'],
+                    storm_bolt_rule_num=item['storm_bolt_rule_num'], storm_bolt_advanced_num=item['storm_bolt_advanced_num'],
+                    storm_bolt_kafka_num=item['storm_bolt_kafka_num'], storm_bolt_es_num=item['storm_bolt_es_num'],frontend_service_name=item['frontend_service_name'],
+                    es_path_data=item['es_path_data'], es_path_logs=item['es_path_logs'])
+                component_obj.save()
+            cluster_dto['available'] = True
+            cluster_dto['id'] = server_obj.id
     else:
         cluster_dto['message'] = existDTO['message']
     return Response(cluster_dto)
@@ -305,6 +323,7 @@ def get_single_status(request):
 def install_single_server(request):
     print 'begin install single server'
     id = request.data['id']
+    server.objects.filter(id=id).update(install_bs=True)
     serverComponents = common.getServerComponents(id)
     conf = []
     single_conf = common.generate_conf(serverComponents)
@@ -315,6 +334,7 @@ def install_single_server(request):
 def install_cluster_server(request):
     print 'begin install cluster server'
     cluster_name = request.data['cluster_name']
+    server.objects.filter(cluster_name=cluster_name).update(install_bs=True)
     conf = []
     cluster_server = server.objects.filter(cluster_name=cluster_name)
     if cluster_server!=[] and len(cluster_server)>0:

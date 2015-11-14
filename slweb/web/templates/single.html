@@ -73,10 +73,14 @@ angular.module('app', ['common'])
       $scope.disabled = true;
 			commonDao.addSingleServer().save($scope.server).$promise.then(function(data) {
 				if (data.available) {
-					if(data.db_bs) {
+					if(data.install_bs) {
 						commonUtil.go('/single_component_status' + '?id=' + data.id);
 					} else {
-						commonUtil.go('/single_component' + '?id=' + data.id);
+            if (data.component_bs) {
+              commonUtil.go('/edit_single_component' + '?id=' + data.id);
+            } else {
+              commonUtil.go('/single_component' + '?id=' + data.id);
+            }
 					}
 				} else {
 					alert(data.message);
