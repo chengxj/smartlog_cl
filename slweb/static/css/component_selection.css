@@ -24,9 +24,12 @@
 .title_box .buttom_type_text{transform:skew(30deg);}
 .title_box .buttom_type_hui{float:left; width:165px; height:35px;transform:skew(-30deg); border-radius:10px; background:#f2f2f2; color:#010101; font-size:16px; text-align:center; line-height:2vw; cursor:pointer; margin:0 0 0 10px;}
 .title_box .buttom_type_hui:hover{float:left; width:165px; height:35px;transform:skew(-30deg); border-radius:10px; background:#38b7ea; color:#fff; font-size:16px; text-align:center; line-height:2vw; cursor:pointer; margin:0 0 0 10px;}
-.title_box .ico_jian_blue{ float:left; background:url(../images/jian_blue_x.png) no-repeat 0 7px; width:40%; height:10%; margin:10px 0 0 25%; padding:0 0 0 8%; font-size:0.9vw;}
-.title_box .ico_add_blue{ float:left; background:url(../images/add_blue_x.png) no-repeat 0 1px; width:40%; height:10%; margin:10px 0 0 25%; padding:0 0 0 8%;font-size:0.9vw;}
-.title_box .ico_add_hui{ float:left; background:url(../images/add_hui_x.png) no-repeat 0 7px; width:40%; height:10%; margin:10px 0 0 25%; padding:0 0 0 8%;font-size:0.9vw;}
+.title_box .ico_jian_blue{ float:left; background:url(../images/jian_blue_x.png) no-repeat 0 7px; width:40%; height:10%; margin:10px 0 0 5%; padding:0 0 0 8%; font-size:0.9vw;}
+.title_box .ico_add_blue{ float:left; background:url(../images/add_blue_x.png) no-repeat 0 1px; width:40%; height:10%; margin:10px 0 0 5%; padding:0 0 0 8%;font-size:0.9vw;}
+.title_box .ico_add_hui{ float:left; background:url(../images/add_hui_x.png) no-repeat 0 7px; width:40%; height:10%; margin:10px 0 0 5%; padding:0 0 0 8%;font-size:0.9vw;}
+.title_box .ico_jian_blue1{ float:left; background:url(../images/jian_blue_x.png) no-repeat 0 7px; width:40%; height:10%; margin:10px 0 0 5%; padding:0 0 0 8%; font-size:0.9vw;}
+.title_box .ico_add_blue1{ float:left; background:url(../images/add_blue_x.png) no-repeat 0 1px; width:40%; height:10%; margin:10px 0 0 5%; padding:0 0 0 8%;font-size:0.9vw;}
+.title_box .ico_add_hui1{ float:left; background:url(../images/add_hui_x.png) no-repeat 0 7px; width:40%; height:10%; margin:10px 0 0 5%; padding:0 0 0 8%;font-size:0.9vw;}
 .input_left{ margin:0 0 0 61px}
 .input_hide{ border:0px #fff solid; padding:0 5px 0 5px; margin:0 0 0 5px; width:60%}
 .input_hide_hui{ border:0px #efeeed solid; padding:0 5px 0 5px; background:#f4f4f3; height:15px; vertical-align:middle; margin:0 0 0 5px;width:60%}
@@ -34,15 +37,15 @@
 .title_box p{ float:left; line-height:5px; font-size:12px; clear:both;}
 /*弹出层*/
 .more_blue{ float:left; background:url(../images/more.gif) no-repeat; width:36px; height:17px; margin:10px 0px 0px 0px; cursor:pointer; z-index:9999;}
-.black_overlay{display: none;position: absolute;top: 0%;left: 0%;width: 100%;height: 100%;background-color: black;z-index:1001;-moz-opacity: 0.3;opacity:.30;filter: alpha(opacity=30);} 
-.white_content {display: none; position: absolute; top: 20%; left: 35%;width: 30%; height:350px;padding:10px 10px 20px 10px;border: 4px solid #38b7ea ;z-index:99999;border-radius:25px; background:#f4f4f4;} 
+.black_overlay{display: none;position: absolute;top: 0%;left: 0%;width: 100%;height: 100%;background-color: black;z-index:1001;-moz-opacity: 0.3;opacity:.30;filter: alpha(opacity=30);}
+.white_content {display: none; position: absolute; top: 20%; left: 35%;width: 30%; height:350px;padding:10px 10px 20px 10px;border: 4px solid #38b7ea ;z-index:99999;border-radius:25px; background:#f4f4f4;}
 .box_eject{ }
 .box_close{ float:right; background:url(../images/close.png) no-repeat; width:20px; height:21px;}
 .white_content .box_eject_border_bottom{border-bottom:1px #5dccf9 solid; padding-bottom:5px;}
 .white_content .input_hide_hui_eject{ border:0px #efeeed solid; padding:0 5px 0 5px; background:#f4f4f3; height:15px; vertical-align:middle; margin:0 0 0 5px;width:70%; color:#2FABDD;}
 .white_content p{ width:100%;float:left; line-height:5px; font-size:12px; clear:both;padding:10px; }
 /*滚动条*/
-#scroll-1{overflow-y:auto; height:95%; overflow-x:hidden; margin-top:5px;}   
+#scroll-1{overflow-y:auto; height:95%; overflow-x:hidden; margin-top:5px;}
 #scroll-1::-webkit-scrollbar {width:8px;height:8px;}
 #scroll-1::-webkit-scrollbar-button{background-color:#a6e6ff;}
 #scroll-1::-webkit-scrollbar-track{background:#a6e6ff;}
@@ -52,4 +55,6 @@
 /*弹出层提交按钮*/
 .submit_div{ float:right;background:#38b7ea; width:80px; height:30px; color:#fff; cursor:pointer; text-align:center; line-height:30px; transform:skew(-30deg); border-radius:5px; margin: 0 20px 10px 0;}
 .submit_font{ transform:skew(30deg); font-size:14px;}
-
+/*开始　&　停止按钮*/
+.start_button{ float:right; background:url(../images/start.png) no-repeat; width:8px; height:14px; margin:13px 10px 0px 0px; cursor:pointer; z-index:9999;}
+.start_pause{ float:right; background:url(../images/pause.png) no-repeat; width:11px; height:14px; margin:13px 10px 0px 0px; cursor:pointer; z-index:9999;}

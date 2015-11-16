@@ -110,6 +110,7 @@ def get_cluster_server_components(request):
                     storm_bolt_advanced_num = component_json['fields']['storm_bolt_advanced_num']
                     storm_bolt_kafka_num = component_json['fields']['storm_bolt_kafka_num']
                     storm_bolt_es_num = component_json['fields']['storm_bolt_es_num']
+                    storm_nimbs_bs = component_json['fields']['storm_nimbs_bs']
                     component_obj = {"id":item_id, "server_id":server_id, "port":port, "type":type, "install_dir":install_dir, "data_dir":data_dir, "log_dir":log_dir, "install_bs":install_bs, "description":None,
                         "db_username":db_username, "db_password":db_password, "web_service_name":web_service_name,
                         "es_memory_limit":es_memory_limit, "es_index_number_of_shards":es_index_number_of_shards,
@@ -119,7 +120,7 @@ def get_cluster_server_components(request):
                         "storm_spout_dataindex_num":storm_spout_dataindex_num, "storm_bolt_default_num":storm_bolt_default_num,
                         "storm_bolt_rule_num":storm_bolt_rule_num, "storm_bolt_advanced_num":storm_bolt_advanced_num,
                         "storm_bolt_kafka_num":storm_bolt_kafka_num, "storm_bolt_es_num":storm_bolt_es_num,"frontend_service_name":frontend_service_name,
-                        "es_path_data":es_path_data, "es_path_logs":es_path_logs}
+                        "es_path_data":es_path_data, "es_path_logs":es_path_logs,"storm_nimbs_bs":storm_nimbs_bs}
                     components.append(component_obj)
                 obj['components'] = components
             cluster_server.append(obj)
@@ -154,7 +155,7 @@ def add_single_server_components(request):
                 storm_spout_dataindex_num=item['storm_spout_dataindex_num'], storm_bolt_default_num=item['storm_bolt_default_num'],
                 storm_bolt_rule_num=item['storm_bolt_rule_num'], storm_bolt_advanced_num=item['storm_bolt_advanced_num'],
                 storm_bolt_kafka_num=item['storm_bolt_kafka_num'], storm_bolt_es_num=item['storm_bolt_es_num'],frontend_service_name=item['frontend_service_name'],
-                es_path_data=item['es_path_data'], es_path_logs=item['es_path_logs'])
+                es_path_data=item['es_path_data'], es_path_logs=item['es_path_logs'],storm_nimbs_bs=item['storm_nimbs_bs'])
             component_obj.save()
     json_data = common.valid_single_server_components(request.data)
     return_data = {'available':True,"id":None, "component_bs":component_bs, "install_bs": install_bs}
@@ -195,7 +196,7 @@ def edit_single_server_components(request):
             storm_spout_dataindex_num=item['storm_spout_dataindex_num'], storm_bolt_default_num=item['storm_bolt_default_num'],
             storm_bolt_rule_num=item['storm_bolt_rule_num'], storm_bolt_advanced_num=item['storm_bolt_advanced_num'],
             storm_bolt_kafka_num=item['storm_bolt_kafka_num'], storm_bolt_es_num=item['storm_bolt_es_num'],frontend_service_name=item['frontend_service_name'],
-            es_path_data=item['es_path_data'], es_path_logs=item['es_path_logs'])
+            es_path_data=item['es_path_data'], es_path_logs=item['es_path_logs'],storm_nimbs_bs=item['storm_nimbs_bs'])
     json_data = common.valid_single_server_components(request.data)
     returnData = {'available':True,"id":None,"install_bs":install_bs}
     # returnData = {'available':False, 'message':[{"msg":"ZOOKPEER测试消息1"},{"msg":"KAFKA测试消息2"}]}
@@ -264,7 +265,7 @@ def add_cluster_server_components(request):
                     storm_spout_dataindex_num=item['storm_spout_dataindex_num'], storm_bolt_default_num=item['storm_bolt_default_num'],
                     storm_bolt_rule_num=item['storm_bolt_rule_num'], storm_bolt_advanced_num=item['storm_bolt_advanced_num'],
                     storm_bolt_kafka_num=item['storm_bolt_kafka_num'], storm_bolt_es_num=item['storm_bolt_es_num'],frontend_service_name=item['frontend_service_name'],
-                    es_path_data=item['es_path_data'], es_path_logs=item['es_path_logs'])
+                    es_path_data=item['es_path_data'], es_path_logs=item['es_path_logs'],storm_nimbs_bs=item['storm_nimbs_bs'])
                 component_obj.save()
             cluster_dto['available'] = True
             cluster_dto['id'] = server_obj.id
@@ -296,7 +297,7 @@ def edit_cluster_server_components(request):
                 storm_spout_dataindex_num=item['storm_spout_dataindex_num'], storm_bolt_default_num=item['storm_bolt_default_num'],
                 storm_bolt_rule_num=item['storm_bolt_rule_num'], storm_bolt_advanced_num=item['storm_bolt_advanced_num'],
                 storm_bolt_kafka_num=item['storm_bolt_kafka_num'], storm_bolt_es_num=item['storm_bolt_es_num'],frontend_service_name=item['frontend_service_name'],
-                es_path_data=item['es_path_data'], es_path_logs=item['es_path_logs'])
+                es_path_data=item['es_path_data'], es_path_logs=item['es_path_logs'],storm_nimbs_bs=item['storm_nimbs_bs'])
         cluster_dto['available'] = True
         cluster_dto['id'] = id
     else:
@@ -343,3 +344,11 @@ def install_cluster_server(request):
             single_conf = common.generate_conf(serverComponents)
             conf.append(single_conf)
     common.install_components(conf)
+
+@api_view(['post'])
+def start_component(request):
+    pass
+
+@api_view(['post'])
+def stop_component(request):
+    pass

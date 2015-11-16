@@ -107,8 +107,8 @@ angular.module('app', ['common'])
   $interpolateProvider.startSymbol('{[{');
   $interpolateProvider.endSymbol('}]}');
 })
-.controller('controller', ['$scope', 'commonDao', 'commonUtil',
-	function($scope, commonDao, commonUtil) {
+.controller('controller', ['$scope', 'commonDao', 'commonUtil', '$filter',
+	function($scope, commonDao, commonUtil, $filter) {
 
     $scope.selectType = "ALL";
 
@@ -146,7 +146,19 @@ angular.module('app', ['common'])
       commonUtil.go("/new_cluster_component?cluster_name=" + cluster_name + "&role=" + type);
     };
 
+    $scope.disabled = false;
     $scope.validClusterServerComponents = function() {
+      // 验证nimbs有且仅有一个被设置。
+      if ($scope.cluster_server!=null&&$scope.cluster_server.length>0) {
+        var stormServer = $filter('filter')($scope.cluster_server, {components:{type:'STORM', install_bs:true, storm_nimbs_bs:true}})
+        if (stormServer == null || stormServer.length != 1) {
+          alert("集群中STORM的nimbs有且仅有一个,请修改后再提交!");
+          return
+        }
+      }
+      if ($scope.disabled)
+        return
+      $scope.disabled = true;
       commonDao.validClusterServerComponents().save({"cluster_name":cluster_name}, function(data) {
         if (!data.available) {
             commonUtil.go("/cluster_alarm?id=" + data.id);

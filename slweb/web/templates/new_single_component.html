@@ -91,6 +91,7 @@
 		<p ng-if="tempComponent.type=='STORM'">storm_bolt_advanced_num:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_bolt_advanced_num" /></p>
 		<p ng-if="tempComponent.type=='STORM'">storm_bolt_kafka_num:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_bolt_kafka_num" /></p>
 		<p ng-if="tempComponent.type=='STORM'">storm_bolt_es_num:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_bolt_es_num" /></p>
+    <p ng-if="tempComponent.type=='STORM'">storm_nimbs:<input type="checkbox" ng-model="tempComponent.storm_nimbs_bs" ng-disabled="true" /></p>
 		<p ng-if="tempComponent.type!='STORM'"><input class="input_hide_hui_eject" /></p>
 		<p ng-if="tempComponent.type!='STORM'&&tempComponent.type!='ELASTICSEARCH'"><input class="input_hide_hui_eject" /></p>
 		<p ng-if="tempComponent.type=='ZOOKEEPER'||tempComponent.type=='KAFKA'||tempComponent.type=='FLUME'"><input class="input_hide_hui_eject" /></p>
@@ -120,7 +121,7 @@ angular.module('app', ['common'])
 				$scope.pindex = pindex;
 				$scope.index = index;
 				$scope.tempComponent = angular.copy(component);
-			}
+			};
 
 			$scope.completeEdit = function() {
 				$scope.components[$scope.pindex][$scope.index] = angular.copy($scope.tempComponent);
@@ -144,6 +145,9 @@ angular.module('app', ['common'])
               var name = $scope.componentsName[i*$scope.colCount + j];
 							var component = angular.copy($scope.defaultComponents[name]);
 							component.install_bs = true;
+              if (name=='STORM') {
+                component.storm_nimbs_bs = true;
+              }
               row.push(component);
             } else {
               break;
@@ -163,6 +167,9 @@ angular.module('app', ['common'])
 					$scope.components[pindex][index] = commonUtil.serverComponent(type);
         } else {
 					$scope.components[pindex][index] = angular.copy($scope.defaultComponents[type]);
+          if (type=='STORM') {
+            $scope.components[pindex][index].storm_nimbs_bs = true;
+          }
 				}
 				$scope.components[pindex][index].install_bs = !install_bs;
 				$scope.components[pindex][index].id = id;

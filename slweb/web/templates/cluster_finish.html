@@ -32,7 +32,7 @@
         </div>
         <div class="classify">
             <div class="kind">
-              <div ng-class="getStyle(item.status, item.current_status)" ng-repeat="item in cluster.components">{[{item.showname|uppercase}]}</div>
+              <div ng-class="getStyle(item.status, item.current_status)" ng-repeat="item in cluster.components| orderBy:'index':false">{[{item.showname|uppercase}]}</div>
             </div>
             <div class="kind" ng-repeat="item in cluster.components | filter : {current_status : true}">
               <div ng-class="getStyle(component.status, component.current_status)" ng-repeat="component in item.components| orderBy:'index':false" title="{[{component.ip}]}">{[{item.showname|uppercase}]}</div>
@@ -151,7 +151,7 @@ angular.module('app', ['common'])
           $scope.process = {"width":$scope.getProcess() + "%","transition":"width 2s"};
           $scope.getCurrentLogs(data.components);
         });
-      }, 15000);
+      }, 20000);
 
       $scope.getProcess = function() {
         var process = 0;

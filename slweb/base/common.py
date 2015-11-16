@@ -98,6 +98,7 @@ def getServerComponents(id):
                 storm_bolt_advanced_num = item['fields']['storm_bolt_advanced_num']
                 storm_bolt_kafka_num = item['fields']['storm_bolt_kafka_num']
                 storm_bolt_es_num = item['fields']['storm_bolt_es_num']
+                storm_nimbs_bs = item['fields']['storm_nimbs_bs']
                 component_obj = {"id":item_id, "server_id":server_id, "port":port, "type":type, "install_dir":install_dir, "data_dir":data_dir, "log_dir":log_dir, "install_bs":install_bs, "description":None,
                     "db_username":db_username, "db_password":db_password, "web_service_name":web_service_name,
                     "es_memory_limit":es_memory_limit, "es_index_number_of_shards":es_index_number_of_shards,
@@ -107,7 +108,8 @@ def getServerComponents(id):
                     "storm_spout_dataindex_num":storm_spout_dataindex_num, "storm_bolt_default_num":storm_bolt_default_num,
                     "storm_bolt_rule_num":storm_bolt_rule_num, "storm_bolt_advanced_num":storm_bolt_advanced_num,
                     "storm_bolt_kafka_num":storm_bolt_kafka_num, "storm_bolt_es_num":storm_bolt_es_num,
-                    "frontend_service_name":frontend_service_name,"es_path_data":es_path_data,"es_path_logs":es_path_logs}
+                    "frontend_service_name":frontend_service_name,"es_path_data":es_path_data,
+                    "es_path_logs":es_path_logs,"storm_nimbs_bs":storm_nimbs_bs}
                 serverDTO['components'].append(component_obj)
     return serverDTO
 
@@ -267,7 +269,10 @@ def generate_conf(serverComponents):
                 conf[type]['log_dir'] = item['log_dir']
                 conf[type]['storm.local.dir'] = item['data_dir']
                 conf[type]['install_dir'] = item['install_dir']
-                conf[type]['nimbus.host'] = ip
+                if item['storm_nimbs_bs']:
+                    conf[type]['nimbus.host'] = ip
+                else:
+                    conf[type]['nimbus.host'] = ""
                 conf[type]['storm.zookeeper.servers'] = ip
                 conf[type]['works_num_per_host'] = item['storm_works_num_per_host']
                 conf[type]['storm.dataProcess.works.num'] = item['storm_dataProcess_works_num']
@@ -825,7 +830,7 @@ def get_component_status(parameters):
                 item['current_status'] = True
             if each['status'] == 1:
                 item['status'] = 1
-                item['current_status'] = True
+                item['current_status'] = False
             if not each['current_status']:
                 sum_current += 1
             if sum_status_zero == length and sum_current == length:

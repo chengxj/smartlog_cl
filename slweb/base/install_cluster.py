@@ -61,8 +61,8 @@ def install_packages(hosts):
     'flume_server',
     'elasticsearch',
     'docker',
-    'mysql',
     'frontend',
+    'mysql',
     'web',
     'regex_test',
     ]

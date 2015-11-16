@@ -41,6 +41,7 @@ class component(models.Model):
     storm_bolt_advanced_num = models.CharField(max_length=128, null=True)
     storm_bolt_kafka_num = models.CharField(max_length=128, null=True)
     storm_bolt_es_num = models.CharField(max_length=128, null=True)
+    storm_nimbs_bs = models.BooleanField(default=False)
     description = models.CharField(max_length=128, null=True)
     install_bs = models.BooleanField()
 

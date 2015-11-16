@@ -97,6 +97,7 @@ function($resource) {
                 "storm_bolt_advanced_num": "",
                 "storm_bolt_kafka_num": "",
                 "storm_bolt_es_num": "",
+                "storm_nimbs_bs": false,
                 "frontend_service_name": ""
             };
         },
@@ -142,6 +143,7 @@ function($resource) {
                     "storm_bolt_advanced_num": "",
                     "storm_bolt_kafka_num": "",
                     "storm_bolt_es_num": "",
+                    "storm_nimbs_bs": false,
                     "frontend_service_name": ""
                 },
                 "KAFKA": {
@@ -170,6 +172,7 @@ function($resource) {
                     "storm_bolt_advanced_num": "",
                     "storm_bolt_kafka_num": "",
                     "storm_bolt_es_num": "",
+                    "storm_nimbs_bs": false,
                     "frontend_service_name": ""
                 },
                 "FLUME": {
@@ -197,7 +200,8 @@ function($resource) {
                     "storm_bolt_rule_num": "",
                     "storm_bolt_advanced_num": "",
                     "storm_bolt_kafka_num": "",
-                    "storm_bolt_es_num": "",
+                    "storm_bolt_es_num": "20",
+                    "storm_nimbs_bs": false,
                     "frontend_service_name": ""
                 },
                 "STORM": {
@@ -226,6 +230,7 @@ function($resource) {
                     "storm_bolt_advanced_num": "10",
                     "storm_bolt_kafka_num": "10",
                     "storm_bolt_es_num": "20",
+                    "storm_nimbs_bs": false,
                     "frontend_service_name": ""
                 },
                 "ELASTICSEARCH": {
@@ -254,6 +259,7 @@ function($resource) {
                     "storm_bolt_advanced_num": "",
                     "storm_bolt_kafka_num": "",
                     "storm_bolt_es_num": "",
+                    "storm_nimbs_bs": false,
                     "frontend_service_name": ""
                 },
                 "FRONTEND": {
@@ -282,6 +288,7 @@ function($resource) {
                     "storm_bolt_advanced_num": "",
                     "storm_bolt_kafka_num": "",
                     "storm_bolt_es_num": "",
+                    "storm_nimbs_bs": false,
                     "frontend_service_name": "frontend"
                 },
                 "DATABASE": {
@@ -310,6 +317,7 @@ function($resource) {
                     "storm_bolt_advanced_num": "",
                     "storm_bolt_kafka_num": "",
                     "storm_bolt_es_num": "",
+                    "storm_nimbs_bs": false,
                     "frontend_service_name": ""
                 },
                 "WEB": {
@@ -338,6 +346,7 @@ function($resource) {
                     "storm_bolt_advanced_num": "",
                     "storm_bolt_kafka_num": "",
                     "storm_bolt_es_num": "",
+                    "storm_nimbs_bs": false,
                     "frontend_service_name": ""
                 }
             };
