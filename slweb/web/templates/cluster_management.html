@@ -45,7 +45,7 @@
             	<div class="type_list" ng-cloak>
                 	<div class="title">PORCESS</div>
                     <div class="box_info_all">
-                        <div class="box_info box_bg_hui" ng-repeat="item in cluster_server | filter : getFilterJson('PROCESS') | orderBy:'ip':false">
+                        <div ng-class="getBoxClass(item.ip)" ng-repeat="item in cluster_server | filter : getFilterJson('PROCESS') | orderBy:'ip':false">
                         	<div class="p_all" ng-click="go(item.id)">
                                 <p>IP：{[{item.ip}]}</p>
                                 <p title="{[{item.hostname}]}">hostname:{[{item.hostname}]}</p>
@@ -61,7 +61,7 @@
                 <div class="type_list" ng-cloak>
                 	<div class="title">WEB</div>
                     <div class="box_info_all">
-                        <div class="box_info box_bg_hui" ng-repeat="item in cluster_server | filter : getFilterJson('WEB') | orderBy:'ip':false">
+                        <div ng-class="getBoxClass(item.ip)" ng-repeat="item in cluster_server | filter : getFilterJson('WEB') | orderBy:'ip':false">
                         	<div class="p_all" ng-click="go(item.id)">
                                 <p>IP：{[{item.ip}]}</p>
                                 <p title="{[{item.hostname}]}">hostname:{[{item.hostname}]}</p>
@@ -78,7 +78,7 @@
                 <div class="type_list" ng-cloak>
                 	<div class="title">自定义</div>
                     <div class="box_info_all">
-                        <div class="box_info box_bg_hui" ng-repeat="item in cluster_server | filter : getFilterJson('OTHER') | orderBy:'ip':false">
+                        <div ng-class="getBoxClass(item.ip)" ng-repeat="item in cluster_server | filter : getFilterJson('OTHER') | orderBy:'ip':false">
                         	<div class="p_all" ng-click="go(item.id)">
                               <p>IP：{[{item.ip}]}</p>
                               <p title="{[{item.hostname}]}">hostname:{[{item.hostname}]}</p>
@@ -90,9 +90,9 @@
                         </div>
 
                     </div>
-                    <div class="right_text" ng-click="validClusterServerComponents()">自定义角色规则说明</div>
+                    <div class="right_text">自定义角色规则说明</div>
                 </div>
-                <div class="next_button"></div>
+                <div class="next_button" ng-if="false"></div>
             </div>
    		</div>
     </div>
@@ -105,8 +105,41 @@ angular.module('app', ['common'])
   $interpolateProvider.startSymbol('{[{');
   $interpolateProvider.endSymbol('}]}');
 })
-.controller('controller', ['$scope', 'commonDao', 'commonUtil',
-	function($scope, commonDao, commonUtil) {
+.controller('controller', ['$scope', 'commonDao', 'commonUtil', '$interval', '$filter',
+	function($scope, commonDao, commonUtil, $interval, $filter) {
+
+    $scope.getBoxClass = function(ip) {
+      var boxClass = "box_info";
+      var status = $scope.getServerStatus(ip, $scope.selectType);
+      if (status == 0) {
+        boxClass += " box_bg_green";
+      } else if(status ==1) {
+        boxClass += " box_bg_red";
+      } else {
+        boxClass += " box_bg_hui";
+      }
+      return boxClass;
+    };
+
+    $scope.getServerStatus = function(ip, type) {
+      var status = -1;
+      if (type == "ALL") {
+        if ($scope.cluster!=undefined) {
+          var server = $filter('filter')($scope.cluster, {"ip":ip});
+          if (server !=null && server.length>0) {
+            status = server[0]['status']
+          }
+        }
+      } else {
+        if ($scope.cluster!=undefined) {
+          var server = $filter('filter')($scope.cluster, {"ip":ip});
+          if (server !=null && server.length>0) {
+            status = server[0]['components'][type].status
+          }
+        }
+      }
+      return status;
+    };
 
     $scope.selectType = "ALL";
 
@@ -130,33 +163,34 @@ angular.module('app', ['common'])
     };
 
     $scope.go = function(id) {
-      commonUtil.go("/edit_cluster_component?id=" + id);
+      commonUtil.go("/cluster_component_status?id=" + id);
     };
 
     $scope.getClusterServerComponents = function() {
       commonDao.getClusterServerComponents().save({"cluster_name":cluster_name}, function(data) {
         $scope.cluster_server = data.cluster_server;
-        console.log($scope.cluster_server)
       });
     };
 
     $scope.new_cluster_component = function(type) {
+      return
       commonUtil.go("/new_cluster_component?cluster_name=" + cluster_name + "&role=" + type);
     };
 
-    $scope.validClusterServerComponents = function() {
-      alert("还未开发")
-      return
-      commonDao.validClusterServerComponents().save({"cluster_name":cluster_name}, function(data) {
-        if (!data.available) {
-          commonUtil.go("/cluster_alarm?id=" + data.id)
-        } else {
-          commonUtil.go("/cluster_finish?id=" + data.id)
-        }
+    $scope.getClusterServerComponents();
+
+    $scope.getClusterServerStatus = function() {
+      commonDao.getClusterServerStatus().save({'cluster_name':cluster_name}, function(data) {
+        $scope.cluster = data.dto;
+        $scope.getBoxClass('10.0.0.171');
       });
     };
 
-    $scope.getClusterServerComponents();
+    $interval(function() {
+      $scope.getClusterServerStatus();
+    }, 20000);
+
+    $scope.getClusterServerStatus();
   }
 ]);
 </script>

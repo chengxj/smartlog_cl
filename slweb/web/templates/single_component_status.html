@@ -39,14 +39,16 @@
                 </div>
                 <form name="validForm" ng-cloak>
                     <div class="title_box" ng-repeat="row in components">
-                      <div ng-repeat="component in row" ng-class="{true: 'input_movew box-shadow-3', false: 'input_move box-shadow-1'}[component.install_bs]">
-                          <div ng-class="{true: 'ico_jian_blue', false: 'ico_add_blue'}[component.install_bs]" ng-click="changeType($parent.$index, $index)">{[{component.type}]}</div>
-                          <div ng-click = "editComponent(component, $parent.$index, $index)" class="more_blue"></div>
-													<div id="fade" class="black_overlay"></div>
-                          <p>端口:<input ng-class="{true: 'input_hide_w', false: 'input_hide_hui'}[component.install_bs]" class="" ng-model="component.port" ng-readonly="true"/></p>
-                          <p>安装路径<input ng-class="{true: 'input_hide_w', false: 'input_hide_hui'}[component.install_bs]" ng-model="component.install_dir" required /></p>
-                          <p>dataDir<input ng-class="{true: 'input_hide_w', false: 'input_hide_hui'}[component.install_bs]" ng-model="component.data_dir" /></p>
-                          <p>logDir<input ng-class="{true: 'input_hide_w', false: 'input_hide_hui'}[component.install_bs]" ng-model="component.log_dir" /></p>
+                      <div ng-repeat="component in row" ng-class="getDivClass(component.install_bs, component.type)">
+                          <div ng-class="{true: 'ico_jian_blue1', false: 'ico_add_blue1'}[component.install_bs]" ng-click="changeType($parent.$index, $index)">{[{component.type}]}</div>
+                          <div title="点击更多" ng-click="editComponent(component, $parent.$index, $index)" class="more_blue"></div>
+                          <div title="开始" ng-click="startStopServerComponent(component, 'start')" class="start_button" ng-if="getComponentStatus(component.type)==1"></div>
+                          <div title="停止" ng-click="startStopServerComponent(component, 'stop')" class="start_pause" ng-if="getComponentStatus(component.type)==0"></div>
+                          <div id="fade" class="black_overlay"></div>
+                          <p>端口:<input ng-class="getInputClass(component.install_bs, component.type)" ng-model="component.port" ng-readonly="true"/></p>
+                          <p>安装路径<input ng-class="getInputClass(component.install_bs, component.type)" ng-model="component.install_dir" required /></p>
+                          <p>dataDir<input ng-class="getInputClass(component.install_bs, component.type)" ng-model="component.data_dir" /></p>
+                          <p>logDir<input ng-class="getInputClass(component.install_bs, component.type)" ng-model="component.log_dir" /></p>
                       </div>
                    </div>
                 </form>
@@ -54,7 +56,7 @@
             <div class="note">请填写主机信息后点击下一步，如未安装将跳转到安装页，所以安装页，所以安装则自动跳转到管理员</div>
             <div class="title_box">
                     <div class="title_buttom">
-                    	<div class="buttom_type" ng-click="validSingleServerComponents(validForm.$invalid)"><div class="buttom_type_text">提交</div></div>
+                    	<div class="buttom_type" ng-if="false"><div class="buttom_type_text">提交</div></div>
                     </div>
                		</div>
         </div>
@@ -91,8 +93,7 @@
 		<p ng-if="tempComponent.type=='STORM'">storm_bolt_advanced_num:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_bolt_advanced_num" /></p>
 		<p ng-if="tempComponent.type=='STORM'">storm_bolt_kafka_num:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_bolt_kafka_num" /></p>
 		<p ng-if="tempComponent.type=='STORM'">storm_bolt_es_num:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_bolt_es_num" /></p>
-    <p ng-if="tempComponent.type=='STORM'">storm_nimbs:<input type="checkbox" ng-model="tempComponent.storm_nimbs_bs" /></p>
-    <p ng-if="tempComponent.type=='STORM'">storm_nimbs:<input type="checkbox" ng-model="tempComponent.storm_nimbs_bs" ng-disabled="true" /></p>
+    <p ng-if="tempComponent.type=='STORM'">storm_nimbs:<input type="checkbox" ng-model="tempComponent.storm_nimbs_bs" ng-disabled="true"/></p>
     <p ng-if="tempComponent.type!='STORM'"><input class="input_hide_hui_eject" /></p>
 		<p ng-if="tempComponent.type!='STORM'&&tempComponent.type!='ELASTICSEARCH'"><input class="input_hide_hui_eject" /></p>
 		<p ng-if="tempComponent.type=='ZOOKEEPER'||tempComponent.type=='KAFKA'||tempComponent.type=='FLUME'"><input class="input_hide_hui_eject" /></p>
@@ -111,8 +112,61 @@ angular.module('app', ['common'])
   $interpolateProvider.startSymbol('{[{');
   $interpolateProvider.endSymbol('}]}');
 })
-.controller('controller', ['$scope', 'commonDao', 'commonUtil',
-    function($scope, commonDao, commonUtil) {
+.controller('controller', ['$scope', 'commonDao', 'commonUtil', '$interval',
+    function($scope, commonDao, commonUtil, $interval) {
+
+      $scope.startStopServerComponent = function(component, bs) {
+        var ip = $scope.server.ip;
+        var username = $scope.server.username;
+        var password = $scope.server.password;
+        var hostname = $scope.server.hostname;
+        commonDao.startStopServerComponent().save({"ip":ip, "username":username, "password":password, "hostname":hostname, "component":component, "bs":bs});
+      };
+
+      $scope.getComponentStatus = function(type) {
+        var status = -1;
+        if($scope.single!=undefined) {
+          var components = $scope.single['components'];
+          if (components != null && components[type] != null)
+            status = components[type]['status']
+        }
+        return status;
+      };
+
+      $scope.getDivClass = function(installBS, type) {
+        var divClass = "";
+        if (installBS) {
+          divClass = "input_movew";
+          var status = $scope.getComponentStatus(type);
+          if (status==0) {
+            divClass += " bg_green";
+          } else if(status==1) {
+            divClass += " bg_red";
+          } else {
+            divClass += " box-shadow-3"
+          }
+        } else {
+          divClass = "input_move box-shadow-1";
+        }
+        return divClass;
+      };
+
+      $scope.getInputClass = function(installBS, type) {
+        var inputClass = "";
+        if (installBS) {
+          var status = $scope.getComponentStatus(type);
+          if (status==0) {
+            inputClass = "input_hide_green";
+          } else if(status==1) {
+            inputClass = "input_hide_red";
+          } else {
+            inputClass = "input_hide_w";
+          }
+        } else {
+          inputClass = "input_hide_hui";
+        }
+        return inputClass;
+      };
 
       $scope.pindex = 0;
       $scope.index = 0;
@@ -122,7 +176,7 @@ angular.module('app', ['common'])
         $scope.pindex = pindex;
         $scope.index = index;
         $scope.tempComponent = angular.copy(component);
-      }
+      };
 
       $scope.completeEdit = function() {
         $scope.components[$scope.pindex][$scope.index] = angular.copy($scope.tempComponent);
@@ -143,9 +197,6 @@ angular.module('app', ['common'])
           for (var j=0; j<$scope.colCount; j++) {
             if((i*$scope.colCount + j )<componentsLength) {
               var item = angular.copy($scope.server.components[i*$scope.colCount + j]);
-              // if (item.type=='storm') {
-              //   item.storm_nimbs_bs = true;
-              // }
               row.push(item);
             } else {
               break;
@@ -175,35 +226,6 @@ angular.module('app', ['common'])
 
       $scope.defaultComponents = commonUtil.defaultComponents();
 
-      $scope.validSingleServerComponents = function(valid) {
-        alert("还未开发");
-        return
-        if(valid)
-          return
-        var obj = commonUtil.serverComponents(id);
-        obj.ip = $scope.server.ip;
-        obj.hostname = $scope.server.hostname;
-        obj.username = $scope.server.username;
-        obj.password = $scope.server.password;
-        if ($scope.components!=null && $scope.components.length>0 ) {
-          for (var i=0;i<$scope.components.length;i++) {
-            var row = $scope.components[i];
-            if(row!=null&&row.length>0) {
-              for (var j=0;j<row.length;j++) {
-                obj.components.push(row[j]);
-              }
-            }
-          }
-        }
-        commonDao.addSingleServerComponents().save(obj, function(data) {
-          if (!data.available) {
-            commonUtil.go("/single_alarm?id=" + data.id)
-          } else {
-            commonUtil.go("/single_finish?id=" + data.id)
-          }
-        });
-      };
-
       $scope.getSingleServerComponents = function() {
         commonDao.getSingleServerComponents().save({'id':id}, function(data) {
           $scope.server = data;
@@ -212,6 +234,18 @@ angular.module('app', ['common'])
       };
 
       $scope.getSingleServerComponents();
+
+      $scope.getSingleComponentStatus = function() {
+        commonDao.getSingleComponentStatus().save({'id':id}, function(data) {
+          $scope.single = data.dto;
+        });
+      };
+
+      $interval(function() {
+        $scope.getSingleComponentStatus();
+      }, 20000);
+
+      $scope.getSingleComponentStatus();
 }]);
 </script>
 </body>

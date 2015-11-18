@@ -54,6 +54,87 @@ if sys.getdefaultencoding() != default_encoding:
 def _encode(string):
     return string.encode('utf-8')
 
+def start_stop_server_component(param):
+    conf = {
+             "host":'root@10.0.0.181',
+             "password":"ultra",
+             "component":"zookeeper",
+             "install_dir":"/home/ultrapower",
+             "nimbus_ip":"",
+             "action":"start|stop",
+             "config":{
+               "data_dir":"",
+             },
+             "flag":True
+           }
+    pass
+
+def get_single_server_status(param):
+    return {
+            "ip":"10.0.0.171",
+            "status":0,
+            "components":{
+                "ZOOKEEPER":{"status":0},
+                "KAFKA":{"status":0},
+                "FLUME":{"status":1},
+                "STORM":{"status":1},
+                "ELASTICSEARCH":{"status":0},
+                "WEB":{"status":0},
+                "FRONTEND":{"status":0},
+                "DATABASE":{"status":0},
+                "KEEPLIVE":{"status":0}
+            }
+        }
+
+def get_cluster_server_status(param):
+    return [
+        {
+             "ip":"10.0.0.171",
+             "status":0,
+             "components":{
+                "ZOOKEEPER":{"status":0},
+                "KAFKA":{"status":0},
+                "FLUME":{"status":0},
+                "STORM":{"status":0},
+                "ELASTICSEARCH":{"status":0},
+                "WEB":{"status":0},
+                "FRONTEND":{"status":0},
+                "DATABASE":{"status":0},
+                "KEEPLIVE":{"status":0}
+            }
+        },
+        {
+             "ip":"10.0.0.172",
+             "status":0,
+             "components":{
+                "ZOOKEEPER":{"status":0},
+                "KAFKA":{"status":0},
+                "FLUME":{"status":0},
+                "STORM":{"status":0},
+                "ELASTICSEARCH":{"status":0},
+                "WEB":{"status":0},
+                "FRONTEND":{"status":0},
+                "DATABASE":{"status":0},
+                "KEEPLIVE":{"status":0}
+            }
+        },
+        {
+             "ip":"10.0.0.173",
+             "status":1,
+             "components":{
+                "ZOOKEEPER":{"status":0},
+                "KAFKA":{"status":1},
+                "FLUME":{"status":0},
+                "STORM":{"status":1},
+                "ELASTICSEARCH":{"status":0},
+                "WEB":{"status":0},
+                "FRONTEND":{"status":1},
+                "DATABASE":{"status":0},
+                "KEEPLIVE":{"status":0}
+            }
+        }
+    ]
+
 def getServerComponents(id):
     serverDTO = {"id":id, "hostname":None, "cluster_name":None, "role":None, "ip":None, "username":None, "password":None, "components":[]}
     exist_server = server.objects.filter(pk=id)

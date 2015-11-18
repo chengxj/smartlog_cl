@@ -37,6 +37,7 @@ urlpatterns = [
     url(r'^cluster_host', cluster_host),
     url(r'^cluster_finish', cluster_finish),
     url(r'^cluster_alarm', cluster_alarm),
+    url(r'^cluster_component_status', cluster_component_status),    
     url(r'^cluster_management', cluster_management),
     url(r'^cluster', cluster),
     url(r'^admin/', include(admin.site.urls)),
@@ -55,6 +56,10 @@ urlpatterns = [
     url(r'^api/edit_cluster_server_components', edit_cluster_server_components, name='edit-cluster-server-components'),
     url(r'^api/install_single_server', install_single_server, name='install-single-server'),
     url(r'^api/install_cluster_server', install_cluster_server, name='install-cluster-server'),
+    url(r'^api/start_stop_server_component', start_stop_server_component, name='start-stop-server-component'),
+    url(r'^api/get_single_component_status', get_single_component_status, name='get-single-component-status'),
+    url(r'^api/get_cluster_component_status', get_cluster_component_status, name='get-cluster-component-status'),
+    url(r'^api/get_cluster_server_status', get_cluster_server_status, name='get-cluster-server-status')
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

@@ -1,0 +1,253 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" ng-app="app">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>首页</title>
+<link href="/resources/css/shouye.css" rel="stylesheet" type="text/css" />
+<link href="/resources/css/component_selection.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/resources/js/angular.min.js"></script>
+<script type="text/javascript" src="/resources/js/angular-resource.min.js"></script>
+<script type="text/javascript" src="/resources/js/angular-common-0.4.min.js"></script>
+</head>
+<body ng-controller="controller">
+    <div class="logo"><div class="logo_sub1">
+	    	<img class="logo_sub2" src="/resources/images/logo.png" />
+        </div></div>
+    <div class="head">
+        <div class="nav">
+            <div class="nav1_sub1"><span>1 用户名</span></div>
+            <div class="nav1"><span>2 集群管理</span></div>
+            <div class="nav1"><span>3 告警内容</span></div>
+            <div class="nav2"><span>4 安装</span></div>
+            <div class="nav_bg"></div>
+        </div>
+    </div>
+    <div class="main">
+        <div class="mount">组件选择</div>
+        <div class="schedule"> </div>
+        <div class="classify">
+        </div>
+        <div class="component_selection">
+            <div class="center_1">
+            		<div class="title_box">
+                    <div class="title_ip" ng-cloak>
+                      <p>IP:<input class="input_hide" ng-model="server.ip" /></p>
+                      <p>USERNAME:<input class="input_hide" ng-model="server.username" /></p>
+                      <p>PASSWORD:<input class="input_hide" type="password" ng-model="server.password" /></p>
+                    </div>
+                    <div class="title_buttom" ng-cloak>
+                    	<div ng-class="{true:'buttom_type', false:'buttom_type_hui'}[server.role=='WEB']" ng-click="server.role='WEB'"><div class="buttom_type_text">WEB</div></div>
+                    	<div ng-class="{true:'buttom_type', false:'buttom_type_hui'}[server.role=='PROCESS']" ng-click="server.role='PROCESS'"><div class="buttom_type_text">PROCESS</div></div>
+                      <div ng-class="{true:'buttom_type', false:'buttom_type_hui'}[server.role=='OTHER']" ng-click="server.role='OTHER'"><div class="buttom_type_text">自定义</div></div>
+                    </div>
+                </div>
+                <form name="validForm">
+                    <div class="title_box" ng-repeat="row in components" ng-cloak>
+                      <div ng-repeat="component in row" ng-class="getDivClass(component.install_bs, component.type)">
+                          <div ng-class="{true: 'ico_jian_blue1', false: 'ico_add_blue1'}[component.install_bs]" ng-click="changeType($parent.$index, $index)">{[{component.type}]}</div>
+                          <div ng-show="component.install_bs" ng-click="editComponent(component, $parent.$index, $index)" class="more_blue"></div>
+                          <div title="开始" ng-click="startStopServerComponent(component, 'start')" class="start_button" ng-if="getComponentStatus(component.type)==1"></div>
+                          <div title="停止" ng-click="startStopServerComponent(component, 'stop')" class="start_pause" ng-if="component.install_bs&&getComponentStatus(component.type)==0"></div>
+                          <div id="fade" class="black_overlay"></div>
+                          <p>端口:<input ng-class="getInputClass(component.install_bs, component.type)" class="" ng-model="component.port" ng-readonly="true" /></p>
+                          <p>安装路径<input ng-class="getInputClass(component.install_bs, component.type)" ng-model="component.install_dir" ng-required="component.install_bs" /></p>
+                          <p>dataDir<input ng-class="getInputClass(component.install_bs, component.type)" ng-model="component.data_dir" ng-required="component.install_bs" /></p>
+                          <p>logDir<input ng-class="getInputClass(component.install_bs, component.type)" ng-model="component.log_dir" ng-required="component.install_bs" /></p>
+                      </div>
+                   </div>
+                </form>
+            </div>
+            <div class="note">请填写主机信息后点击下一步，如未安装将跳转到安装页，所以安装页，所以安装则自动跳转到管理员</div>
+            <div class="title_box">
+                    <div class="title_buttom">
+                    	<div class="buttom_type" ng-if="false"><div class="buttom_type_text">下一步</div></div>
+                    </div>
+               		</div>
+        </div>
+    </div>
+    <div  id="footer"><div class="fanxiang">Copyright 2015-2020  神州泰岳 版权所有</div></div>
+    <!--弹也层-->
+    <div id="light" class="white_content ">
+    	<div class="box_eject_border_bottom">
+    		<span>{[{tempComponent.type}]}</span>
+    		<a href = "javascript:void(0)" class="box_close" onclick = "document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'"></a>
+      </div>
+    	<div id="scroll-1">
+    		<p>端口:<input class="input_hide_hui_eject" ng-model="tempComponent.port" ng-readonly="true" /></p>
+    		<p>安装路径:<input class="input_hide_hui_eject" ng-model="tempComponent.install_dir" /></p>
+    		<p>dataDir:<input class="input_hide_hui_eject" ng-model="tempComponent.data_dir" /></p>
+    		<p>logDir:<input class="input_hide_hui_eject" ng-model="tempComponent.log_dir" /></p>
+    		<p ng-if="tempComponent.type=='DATABASE'">用户名:<input class="input_hide_hui_eject" ng-model="tempComponent.db_username" /></p>
+    		<p ng-if="tempComponent.type=='DATABASE'">密码:<input class="input_hide_hui_eject" ng-model="tempComponent.db_password" /></p>
+    		<p ng-if="tempComponent.type=='WEB'">service_name:<input class="input_hide_hui_eject" ng-model="tempComponent.web_service_name" /></p>
+				<p ng-if="tempComponent.type=='FRONTEND'">service_name:<input class="input_hide_hui_eject" ng-model="tempComponent.frontend_service_name" /></p>
+				<p ng-if="tempComponent.type=='ELASTICSEARCH'">memory_limit:<input class="input_hide_hui_eject" ng-model="tempComponent.es_memory_limit" /></p>
+    		<p ng-if="tempComponent.type=='ELASTICSEARCH'">index_number_of_shards:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.es_index_number_of_shards" /></p>
+    		<p ng-if="tempComponent.type=='ELASTICSEARCH'">index_refresh_interval:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.es_index_refresh_interval" /></p>
+        <p ng-if="tempComponent.type=='ELASTICSEARCH'">path_data:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.es_path_data" /></p>
+    		<p ng-if="tempComponent.type=='ELASTICSEARCH'">path_logs:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.es_path_logs" /></p>
+        <p ng-if="tempComponent.type=='STORM'">storm_works_num_per_host:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_works_num_per_host" /></p>
+    		<p ng-if="tempComponent.type=='STORM'">storm_dataProcess_works_num:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_dataProcess_works_num" /></p>
+    		<p ng-if="tempComponent.type=='STORM'">storm_dataIndex_works_num:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_dataIndex_works_num" /></p>
+    		<p ng-if="tempComponent.type=='STORM'">storm_spout_config_num:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_spout_config_num" /></p>
+    		<p ng-if="tempComponent.type=='STORM'">storm_spout_dataprocess_num:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_spout_dataprocess_num" /></p>
+    		<p ng-if="tempComponent.type=='STORM'">storm_spout_dataindex_num:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_spout_dataindex_num" /></p>
+    		<p ng-if="tempComponent.type=='STORM'">storm_bolt_default_num:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_bolt_default_num" /></p>
+    		<p ng-if="tempComponent.type=='STORM'">storm_bolt_rule_num:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_bolt_rule_num" /></p>
+    		<p ng-if="tempComponent.type=='STORM'">storm_bolt_advanced_num:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_bolt_advanced_num" /></p>
+    		<p ng-if="tempComponent.type=='STORM'">storm_bolt_kafka_num:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_bolt_kafka_num" /></p>
+    		<p ng-if="tempComponent.type=='STORM'">storm_bolt_es_num:<input class="input_hide_hui_eject_sl" ng-model="tempComponent.storm_bolt_es_num" /></p>
+        <p ng-if="tempComponent.type=='STORM'">storm_nimbs:<input type="checkbox" ng-model="tempComponent.storm_nimbs_bs" /></p>
+        <p ng-if="tempComponent.type!='STORM'"><input class="input_hide_hui_eject" /></p>
+				<p ng-if="tempComponent.type!='STORM'&&tempComponent.type!='ELASTICSEARCH'"><input class="input_hide_hui_eject" /></p>
+				<p ng-if="tempComponent.type=='ZOOKEEPER'||tempComponent.type=='KAFKA'||tempComponent.type=='FLUME'"><input class="input_hide_hui_eject" /></p>
+				<p ng-if="tempComponent.type=='ZOOKEEPER'||tempComponent.type=='KAFKA'||tempComponent.type=='FLUME'"><input class="input_hide_hui_eject" /></p>
+				<p ng-if="tempComponent.type=='FRONTEND'||tempComponent.type=='WEB'"><input class="input_hide_hui_eject" /></p>
+      	<div class="submit_div">
+    			<div class="submit_font" ng-click="completeEdit()">提交</div>
+    		</div>
+    </div>
+    </div>
+<script>
+var id = '{{id}}';
+
+angular.module('app', ['common'])
+.config(function($interpolateProvider) {
+  $interpolateProvider.startSymbol('{[{');
+  $interpolateProvider.endSymbol('}]}');
+})
+.controller('controller', ['$scope', 'commonDao', 'commonUtil', '$interval',
+    function($scope, commonDao, commonUtil, $interval) {
+
+      $scope.startStopServerComponent = function(component, bs) {
+        var ip = $scope.server.ip;
+        var username = $scope.server.username;
+        var password = $scope.server.password;
+        var hostname = $scope.server.hostname;
+        commonDao.startStopServerComponent().save({"ip":ip, "username":username, "password":password, "hostname":hostname, "component":component, "bs":bs});
+      };
+
+      $scope.getComponentStatus = function(type) {
+        var status = -1;
+        if($scope.cluster!=undefined) {
+          var components = $scope.cluster['components'];
+          if (components != null && components[type] != null)
+            status = components[type]['status']
+        }
+        return status;
+      };
+
+      $scope.getDivClass = function(installBS, type) {
+        var divClass = "";
+        if (installBS) {
+          divClass = "input_movew";
+          var status = $scope.getComponentStatus(type);
+          if (status==0) {
+            divClass += " bg_green";
+          } else if(status==1) {
+            divClass += " bg_red";
+          } else {
+            divClass += " box-shadow-3"
+          }
+        } else {
+          divClass = "input_move box-shadow-1";
+        }
+        return divClass;
+      };
+
+      $scope.getInputClass = function(installBS, type) {
+        var inputClass = "";
+        if (installBS) {
+          var status = $scope.getComponentStatus(type);
+          if (status==0) {
+            inputClass = "input_hide_green";
+          } else if(status==1) {
+            inputClass = "input_hide_red";
+          } else {
+            inputClass = "input_hide_w";
+          }
+        } else {
+          inputClass = "input_hide_hui";
+        }
+        return inputClass;
+      };
+
+      $scope.pindex = 0;
+      $scope.index = 0;
+      $scope.editComponent = function(component, pindex ,index) {
+        document.getElementById('light').style.display = 'block';
+        document.getElementById('fade').style.display = 'block';
+        $scope.pindex = pindex;
+        $scope.index = index;
+        $scope.tempComponent = angular.copy(component);
+      }
+
+      $scope.completeEdit = function() {
+        $scope.components[$scope.pindex][$scope.index] = angular.copy($scope.tempComponent);
+        document.getElementById('light').style.display='none';
+        document.getElementById('fade').style.display='none'
+      };
+
+      $scope.tempComponent = commonUtil.serverComponent("ZOOKEEPER");
+
+      $scope.components = [];
+      $scope.componentsName = commonUtil.componentsName();
+      $scope.colCount = 4;
+      $scope.initComponents = function() {
+        var componentsLength = $scope.server.components.length;
+        var rowCount = Math.ceil((componentsLength + $scope.colCount)/$scope.colCount) - 1;
+        for (var i=0;i<rowCount;i++) {
+          var row = [];
+          for (var j=0; j<$scope.colCount; j++) {
+            if((i*$scope.colCount + j )<componentsLength) {
+              var item = angular.copy($scope.server.components[i*$scope.colCount + j]);
+              row.push(item);
+            } else {
+              break;
+            }
+          }
+          $scope.components.push(row);
+        }
+      };
+
+      $scope.changeType = function(pindex, index) {
+        return
+				var component = $scope.components[pindex][index];
+        var install_bs = angular.copy(component.install_bs);
+        var type = angular.copy(component.type);
+				var id = angular.copy(component.id);
+        if (install_bs) {
+					$scope.components[pindex][index] = commonUtil.serverComponent(type);
+        } else {
+					$scope.components[pindex][index] = angular.copy($scope.defaultComponents[type]);
+				}
+				$scope.components[pindex][index].install_bs = !install_bs;
+				$scope.components[pindex][index].id = id;
+      };
+
+      $scope.defaultComponents = commonUtil.defaultComponents();
+
+      $scope.getClusterServerComponents = function() {
+        commonDao.getSingleServerComponents().save({'id':id}, function(data) {
+          $scope.server = data;
+          $scope.initComponents();
+        });
+      };
+
+      $scope.getClusterServerComponents();
+
+      $scope.getClusterComponentStatus = function() {
+        commonDao.getClusterComponentStatus().save({'id':id}, function(data) {
+          $scope.cluster = data.dto;
+        });
+      };
+
+      $interval(function() {
+        $scope.getClusterComponentStatus();
+      }, 20000);
+
+      $scope.getClusterComponentStatus();
+}]);
+</script>
+</body>
+</html>

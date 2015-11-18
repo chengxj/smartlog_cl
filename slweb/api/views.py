@@ -315,12 +315,6 @@ def get_cluster_name(request):
     return Response(returnData)
 
 @api_view(['post'])
-def get_single_status(request):
-    id = request.data['id']
-    returnData = {"available":False,"cluster_name":None};
-    return Response(returnData)
-
-@api_view(['post'])
 def install_single_server(request):
     print 'begin install single server'
     id = request.data['id']
@@ -346,9 +340,24 @@ def install_cluster_server(request):
     common.install_components(conf)
 
 @api_view(['post'])
-def start_component(request):
-    pass
+def start_stop_server_component(request):
+    common.start_stop_server_component(request.data)
+    return Response(None)
 
 @api_view(['post'])
-def stop_component(request):
-    pass
+def get_single_component_status(request):
+    # id = request.data['id']
+    dto = common.get_single_server_status(request.data)
+    return Response({"dto":dto})
+
+@api_view(['post'])
+def get_cluster_component_status(request):
+    # cluster_name = request.data['cluster_name']
+    dto = common.get_single_server_status(request.data)
+    return Response({"dto":dto})
+
+@api_view(['post'])
+def get_cluster_server_status(request):
+    # cluster_name = request.data['cluster_name']
+    dto = common.get_cluster_server_status(request.data)
+    return Response({"dto":dto})

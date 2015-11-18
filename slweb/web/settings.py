@@ -83,13 +83,17 @@ WSGI_APPLICATION = 'web.wsgi.application'
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'demo',
+    #     'USER': 'smartlog',
+    #     'PASSWORD': 'smartlog',
+    #     'HOST': '10.0.0.104',
+    #     'PORT': '3306',
+    # }
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'demo',
-        'USER': 'smartlog',
-        'PASSWORD': 'smartlog',
-        'HOST': '10.0.0.104',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'smartlog',
     }
 }
 

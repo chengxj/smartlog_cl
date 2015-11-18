@@ -47,9 +47,12 @@ def component_selection(request):
     return render_to_response("component_selection.html",context_instance=RequestContext(request))
 
 def edit_cluster_component(request):
-    # print server id
     id =  request.GET.get('id', None)
     return render_to_response("edit_cluster_component.html",{'id':id}, context_instance=RequestContext(request))
+
+def cluster_component_status(request):
+    id =  request.GET.get('id', None)
+    return render_to_response("cluster_component_status.html", {'id':id}, context_instance=RequestContext(request))
 
 def new_cluster_component(request):
     # print server id

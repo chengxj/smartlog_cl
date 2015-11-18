@@ -45,6 +45,18 @@ function($resource) {
         },
         installClusterServer: function() {
             return $resource("/api/install_cluster_server.json");
+        },
+        startStopServerComponent: function() {
+            return $resource("/api/start_stop_server_component.json");
+        },
+        getSingleComponentStatus: function() {
+            return $resource("/api/get_single_component_status.json");
+        },
+        getClusterComponentStatus: function() {
+            return $resource("/api/get_cluster_component_status.json");
+        },
+        getClusterServerStatus: function() {
+            return $resource("/api/get_cluster_server_status.json");
         }
     };
 }]).factory('commonUtil', [function() {
